@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MAD-Assignment</string>
+    <string name="profilepicture">profilePicture</string>
+    <string name="profile_picture">profile_picture</string>
+    <string name="posts">posts</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
+    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="categories">Categories</string>
+    <string name="picturepost">picturePost</string>
 </resources>
