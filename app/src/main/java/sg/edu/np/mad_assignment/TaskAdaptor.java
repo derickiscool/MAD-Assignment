@@ -40,5 +40,5 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
         return  taskList.size();
     }
 
-    //add goto upload page btn
+
 }
