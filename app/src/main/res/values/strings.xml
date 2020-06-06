@@ -8,4 +8,6 @@
     <string name="edit_profile">EDIT PROFILE</string>
     <string name="categories">Categories</string>
     <string name="picturepost">picturePost</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
 </resources>
