@@ -1,5 +1,6 @@
 package sg.edu.np.mad_assignment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,21 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
     public void onBindViewHolder(TaskViewHolder holder, int position){
         Task list_items = taskList.get(position);
         holder.txtTask.setText(list_items.getText());
+
+        holder.gotoup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), UploadPhoto.class);
+                v.getContext().startActivity(intent);
+
+            }
+        });
     }
 
     @Override
     public int getItemCount(){
         return  taskList.size();
     }
+
+
 }

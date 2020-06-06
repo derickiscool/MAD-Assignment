@@ -18,4 +18,8 @@ public class Achievement {
     public void setImageID(int imageID) {
         this.imageID = imageID;
     }
+
+    public Achievement(int imageID){
+        this.imageID = imageID;
+    }
 }

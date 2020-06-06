@@ -1,5 +1,7 @@
 package sg.edu.np.mad_assignment;
 
+import android.widget.Button;
+
 public class Task {
     private String text;
 
@@ -17,5 +19,15 @@ public class Task {
 
     public Task(){
 
+    }
+
+    private Boolean gotoupload;
+
+    public Boolean getGotoupload() {
+        return gotoupload;
+    }
+
+    public void setGotoupload(Boolean gotoupload) {
+        this.gotoupload = gotoupload;
     }
 }
