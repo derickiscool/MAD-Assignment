@@ -10,8 +10,8 @@
         android:id="@+id/textViewAchievements"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="40dp"
         android:text="Achievements"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +19,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAchievement"
-        android:layout_width="406dp"
-        android:layout_height="453dp"
+        android:layout_width="389dp"
+        android:layout_height="439dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
