@@ -1,12 +1,8 @@
 package sg.edu.np.mad_assignment;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +10,9 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +39,7 @@ public class UploadPhoto extends AppCompatActivity {
         gotoup = (Button)findViewById(R.id.gotouploadbtn); //go to the upload page
         cfb = (Button)findViewById(R.id.choosefilebtn); //button for choose file
         upimg = (Button)findViewById(R.id.uploadimgbtn);//button for upload image
-        upimgview = (ImageView)findViewById(R.id.imageView);//image view for upload image
+        upimgview = (ImageView)findViewById(R.id.uploadimgview);//image view for upload image
         cfb.setOnClickListener(new View.OnClickListener() { //set button for choose file popup
             @Override
             public void onClick(View v) {
@@ -106,7 +105,7 @@ public class UploadPhoto extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1 && resultCode==RESULT_OK && data!=null)
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null)
         {
             imguri=data.getData();
             upimgview.setImageURI(imguri);
@@ -115,4 +114,3 @@ public class UploadPhoto extends AppCompatActivity {
     }
 
 }
-
