@@ -1,6 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,7 @@ public class SignUpPage extends AppCompatActivity {
     private static final String TAG="SignUpPage";
     Button registerButton;
     TextView logIn;
-    EditText userName,userMail,userPassword;
+    EditText userName,userMail,userPassword,userPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,9 @@ public class SignUpPage extends AppCompatActivity {
                 userName = (EditText) findViewById(R.id.registerUserName);
                 userMail = (EditText) findViewById(R.id.registerEmail);
                 userPassword = (EditText) findViewById(R.id.registerPassword);
+                userPhone = (EditText) findViewById(R.id.registerPhoneNumber);
                 Log.d(TAG,"Validating user input");
-                boolean check = checkUserInput(userName.getText().toString(),userPassword.getText().toString(),userMail.getText().toString());
+                boolean check = checkUserInput(userName.getText().toString(),userPassword.getText().toString(),userMail.getText().toString(),userPhone.getText().toString());
                 if (check){
                     Intent LogIn = new Intent(SignUpPage.this,LoginPage.class);
                     startActivity(LogIn);
@@ -63,7 +65,7 @@ public class SignUpPage extends AppCompatActivity {
         Log.d(TAG,"Pausing Application!");
         super.onPause();
     }
-    public boolean checkUserInput(String id, String password, String email){
+    public boolean checkUserInput(String id, String password, String email, String phone){
         if (id.isEmpty()){
             Log.d(TAG,"Empty Username");
             userName.setError("Username cannot be empty!");
@@ -77,6 +79,10 @@ public class SignUpPage extends AppCompatActivity {
         else if (email.isEmpty()){
             Log.d(TAG,"Empty Email");
             userMail.setError("Email cannot be Empty!!");
+        }
+        else if (phone.isEmpty()){
+            Log.d(TAG,"Empty Phone Number");
+            userPhone.setError("Phone number cannot be empty");
         }
         return true;
         //need to check if credentials are inside database!!!
