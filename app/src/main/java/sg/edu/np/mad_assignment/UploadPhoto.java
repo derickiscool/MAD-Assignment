@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -27,7 +29,7 @@ public class UploadPhoto extends AppCompatActivity {
     StorageReference mStorageRef;
     private StorageTask uploadtask;
     public Uri imguri;
-
+    final String TAG = "upload photo page";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +110,7 @@ public class UploadPhoto extends AppCompatActivity {
         {
             imguri=data.getData();
             upimgview.setImageURI(imguri);
+            Log.v(TAG, "Successfully Run");
         }
     }
 
