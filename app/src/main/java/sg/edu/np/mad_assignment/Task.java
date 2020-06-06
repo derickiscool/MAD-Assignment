@@ -21,7 +21,7 @@ public class Task {
 
     }
 
-    private Boolean gotoupload;
+    /*private Boolean gotoupload;
 
     public Boolean getGotoupload() {
         return gotoupload;
@@ -29,5 +29,5 @@ public class Task {
 
     public void setGotoupload(Boolean gotoupload) {
         this.gotoupload = gotoupload;
-    }
+    }*/
 }

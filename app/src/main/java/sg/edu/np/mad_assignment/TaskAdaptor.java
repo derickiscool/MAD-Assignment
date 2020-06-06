@@ -23,6 +23,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
     public void onBindViewHolder(TaskViewHolder holder, int position){
         Task list_items = taskList.get(position);
         holder.txtTask.setText(list_items.getText());
+        holder.gotoup.setText("Upload");
     }
 
     @Override
