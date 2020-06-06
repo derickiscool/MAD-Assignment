@@ -1,6 +1,10 @@
 package sg.edu.np.mad_assignment;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.media.Image;
@@ -10,7 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+
 public class Dashboard extends AppCompatActivity {
+    private DrawerLayout drawer;
 
     private static final String TAG = "Dashboard";
     private ImageButton profile, categories, task, achievements;
@@ -18,6 +24,18 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar, R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+
+
         profile = (ImageButton) findViewById(R.id.profileButton);
         categories = (ImageButton) findViewById(R.id.categoriesButton);
         task = (ImageButton) findViewById(R.id.taskButton);
@@ -57,6 +75,15 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed(){
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
     protected void onStop(){
         Log.d(TAG,"Stopping application!");

@@ -10,11 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Sidebar"></activity>
-        <activity android:name=".Dashboard" />
-        <activity android:name=".Categories" />
-        <activity android:name=".ProfilePage" />
-        <activity android:name=".AchievementPage" />
-        <activity android:name=".TaskPage" />
+        <activity
+            android:name=".Dashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Categories"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProfilePage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AchievementPage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TaskPage"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
