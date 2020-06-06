@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1281309903-5vha2au25i1gpgm9ildn1hdac2c9oslj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sg.edu.np.mad_assignment",
+            "certificate_hash": "a8dff7ca00dafde684b4ca9d6daca0e34ab1d7ef"
+          }
+        },
+        {
           "client_id": "1281309903-tufd9b8iuvu3ftho54k8pp3ie8d3gcke.apps.googleusercontent.com",
           "client_type": 3
         }
