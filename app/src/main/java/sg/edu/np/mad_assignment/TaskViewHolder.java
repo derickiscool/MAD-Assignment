@@ -12,7 +12,7 @@ public class TaskViewHolder extends RecyclerView.ViewHolder {
 
     public TaskViewHolder (View itemView){
         super(itemView);
-        txtTask = itemView.findViewById(R.id.textViewTasks);
+        txtTask = itemView.findViewById(R.id.TextView_task);
         gotoup = itemView.findViewById(R.id.gotouploadbtn);
     }
 }
