@@ -2,81 +2,69 @@ package sg.edu.np.mad_assignment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Dashboard extends AppCompatActivity {
 
-    private Button foodButton, wellnessButton, healthButton;
-    final String TAG = "Dashboard";
-
+    private static final String TAG = "Dashboard";
+    private ImageButton profile, categories, task, achievements;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        profile = (ImageButton) findViewById(R.id.profileButton);
+        categories = (ImageButton) findViewById(R.id.categoriesButton);
+        task = (ImageButton) findViewById(R.id.taskButton);
+        achievements = (ImageButton) findViewById(R.id.achievementButton);
 
-        foodButton = findViewById(R.id.category_food);
-        wellnessButton = findViewById(R.id.category_wellness);
-        healthButton = findViewById(R.id.category_health);
-
-        foodButton.setBackgroundResource(R.drawable.food);
-        wellnessButton.setBackgroundResource(R.drawable.wellness);
-        healthButton.setBackgroundResource(R.drawable.health);
-
-        Log.v(TAG, "Finished Dashboard Pre-Initialisation!");
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        foodButton.setOnClickListener(new View.OnClickListener() {
+        profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foodPage();
+                Log.d(TAG, "Moving to profile page");
+                Intent intent = new Intent(Dashboard.this, ProfilePage.class);
+                startActivity(intent);
+
             }
         });
-        wellnessButton.setOnClickListener(new View.OnClickListener() {
+        categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wellnessPage();
+                Log.d(TAG, "Moving to categories page");
+                Intent intent = new Intent(Dashboard.this , Categories.class);
+                startActivity(intent);
             }
         });
-        healthButton.setOnClickListener(new View.OnClickListener() {
+        task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                healthPage();
+                Log.d(TAG, "Moving to task page");
+                Intent intent = new Intent(Dashboard.this, TaskPage.class);
+                startActivity(intent);
             }
         });
-    }
+        achievements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Moving to achievements page");
+                Intent intent = new Intent(Dashboard.this, AchievementPage.class);
+                startActivity(intent);
+            }
+        });
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.v(TAG, "Paused Dashboard!");
     }
-
-    @Override
     protected void onStop(){
+        Log.d(TAG,"Stopping application!");
         super.onStop();
-        Log.v(TAG, "Stopped Dashboard!");
-        finish();
+
     }
-
-
-    private void foodPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, foodFeed.class);
-        //startActivity(advancedPage);
-    }
-
-    private void wellnessPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, wellnessFeed.class);
-        //startActivity(advancedPage);
-    }
-
-    private void healthPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, healthFeed.class);
-        //startActivity(advancedPage);
+    protected void onPause(){
+        Log.d(TAG,"Pausing Application!");
+        super.onPause();
     }
 }

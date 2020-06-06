@@ -30,5 +30,6 @@ public class AchievementPage extends AppCompatActivity {
 
     private void createListData(){
         //Add achievement images here
+        //Badges should be added only if achievement requirements are met
     }
 }
