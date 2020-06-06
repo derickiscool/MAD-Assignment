@@ -17,6 +17,7 @@ public class AchievementAdaptor extends RecyclerView.Adapter<AchievementViewHold
     @Override
     public AchievementViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.achievement_layout, parent, false);
+
         return new AchievementViewHolder(view);
     }
 

@@ -20,6 +20,6 @@ public class Achievement {
     }
 
     public Achievement(int imageID){
-        imageID = this.imageID;
+        this.imageID = imageID;
     }
 }
