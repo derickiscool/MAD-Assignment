@@ -44,7 +44,6 @@ public class LoginPage extends AppCompatActivity{
                 Log.d(TAG,"Checking for valid input!");
                 boolean check = checkUserInput(userId.getText().toString(),userPassword.getText().toString());
                 if (check){
-                    //Intent Dashboard = new Intent(LoginPage.this,);
 
                 }
 
