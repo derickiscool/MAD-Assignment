@@ -30,6 +30,10 @@ public class AchievementPage extends AppCompatActivity {
 
     private void createListData(){
         //Add achievement images here
-        //Badges should be added only if achievement requirements are met
+        Achievement ac1 = new Achievement(R.drawable.badge_buyfood);
+        achievementArrayList.add(ac1);
+        Achievement ac2 = new Achievement(R.drawable.badge_callfriend);
+        achievementArrayList.add(ac2);
+
     }
 }
