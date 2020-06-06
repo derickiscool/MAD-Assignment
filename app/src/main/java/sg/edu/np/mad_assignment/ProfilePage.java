@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class ProfilePage extends AppCompatActivity {
 
-    private TextView posts, followers, following, username, name, bio;
+    private TextView username, name, bio;
     private Button editProfile;
     final String TAG = "Profile Page";
 
@@ -20,18 +20,12 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 
-        posts = findViewById(R.id.posts);
-        followers = findViewById(R.id.followers);
-        following = findViewById(R.id.following);
         username = findViewById(R.id.username);
         name = findViewById(R.id.name);
         bio = findViewById(R.id.bio);
         editProfile = findViewById(R.id.editProfile);
 
         // Retrieve from data base and set OnCreate
-        //posts.setText(String.valueOf());
-        //followers.setText(String.valueOf());
-        //following.setText(String.valueOf());
         //username.setText(String.valueOf());
         //name.setText(String.valueOf());
         //bio.setText(String.valueOf());
@@ -69,6 +63,5 @@ public class ProfilePage extends AppCompatActivity {
         //Intent advancedPage = new Intent(ProfilePage.this, EditProfile.class);
         //startActivity(advancedPage);
     }
-
 
 }
