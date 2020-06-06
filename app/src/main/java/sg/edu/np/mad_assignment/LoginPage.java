@@ -102,7 +102,8 @@ public class LoginPage extends AppCompatActivity{
                     if (passwordFromDB.equals(password) )
                     {
 
-                      Intent Dashboard;
+                      Intent Dashboard = new Intent(LoginPage.this, Dashboard.class);
+                      startActivity(Dashboard);
 
                     }
                     else{
