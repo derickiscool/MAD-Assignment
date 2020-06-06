@@ -9,7 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginPage extends AppCompatActivity{
     private static final String TAG = "LoginPage";
@@ -42,10 +50,8 @@ public class LoginPage extends AppCompatActivity{
                 userId = (EditText) findViewById(R.id.userLoginID); //Receiving user input
                 userPassword = (EditText) findViewById(R.id.userPassword);
                 Log.d(TAG,"Checking for valid input!");
-                boolean check = checkUserInput(userId.getText().toString(),userPassword.getText().toString());
-                if (check){
+                checkUserInput(userId.getText().toString(),userPassword.getText().toString());
 
-                }
 
 
 
@@ -63,19 +69,59 @@ public class LoginPage extends AppCompatActivity{
         super.onPause();
     }
 
-    public boolean checkUserInput(String id, String password){
+    public void checkUserInput(String id, String password){
         if (id.isEmpty()){
             Log.d(TAG,"Empty Username");
             userId.setError("Username cannot be empty!");
-            return false;
+
         }
         else if (password.isEmpty()){
             Log.d(TAG,"Empty Password");
             userPassword.setError("Password cannot be empty!");
-            return false;
+
         }
-        return true;
+      else UserCheck(id, password);
+
         //need to check if credentials are inside database!!!
+
+    }
+    private void UserCheck(final String id, final String password)
+    {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Member");
+
+        Query checkUsername =  reference.orderByChild("username").equalTo(id);
+        checkUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if  (dataSnapshot.exists())
+                {
+                    String passwordFromDB = dataSnapshot.child(id).child("password").getValue(String.class);
+                    Log.d(TAG,"password:" + passwordFromDB);
+
+                    if (passwordFromDB.equals(password) )
+                    {
+
+                       Intent dashboard = new Intent(LoginPage.this,Dashboard.class);
+                       startActivity(dashboard);
+
+                    }
+                    else{
+                        userPassword.setError("Wrong password");
+                    }
+
+                }
+                else{
+                    userId.setError("No such user exists");
+                    userId.requestFocus();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

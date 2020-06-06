@@ -25,9 +25,8 @@ public class SignUpPage extends AppCompatActivity {
     private TextView logIn;
     private String userName, userMail, userPassword, userPhone;
     private EditText etUserName,etUserMail,etUserPassword,etUserPhone;
-    private DatabaseReference reference;
+    DatabaseReference reference;
     private Member member;
-    private long maxId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,26 +63,15 @@ public class SignUpPage extends AppCompatActivity {
                 if (check){
                     member = new Member();
                     reference = FirebaseDatabase.getInstance().getReference().child("Member");
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists())
-                            {
-                                maxId=(dataSnapshot.getChildrenCount());
-                            }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
                     member.setEmail(userMail);
                     member.setUsername(userName);
                     member.setPassword(userPassword);
                     member.setPhoneNumber(userPhone);
-                    reference.child(String.valueOf(maxId+1)).setValue("Member");
+                    Log.d(TAG,"Member details set");
+                    reference.child(userName).setValue(member); 
                     Toast.makeText(getApplicationContext(), "User Created Successfully",Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"User created successfully");
                     Intent LogIn = new Intent(SignUpPage.this,LoginPage.class);
                     startActivity(LogIn);
                 }
@@ -103,29 +91,58 @@ public class SignUpPage extends AppCompatActivity {
         Log.d(TAG,"Pausing Application!");
         super.onPause();
     }
-    public boolean checkUserInput(String id, String password, String email, String phone){
-        if (id.isEmpty()){
-            Log.d(TAG,"Empty Username");
-            etUserName.setError("Username cannot be empty!");
-            return false;
-        }
-        else if (password.isEmpty()){
-            Log.d(TAG,"Empty Password");
-            etUserPassword.setError("Password cannot be empty!");
-            return false;
-        }
-        else if (email.isEmpty()){
-            Log.d(TAG,"Empty Email");
-            etUserMail.setError("Email cannot be Empty!!");
-        }
-        else if (phone.isEmpty()){
-            Log.d(TAG,"Empty Phone Number");
-            etUserPhone.setError("Phone number cannot be empty");
-        }
-        return true;
+    private boolean checkUserInput(String Id, String Email, String Password, String Num){
+        return (!validatePhone(Num) | !validateName(Id) | validateEmail(Email) | validatePassword(Password));
         //need to check if credentials are inside database!!!
 
     }
+    private Boolean validateName(String id) {
+        if (id.isEmpty()) {
+            etUserName.setError("Field cannot be empty");
+            return false;
+        } else if (id.length() > 15) {
+            etUserName.setError("Username too long");
+            return false;
+
+        } else {
+            etUserName.setError(null);
+            return true;
+        }
+    }
+    private Boolean validateEmail(String email){
+        if (email.isEmpty()){
+            etUserMail.setError("Field cannot be empty");
+            return false;
+
+        }
+        else{
+            etUserMail.setError(null);
+            return true;
+        }
+    }
+    private Boolean validatePassword(String pass){
+        if (pass.isEmpty()){
+            etUserPassword.setError("Field cannot be empty");
+            return false;
+        }
+        else{
+            etUserPassword.setError(null);
+            return true;
+        }
+    }
+    private Boolean validatePhone(String num){
+        if (num.isEmpty()){
+            etUserPhone.setError("Field cannot be empty");
+            return false;
+        }
+        else{
+            etUserPhone.setError(null);
+            return true;
+        }
+    }
+
+
+
 
 
 }
