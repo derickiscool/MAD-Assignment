@@ -69,7 +69,7 @@ public class SignUpPage extends AppCompatActivity {
                     member.setPassword(userPassword);
                     member.setPhoneNumber(userPhone);
                     Log.d(TAG,"Member details set");
-                    reference.child(userName).setValue(member); 
+                    reference.child(userName).setValue(member);
                     Toast.makeText(getApplicationContext(), "User Created Successfully",Toast.LENGTH_SHORT).show();
                     Log.d(TAG,"User created successfully");
                     Intent LogIn = new Intent(SignUpPage.this,LoginPage.class);
