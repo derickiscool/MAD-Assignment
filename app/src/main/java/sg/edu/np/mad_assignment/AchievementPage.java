@@ -17,15 +17,17 @@ public class AchievementPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement_page);
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewAchievement);
+
         GridLayoutManager glm = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(glm);
         achievementArrayList = new ArrayList<>();
         achievementAdaptor = new AchievementAdaptor(achievementArrayList);
         recyclerView.setAdapter(achievementAdaptor);
-
         createListData();
+
+
+
     }
 
     private void createListData(){
