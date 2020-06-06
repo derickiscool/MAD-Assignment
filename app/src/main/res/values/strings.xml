@@ -21,4 +21,10 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    <string name="update_name">Update Name:</string>
+    <string name="name">Name</string>
+    <string name="update_bio">Update Bio</string>
+    <string name="bio">Bio</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="todo">TODO</string>
 </resources>

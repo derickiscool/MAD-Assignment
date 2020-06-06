@@ -1,19 +1,18 @@
 package sg.edu.np.mad_assignment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Dashboard extends AppCompatActivity {
 
     private static final String TAG = "Dashboard";
     private ImageButton profile, categories, task, achievements;
+    private String tempUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +27,8 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "Moving to profile page");
                 Intent intent = new Intent(Dashboard.this, ProfilePage.class);
+                String myUsername = getIntent().getExtras().getString("Username");
+                intent.putExtra("profileUser", myUsername);
                 startActivity(intent);
 
             }

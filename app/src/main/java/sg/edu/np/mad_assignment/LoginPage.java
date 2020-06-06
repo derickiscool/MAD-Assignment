@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class LoginPage extends AppCompatActivity{
     private static final String TAG = "LoginPage";
     TextView signUp;
@@ -103,6 +104,7 @@ public class LoginPage extends AppCompatActivity{
                     {
 
                       Intent Dashboard = new Intent(LoginPage.this, Dashboard.class);
+                      Dashboard.putExtra("Username", userId.getText().toString());
                       startActivity(Dashboard);
 
                     }

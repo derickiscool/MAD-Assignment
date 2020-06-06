@@ -5,6 +5,8 @@ public class Member {
     private String Username;
     private String Email;
     private String Password;
+    private String Bio;
+    private String Name;
 
     public Member(){
 }
@@ -39,5 +41,21 @@ public class Member {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public String getBio() {
+        return Bio;
+    }
+
+    public void setBio(String bio) {
+        Bio = bio;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
     }
 }

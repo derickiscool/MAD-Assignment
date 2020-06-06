@@ -1,7 +1,6 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class SignUpPage extends AppCompatActivity {
     private static final String TAG="SignUpPage";
@@ -68,6 +63,8 @@ public class SignUpPage extends AppCompatActivity {
                     member.setUsername(userName);
                     member.setPassword(userPassword);
                     member.setPhoneNumber(userPhone);
+                    member.setBio("");
+                    member.setName("");
                     Log.d(TAG,"Member details set");
                     reference.child(userName).setValue(member);
                     Toast.makeText(getApplicationContext(), "User Created Successfully",Toast.LENGTH_SHORT).show();
