@@ -89,17 +89,16 @@ public class EditProfile extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String name = updateName;
+                String bio = updateBio;
                 if(updateName.isEmpty()){
-                    reference.child(id).child("bio").setValue(updateBio);
+                    name = dataSnapshot.child(id).child("name").getValue(String.class);
                 }
-                else if(updateBio.isEmpty()){
-                    reference.child(id).child("name").setValue(updateName);
+                if(updateBio.isEmpty()){
+                    bio = dataSnapshot.child(id).child("bio").getValue(String.class);
                 }
-                else
-                {
-                    reference.child(id).child("name").setValue(updateName);
-                    reference.child(id).child("bio").setValue(updateBio);
-                }
+                reference.child(id).child("name").setValue(name);
+                reference.child(id).child("bio").setValue(bio);
             }
 
             @Override
