@@ -1,18 +1,18 @@
-###### MAD-Assignment
-#####MAD T02 GRP 4
+MAD-Assignment
+MAD T02 GRP 4
 1. Jeremiah Long (S10193898)
 2. Sandra Choy (S10175863)
 3. Amanda Chan (S10196608)
 4. Derick Lee (S10196689)
 
 ================================
-####About the app (Productivity)
+About the app (Productivity)
 This app is designed to encourage users to do something productive everyday, the task
 include everyday task to learning a new skill. Once they complete a task they are awarded
 with an achievement as a incentive. Users can also post healthy lifestyle tips and tricks in
 the app to educate or encourage other users to do the same.
 
-####Things we did in phase 1:
+Things we did in phase 1:
 1. Login function to store user accounts so that we can monitor everything 
 they do inside of the app (linked to firebase) (Derick)
 
@@ -49,9 +49,9 @@ that they have obtained the achievement
 
 5. Linking the side navigation bar to all pages
 
-###Additional Contributions:
+Additional Contributions:
 1. Design of badges, logo and icons (Jeremiah)
 
-###Appendice:
+Appendice:
 
 Marvel app prototype (Before we started) : https://marvelapp.com/e881c3a
