@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class SignUpPage extends AppCompatActivity {
     private static final String TAG="SignUpPage";
     private Button registerButton;
@@ -53,6 +56,10 @@ public class SignUpPage extends AppCompatActivity {
                 userMail = etUserMail.getText().toString();
                 userPassword = etUserPassword.getText().toString();
                 userPhone = etUserPhone.getText().toString();
+                ArrayList<String>Tasks = new ArrayList<String>();
+                ArrayList<String>Achievements = new ArrayList<String>();
+                Tasks.add("TBA");
+                Achievements.add("TBA");
                 Log.d(TAG,"Validating user input");
                 boolean check = checkUserInput(userName,userMail,userPassword,userPhone);
                 if (check){
@@ -63,6 +70,8 @@ public class SignUpPage extends AppCompatActivity {
                     member.setUsername(userName);
                     member.setPassword(userPassword);
                     member.setPhoneNumber(userPhone);
+                    member.setTasks(Tasks);
+                    member.setAchievements(Achievements);
                     member.setBio("");
                     member.setName("");
                     Log.d(TAG,"Member details set");

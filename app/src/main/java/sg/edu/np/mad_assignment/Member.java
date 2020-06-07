@@ -1,5 +1,7 @@
 package sg.edu.np.mad_assignment;
 
+import java.util.ArrayList;
+
 public class Member {
     private String PhoneNumber;
     private String Username;
@@ -7,6 +9,8 @@ public class Member {
     private String Password;
     private String Bio;
     private String Name;
+    private ArrayList<String> Tasks;
+    private ArrayList<String> Achievements;
 
     public Member(){
 }
@@ -57,5 +61,21 @@ public class Member {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public ArrayList<String> getAchievements() {
+        return Achievements;
+    }
+
+    public void setAchievements(ArrayList<String> achievements) {
+        Achievements = achievements;
+    }
+
+    public ArrayList<String> getTasks() {
+        return Tasks;
+    }
+
+    public void setTasks(ArrayList<String> tasks) {
+        Tasks = tasks;
     }
 }
