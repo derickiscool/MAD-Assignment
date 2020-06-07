@@ -1,6 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,10 @@ public class LoginPage extends AppCompatActivity{
     TextView signUp;
     Button loginButton;
     EditText userId, userPassword;
+
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String MY_USERNAME= "MyUsername";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,10 +107,12 @@ public class LoginPage extends AppCompatActivity{
 
                     if (passwordFromDB.equals(password) )
                     {
-
-                      Intent Dashboard = new Intent(LoginPage.this, Dashboard.class);
-                      Dashboard.putExtra("Username", userId.getText().toString());
-                      startActivity(Dashboard);
+                        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(MY_USERNAME, id.toString());
+                        editor.apply();
+                        Intent Dashboard = new Intent(LoginPage.this, Dashboard.class);
+                        startActivity(Dashboard);
 
                     }
                     else{

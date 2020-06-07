@@ -12,8 +12,12 @@ public class Member {
     private ArrayList<String> Tasks;
     private ArrayList<String> Achievements;
 
-    public Member(){
-}
+    public Member(String name, String bio) {
+        this.Name = name;
+        this.Bio = bio;
+    }
+
+    public Member(){ }
 
     public String getPhoneNumber() {
         return PhoneNumber;
