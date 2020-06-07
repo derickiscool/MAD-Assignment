@@ -94,6 +94,8 @@ public class ProfilePage extends AppCompatActivity {
     private void EditProfilePage(){
         Intent editPage = new Intent(ProfilePage.this, EditProfile.class);
         editPage.putExtra("editUser", myUsername);
+        editPage.putExtra("editName", name.getText().toString());
+        editPage.putExtra("editBio", bio.getText().toString());
         startActivity(editPage);
     }
 

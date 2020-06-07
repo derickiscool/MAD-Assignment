@@ -7,15 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -36,8 +33,8 @@ public class EditProfile extends AppCompatActivity {
         updateButton = findViewById(R.id.updateButton);
         profileButton = findViewById(R.id.profileButton);
 
-        name = newName.getText().toString();
-        bio = newBio.getText().toString();
+        name = newName.getText().toString().trim();
+        bio = newBio.getText().toString().trim();
 
         Log.v(TAG,"Update Page" + String.valueOf(myUsername));
 
@@ -49,10 +46,18 @@ public class EditProfile extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(name.isEmpty())
+                {
+                    name = getIntent().getExtras().getString("editName");
+                }
+                if(bio.isEmpty())
+                {
+                    bio = getIntent().getExtras().getString("editBio");
+                }
                 updateProfile(myUsername, name, bio);
-                //Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
-                //Intent profilePage = new Intent(EditProfile.this, ProfilePage.class);
-                //startActivity(profilePage);
+                Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
+                Intent profilePage = new Intent(EditProfile.this, ProfilePage.class);
+                startActivity(profilePage);
             }
         });
         profileButton.setOnClickListener(new View.OnClickListener() {
@@ -78,20 +83,9 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void updateProfile(final String id, final String updateName, final String updateBio) {
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                reference.child(id).child("name").setValue(String.valueOf(updateName));
-                reference.child(id).child("bio").setValue(String.valueOf(updateBio));
-                Log.v(TAG,"Database updated!");
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-                Log.v(TAG, "Reading from database failed: " + databaseError.getCode());
-            }
-        });
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Member");
+        Member m = new Member(updateName, updateBio);
+        databaseReference.child(id).setValue(m);
     }
+
 }
