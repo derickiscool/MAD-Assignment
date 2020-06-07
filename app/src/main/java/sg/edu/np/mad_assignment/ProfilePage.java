@@ -1,6 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,13 +28,19 @@ public class ProfilePage extends AppCompatActivity {
     String myUsername;
     final String TAG = "Profile Page";
 
-    DatabaseReference reference;
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String MY_USERNAME= "MyUsername";
+    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-        myUsername = getIntent().getExtras().getString("profileUser");
+
+        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+        myUsername= sharedPreferences.getString(MY_USERNAME, "");
+
 
         username = findViewById(R.id.username);
         name = findViewById(R.id.name);
@@ -93,9 +100,6 @@ public class ProfilePage extends AppCompatActivity {
 
     private void EditProfilePage(){
         Intent editPage = new Intent(ProfilePage.this, EditProfile.class);
-        editPage.putExtra("editUser", myUsername);
-        editPage.putExtra("editName", name.getText().toString());
-        editPage.putExtra("editBio", bio.getText().toString());
         startActivity(editPage);
     }
 

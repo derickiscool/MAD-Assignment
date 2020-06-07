@@ -2,17 +2,15 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class Dashboard extends AppCompatActivity {
     private DrawerLayout drawer;
@@ -44,8 +42,6 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "Moving to profile page");
                 Intent intent = new Intent(Dashboard.this, ProfilePage.class);
-                String myUsername = getIntent().getExtras().getString("Username");
-                intent.putExtra("profileUser", myUsername);
                 startActivity(intent);
 
             }

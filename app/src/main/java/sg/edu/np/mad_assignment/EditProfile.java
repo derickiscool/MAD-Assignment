@@ -1,6 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,10 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -22,19 +27,22 @@ public class EditProfile extends AppCompatActivity {
     String myUsername, name, bio;
     final String TAG = "Profile Edit Page";
 
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String MY_USERNAME= "MyUsername";
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        myUsername = getIntent().getExtras().getString("editUser");
+
+        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+        myUsername= sharedPreferences.getString(MY_USERNAME, "");
 
         newName = findViewById(R.id.updateName);
         newBio = findViewById(R.id.updateBio);
         updateButton = findViewById(R.id.updateButton);
         profileButton = findViewById(R.id.profileButton);
-
-        name = newName.getText().toString().trim();
-        bio = newBio.getText().toString().trim();
 
         Log.v(TAG,"Update Page" + String.valueOf(myUsername));
 
@@ -46,14 +54,8 @@ public class EditProfile extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name.isEmpty())
-                {
-                    name = getIntent().getExtras().getString("editName");
-                }
-                if(bio.isEmpty())
-                {
-                    bio = getIntent().getExtras().getString("editBio");
-                }
+                name = newName.getText().toString();
+                bio = newBio.getText().toString();
                 updateProfile(myUsername, name, bio);
                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
                 Intent profilePage = new Intent(EditProfile.this, ProfilePage.class);
@@ -83,9 +85,28 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void updateProfile(final String id, final String updateName, final String updateBio) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Member");
-        Member m = new Member(updateName, updateBio);
-        databaseReference.child(id).setValue(m);
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Member");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(updateName.isEmpty()){
+                    reference.child(id).child("bio").setValue(updateBio);
+                }
+                else if(updateBio.isEmpty()){
+                    reference.child(id).child("name").setValue(updateName);
+                }
+                else
+                {
+                    reference.child(id).child("name").setValue(updateName);
+                    reference.child(id).child("bio").setValue(updateBio);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.v(TAG, "Reading from database failed: " + databaseError.getCode());
+            }
+        });
     }
 
 }
