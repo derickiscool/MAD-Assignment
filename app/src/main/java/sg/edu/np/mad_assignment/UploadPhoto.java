@@ -80,6 +80,9 @@ public class UploadPhoto extends AppCompatActivity {
                         // Get a URL to the uploaded content
                         //Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
+                        Intent backToTask = new Intent(UploadPhoto.this, TaskPage.class);
+                        startActivity(backToTask);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
