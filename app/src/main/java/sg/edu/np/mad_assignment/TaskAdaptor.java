@@ -1,6 +1,5 @@
 package sg.edu.np.mad_assignment;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
-    private ArrayList<Task> taskList;
-    public TaskAdaptor(ArrayList<Task> taskList){
+    public ArrayList<Task> taskList;
+    private UploadInterface uploadInterface;
+
+    public TaskAdaptor(UploadInterface uploadInterface, ArrayList<Task> taskList){
+        this.uploadInterface = uploadInterface;
         this.taskList = taskList;
     }
 
@@ -21,15 +23,15 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
         return new TaskViewHolder(view);
     }
 
-    public void onBindViewHolder(TaskViewHolder holder, int position){
+    public void onBindViewHolder(TaskViewHolder holder, final int position){
         Task list_items = taskList.get(position);
         holder.txtTask.setText(list_items.getText());
 
         holder.gotoup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), UploadPhoto.class);
-                v.getContext().startActivity(intent);
+
+                uploadInterface.onUploadSuccessful(taskList.get(position), position);
 
             }
         });
@@ -37,8 +39,11 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
 
     @Override
     public int getItemCount(){
-        return  taskList.size();
+        return taskList.size();
     }
 
+    public interface UploadInterface {
+        void onUploadSuccessful(Task task, int position);
+    }
 
 }

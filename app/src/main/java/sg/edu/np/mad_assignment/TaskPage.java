@@ -1,18 +1,24 @@
 package sg.edu.np.mad_assignment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.annotations.Nullable;
+
 import java.util.ArrayList;
 
-public class TaskPage extends AppCompatActivity {
+public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInterface {
     RecyclerView recyclerView;
     TaskAdaptor taskAdaptor;
     ArrayList<Task> taskArrayList;
+    final String TAG = "Task Page";
+    public static final int UPLOAD_IMAGE = 1001;
+    public static final String POSITION_KEY = "position";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +28,7 @@ public class TaskPage extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskArrayList = new ArrayList<>();
-        taskAdaptor = new TaskAdaptor(taskArrayList);
+        taskAdaptor = new TaskAdaptor(this,taskArrayList);
         recyclerView.setAdapter(taskAdaptor);
 
         createListData();
@@ -78,5 +84,28 @@ public class TaskPage extends AppCompatActivity {
         taskArrayList.add(t23);
         Task t24 = new Task("Encourage a friend with a Gift");
         taskArrayList.add(t24);
+    }
+
+    @Override
+    public void onUploadSuccessful(Task task, int position) {
+        Intent intent = new Intent(this, UploadPhoto.class);
+        intent.putExtra("position", position);
+        startActivityForResult(intent,1001);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==UPLOAD_IMAGE && resultCode==RESULT_OK && data != null)
+        {
+            int position = data.getIntExtra(POSITION_KEY, -1);
+            if(position != -1) {
+                taskAdaptor.taskList.remove(position);
+                taskAdaptor.notifyItemRemoved(position);
+                taskAdaptor.notifyItemRangeChanged(position,taskAdaptor.taskList.size());
+            } else {
+                //Do something here
+            }
+        }
     }
 }

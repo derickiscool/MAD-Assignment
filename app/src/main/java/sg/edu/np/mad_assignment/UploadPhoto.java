@@ -29,6 +29,7 @@ public class UploadPhoto extends AppCompatActivity {
     private StorageTask uploadtask;
     public Uri imguri;
     final String TAG = "upload photo page";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +81,12 @@ public class UploadPhoto extends AppCompatActivity {
                         // Get a URL to the uploaded content
                         //Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
-                        Intent backToTask = new Intent(UploadPhoto.this, TaskPage.class);
-                        startActivity(backToTask);
 
+                        int position = getIntent().getIntExtra("position",-1);
+                        Intent intent = new Intent();
+                        intent.putExtra("position", position);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -99,7 +103,7 @@ public class UploadPhoto extends AppCompatActivity {
     private void Filechooser() //
     {
         Intent intent = new Intent();
-        intent.setType("image/'");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
 
