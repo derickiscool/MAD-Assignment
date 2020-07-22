@@ -86,6 +86,7 @@ public class UploadPhoto extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.putExtra("position", position);
                         setResult(RESULT_OK, intent);
+
                         finish();
                     }
                 })

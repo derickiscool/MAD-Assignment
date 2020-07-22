@@ -1,9 +1,8 @@
 package sg.edu.np.mad_assignment;
 
-import android.widget.Button;
-
 public class Task {
     private String text;
+    private Achievement achievement;
 
     public Task(String text){
         this.text = text;
@@ -15,6 +14,14 @@ public class Task {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Achievement getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(Achievement achievement) {
+        this.achievement = achievement;
     }
 
     public Task(){

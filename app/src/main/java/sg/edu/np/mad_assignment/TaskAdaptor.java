@@ -25,16 +25,21 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
 
     public void onBindViewHolder(TaskViewHolder holder, final int position){
         Task list_items = taskList.get(position);
-        holder.txtTask.setText(list_items.getText());
 
-        holder.gotoup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                uploadInterface.onUploadSuccessful(taskList.get(position), position);
-
-            }
-        });
+        if(!taskList.get(position).getAchievement().getIsAchieved()){
+            holder.txtTask.setText(list_items.getText());
+            holder.gotoup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    uploadInterface.onUploadSuccessful(taskList.get(position), position);
+                }
+            });
+        }
+        else {
+            //Task is invisible, does not take up space.
+            holder.txtTask.setVisibility(View.GONE);
+            holder.gotoup.setVisibility(View.GONE);
+        }
     }
 
     @Override
