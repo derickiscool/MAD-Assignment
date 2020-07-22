@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class AchievementAdaptor extends RecyclerView.Adapter<AchievementViewHolder> {
-    private ArrayList<Achievement> achievementList;
-    public AchievementAdaptor(ArrayList<Achievement> achievementList){
+    public ArrayList<Task> achievementList;
+
+    public AchievementAdaptor(ArrayList<Task> achievementList){
         this.achievementList = achievementList;
     }
 
@@ -22,12 +23,20 @@ public class AchievementAdaptor extends RecyclerView.Adapter<AchievementViewHold
     }
 
     public void onBindViewHolder(AchievementViewHolder holder, int position){
-        Achievement list_items = achievementList.get(position);
-        holder.imgAchievement.setImageResource(list_items.getImageID());
+        Task list_items = achievementList.get(position);
+        holder.imgAchievement.setImageResource(list_items.getAchievement().getImageID());
+        //If task is completed, show "Achieved!" under achievement
+        if (list_items.getAchievement().getIsAchieved()){
+            holder.txtAchievement.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.txtAchievement.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount(){
         return achievementList.size();
     }
+
 }

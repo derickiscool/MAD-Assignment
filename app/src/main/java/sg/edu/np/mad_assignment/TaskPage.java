@@ -16,9 +16,11 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
     RecyclerView recyclerView;
     TaskAdaptor taskAdaptor;
     ArrayList<Task> taskArrayList;
+
     final String TAG = "Task Page";
     public static final int UPLOAD_IMAGE = 1001;
     public static final String POSITION_KEY = "position";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +29,12 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskArrayList = new ArrayList<>();
+        //taskArrayList = new ArrayList<>();
+        taskArrayList = Dashboard.taskArrayList;
         taskAdaptor = new TaskAdaptor(this,taskArrayList);
         recyclerView.setAdapter(taskAdaptor);
 
-        createListData();
+        //createListData();
     }
 
 
@@ -100,9 +103,11 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         {
             int position = data.getIntExtra(POSITION_KEY, -1);
             if(position != -1) {
-                taskAdaptor.taskList.remove(position);
+                /*taskAdaptor.taskList.remove(position);
                 taskAdaptor.notifyItemRemoved(position);
-                taskAdaptor.notifyItemRangeChanged(position,taskAdaptor.taskList.size());
+                taskAdaptor.notifyItemRangeChanged(position,taskAdaptor.taskList.size());*/
+                Dashboard.taskArrayList.get(position).getAchievement().setIsAchieved(true);
+                taskAdaptor.notifyDataSetChanged();
             } else {
                 //Do something here
             }
