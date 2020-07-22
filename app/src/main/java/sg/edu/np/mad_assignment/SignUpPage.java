@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SignUpPage extends AppCompatActivity {
@@ -74,6 +73,7 @@ public class SignUpPage extends AppCompatActivity {
                     member.setAchievements(Achievements);
                     member.setBio("");
                     member.setName("");
+                    member.setProfilePicture("");
                     Log.d(TAG,"Member details set");
                     reference.child(userName).setValue(member);
                     Toast.makeText(getApplicationContext(), "User Created Successfully",Toast.LENGTH_SHORT).show();

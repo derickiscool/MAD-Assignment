@@ -9,6 +9,7 @@ public class Member {
     private String Password;
     private String Bio;
     private String Name;
+    private String ProfilePicture;
     private ArrayList<String> Tasks;
     private ArrayList<String> Achievements;
 
@@ -65,6 +66,14 @@ public class Member {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public String getProfilePicture() {
+        return ProfilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        ProfilePicture = profilePicture;
     }
 
     public ArrayList<String> getAchievements() {

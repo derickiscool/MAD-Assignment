@@ -1,5 +1,6 @@
 package sg.edu.np.mad_assignment;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,10 +39,14 @@ public class EditProfile extends AppCompatActivity {
     String myUsername, name, bio;
     final String TAG = "Profile Edit Page";
 
+    private static final int PICK_IMAGE_REQUEST = 1; // identification for image request
+
     private ImageView profilePicture;
     private TextView changePFP;
-    StorageReference mStorageRef;
-    public Uri imgURI;
+    private Uri imgURI;
+
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
 
     public String GLOBAL_PREFS = "MyPrefs";
     public String MY_USERNAME= "MyUsername";
@@ -62,7 +67,28 @@ public class EditProfile extends AppCompatActivity {
         profilePicture = findViewById(R.id.profileImage);
         changePFP = findViewById(R.id.PFPTextView);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference(myUsername);
+        mStorageRef = FirebaseStorage.getInstance().getReference("Member").child(String.valueOf(myUsername)); // save it in a folder under Member with username
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Member").child(String.valueOf(myUsername));
+
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("profile picture").getValue().equals("")){
+                    profilePicture.setImageResource(R.drawable.profile_icon);
+                }
+                else
+                {
+                    String currentURI = dataSnapshot.child("profile picture").getValue(String.class);
+                    Uri tempURI = Uri.parse(currentURI);
+                    profilePicture.setImageURI(tempURI);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.v(TAG, "Reading from database failed: " + databaseError.getCode());
+            }
+        });
 
 
         Log.v(TAG,"Update Page" + String.valueOf(myUsername));
@@ -77,7 +103,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 name = newName.getText().toString();
                 bio = newBio.getText().toString();
-                updateProfile(myUsername, name, bio);
+                updateProfile(String.valueOf(myUsername), name, bio);
                 UploadImage();
                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
                 Intent profilePage = new Intent(EditProfile.this, ProfilePage.class);
@@ -145,40 +171,45 @@ public class EditProfile extends AppCompatActivity {
 
     private void UploadImage()
     {
-        StorageReference ref = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI)); // give file a unique name using time
+        if (imgURI != null){
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
 
-        ref.putFile(imgURI)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                });
+            fileReference.putFile(imgURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @SuppressLint("ShowToast")
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            Toast.makeText(EditProfile.this, "Upload Successful!", Toast.LENGTH_SHORT);
+                            mDatabaseRef.child("profile picture").setValue(taskSnapshot.getMetadata().getReference().getDownloadUrl().toString()); // store url link in database
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("ShowToast")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditProfile.this, "Upload Unsuccessful!", Toast.LENGTH_SHORT);
+                        }
+                    });
+        }
     }
 
 
     private void ChooseFile()
     {
         Intent intent = new Intent();
-        intent.setType(myUsername + "/");
+        intent.setType("image/*"); // see only images in file chooser
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && requestCode == RESULT_OK && data != null && data.getData() != null)
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData()!= null)
         {
             imgURI = data.getData();
+
             profilePicture.setImageURI(imgURI);
         }
     }
