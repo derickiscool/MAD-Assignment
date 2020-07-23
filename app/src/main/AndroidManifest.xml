@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProfile"></activity>
+        <activity android:name=".foodUpload"></activity>
+        <activity android:name=".FoodFeed" />
+        <activity android:name=".EditProfile" />
         <activity android:name=".Sidebar" />
         <activity android:name=".Dashboard" />
         <activity android:name=".Categories" />
@@ -29,9 +31,7 @@
         </activity>
         <activity android:name=".SignUpPage" />
         <activity android:name=".LoginPage" />
-        <activity android:name=".UploadPhoto">
-
-        </activity>
+        <activity android:name=".UploadPhoto" />
     </application>
 
 </manifest>

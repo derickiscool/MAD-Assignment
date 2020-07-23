@@ -28,4 +28,19 @@
     <string name="save_changes">Save Changes</string>
     <string name="todo">TODO</string>
     <string name="chang_profile_picture">Chang Profile Picture</string>
+    <string name="change_profile_picture" />
+    <string name="title_activity_food_feed">FoodFeed</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="upload_post">Upload Post</string>
+    <string name="food">Food</string>
+    <string name="write_a_caption">Write a caption</string>
+    <string name="upload">Upload</string>
+    <string name="choose_file">Choose File</string>
 </resources>

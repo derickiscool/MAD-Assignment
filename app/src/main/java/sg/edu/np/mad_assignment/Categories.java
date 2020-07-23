@@ -1,16 +1,17 @@
 package sg.edu.np.mad_assignment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Categories extends AppCompatActivity {
 
     private Button foodButton, wellnessButton, healthButton;
-    final String TAG = "Dashboard";
+    final String TAG = "Categories";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,8 @@ public class Categories extends AppCompatActivity {
 
 
     private void foodPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, foodFeed.class);
-        //startActivity(advancedPage);
+        Intent advancePage = new Intent(Categories.this, FoodFeed.class);
+        startActivity(advancePage);
     }
 
     private void wellnessPage(){
