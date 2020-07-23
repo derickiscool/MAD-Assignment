@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".foodUpload"></activity>
-        <activity android:name=".FoodFeed" />
+        <activity android:name=".foodFeed" />
         <activity android:name=".EditProfile" />
         <activity android:name=".Sidebar" />
         <activity android:name=".Dashboard" />

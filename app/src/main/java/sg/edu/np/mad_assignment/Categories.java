@@ -67,7 +67,7 @@ public class Categories extends AppCompatActivity {
 
 
     private void foodPage(){
-        Intent advancePage = new Intent(Categories.this, FoodFeed.class);
+        Intent advancePage = new Intent(Categories.this, foodFeed.class);
         startActivity(advancePage);
     }
 
