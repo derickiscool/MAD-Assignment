@@ -94,6 +94,7 @@ public class Dashboard extends AppCompatActivity {
         super.onPause();
     }
 
+    //Create task list, links each achievement to task
     private ArrayList<Task> createListData(){
         ArrayList<Task> taskList = new ArrayList<>();
 

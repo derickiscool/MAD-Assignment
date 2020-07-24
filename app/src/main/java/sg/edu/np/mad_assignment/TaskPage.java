@@ -3,6 +3,7 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -34,8 +35,9 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(TaskPage.this, Dashboard.class);
-                startActivity(back);
+                //Intent back = new Intent(TaskPage.this, Dashboard.class);
+                //startActivity(back);
+                finish();
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -49,7 +51,7 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         //createListData();
     }
 
-
+/* //Unused
     private void createListData(){
         Task t1 = new Task("Read a book");
         taskArrayList.add(t1);
@@ -99,13 +101,15 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         taskArrayList.add(t23);
         Task t24 = new Task("Encourage a friend with a Gift");
         taskArrayList.add(t24);
-    }
+    }*/
 
     @Override
     public void onUploadSuccessful(Task task, int position) {
+        //starts UploadPhoto
         Intent intent = new Intent(this, UploadPhoto.class);
         intent.putExtra("position", position);
         startActivityForResult(intent,1001);
+        Log.v(TAG,"Starting UploadPhoto for result");
     }
 
     @Override
@@ -115,13 +119,10 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         {
             int position = data.getIntExtra(POSITION_KEY, -1);
             if(position != -1) {
-                /*taskAdaptor.taskList.remove(position);
-                taskAdaptor.notifyItemRemoved(position);
-                taskAdaptor.notifyItemRangeChanged(position,taskAdaptor.taskList.size());*/
+                //Gets task and sets isAchieved to true, achievement is gained
                 Dashboard.taskArrayList.get(position).getAchievement().setIsAchieved(true);
                 taskAdaptor.notifyDataSetChanged();
-            } else {
-                //Do something here
+                Log.v(TAG,"Task removed, achievement achieved.");
             }
         }
     }
