@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -53,7 +54,6 @@ public class ProfilePage extends AppCompatActivity {
 
         // Retrieve from data base and set OnCreate
         username.setText(String.valueOf("@" + myUsername));
-        profilePic.setImageResource(R.drawable.profile_icon);
         setProfile(String.valueOf(myUsername));
 
 
@@ -110,6 +110,19 @@ public class ProfilePage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String nameFromDB = dataSnapshot.child(id).child("name").getValue(String.class);
                 String bioFromDB = dataSnapshot.child(id).child("bio").getValue(String.class);
+                String currentURL = dataSnapshot.child(id).child("profile picture").getValue(String.class);
+                if(currentURL.equals(""))
+                {
+                    profilePic.setImageResource(R.drawable.profile_icon);
+                }
+                else
+                {
+                    Picasso.get()
+                            .load(currentURL)
+                            .fit()
+                            .centerCrop()
+                            .into(profilePic);
+                }
                 name.setText(String.valueOf(nameFromDB));
                 bio.setText(String.valueOf(bioFromDB));
             }

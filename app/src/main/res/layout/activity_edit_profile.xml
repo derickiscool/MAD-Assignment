@@ -90,33 +90,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/profileImage"
-        android:layout_width="184dp"
-        android:layout_height="242dp"
-        android:layout_marginStart="141dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="142dp"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/profile_picture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <TextView
         android:id="@+id/PFPTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="121dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="328dp"
         android:layout_marginEnd="122dp"
-        android:text="@string/chang_profile_picture"
+        android:text="@string/change_profile_picture"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/pfpimageView"
+        android:layout_width="152dp"
+        android:layout_height="186dp"
+        android:layout_marginStart="129dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="130dp"
+        android:contentDescription="@string/profilepicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

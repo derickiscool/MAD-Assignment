@@ -1,6 +1,5 @@
 package sg.edu.np.mad_assignment;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,8 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.util.Objects;
+import com.squareup.picasso.Picasso;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -67,11 +64,11 @@ public class EditProfile extends AppCompatActivity {
         newBio = findViewById(R.id.updateBio);
         updateButton = findViewById(R.id.updateButton);
         profileButton = findViewById(R.id.profileButton);
-        profilePicture = findViewById(R.id.profileImage);
+        profilePicture = findViewById(R.id.pfpimageView);
         changePFP = findViewById(R.id.PFPTextView);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("Member").child(String.valueOf(myUsername)); // save it in a folder under Member with username
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Member").child(String.valueOf(myUsername));
+        mStorageRef = FirebaseStorage.getInstance().getReference("Member");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Member/" + String.valueOf(myUsername));
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,9 +78,12 @@ public class EditProfile extends AppCompatActivity {
                 }
                 else
                 {
-                    String currentURI = dataSnapshot.child("profile picture").getValue(String.class);
-                    Uri tempURI = Uri.parse(currentURI);
-                    profilePicture.setImageURI(tempURI);
+                    String currentURL = dataSnapshot.child("profile picture").getValue(String.class);
+                    Picasso.get()
+                            .load(currentURL)
+                            .fit()
+                            .centerCrop()
+                            .into(profilePicture);
                 }
             }
 
@@ -172,36 +172,10 @@ public class EditProfile extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
     }
 
-    private void UploadImage()
-    {
-        if (imgURI != null){
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
-
-            fileReference.putFile(imgURI)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @SuppressLint("ShowToast")
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            Toast.makeText(EditProfile.this, "Upload Successful!", Toast.LENGTH_SHORT);
-                            mDatabaseRef.child("profile picture").setValue(Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString()); // store url link in database
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("ShowToast")
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Upload Unsuccessful!", Toast.LENGTH_SHORT);
-                        }
-                    });
-        }
-    }
-
-
     private void ChooseFile()
     {
         Intent intent = new Intent();
-        intent.setType("images/*"); // see only images in file chooser
+        intent.setType("image/*"); // see only image in file chooser
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
@@ -212,9 +186,32 @@ public class EditProfile extends AppCompatActivity {
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData()!= null)
         {
             imgURI = data.getData();
-
-            profilePicture.setImageURI(imgURI);
+            Picasso.get()
+                    .load(imgURI)
+                    .fit()
+                    .centerCrop()
+                    .into(profilePicture);
         }
     }
 
+    private void UploadImage()
+    {
+        if(imgURI != null){
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
+
+            fileReference.putFile(imgURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    final String downloadUrl = uri.toString();
+                                    mDatabaseRef.child("profile picture").setValue(downloadUrl);
+                                }
+                            });
+                        }
+                    });
+        }
+    }
 }

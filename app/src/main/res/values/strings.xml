@@ -27,8 +27,6 @@
     <string name="bio">Bio</string>
     <string name="save_changes">Save Changes</string>
     <string name="todo">TODO</string>
-    <string name="chang_profile_picture">Chang Profile Picture</string>
-    <string name="change_profile_picture" />
     <string name="title_activity_food_feed">FoodFeed</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -54,4 +52,5 @@
     <string name="sign_up">Sign up</string>
     <string name="password">Password</string>
     <string name="phone_number_username_or_email">Phone number, username or email</string>
+    <string name="change_profile_picture">change profile picture</string>
 </resources>
