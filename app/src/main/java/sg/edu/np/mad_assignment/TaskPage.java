@@ -3,6 +3,9 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 
 public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInterface {
     RecyclerView recyclerView;
+    ImageButton backButton;
     TaskAdaptor taskAdaptor;
     ArrayList<Task> taskArrayList;
 
@@ -27,6 +31,13 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_page);
 
+        backButton = findViewById(R.id.taskbackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //taskArrayList = new ArrayList<>();
@@ -34,10 +45,11 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         taskAdaptor = new TaskAdaptor(this,taskArrayList);
         recyclerView.setAdapter(taskAdaptor);
 
+
         //createListData();
     }
 
-
+/* //Unused
     private void createListData(){
         Task t1 = new Task("Read a book");
         taskArrayList.add(t1);
@@ -87,13 +99,15 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         taskArrayList.add(t23);
         Task t24 = new Task("Encourage a friend with a Gift");
         taskArrayList.add(t24);
-    }
+    }*/
 
     @Override
     public void onUploadSuccessful(Task task, int position) {
+        //starts UploadPhoto
         Intent intent = new Intent(this, UploadPhoto.class);
         intent.putExtra("position", position);
         startActivityForResult(intent,1001);
+        Log.v(TAG,"Starting UploadPhoto for result");
     }
 
     @Override
@@ -103,13 +117,10 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         {
             int position = data.getIntExtra(POSITION_KEY, -1);
             if(position != -1) {
-                /*taskAdaptor.taskList.remove(position);
-                taskAdaptor.notifyItemRemoved(position);
-                taskAdaptor.notifyItemRangeChanged(position,taskAdaptor.taskList.size());*/
+                //Gets task and sets isAchieved to true, achievement is gained
                 Dashboard.taskArrayList.get(position).getAchievement().setIsAchieved(true);
                 taskAdaptor.notifyDataSetChanged();
-            } else {
-                //Do something here
+                Log.v(TAG,"Task removed, achievement achieved.");
             }
         }
     }

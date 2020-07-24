@@ -22,8 +22,6 @@
         android:layout_width="184dp"
         android:layout_height="212dp"
         android:layout_marginTop="84dp"
-        android:contentDescription="@string/profile_picture"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

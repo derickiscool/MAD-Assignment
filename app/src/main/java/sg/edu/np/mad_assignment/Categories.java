@@ -1,16 +1,19 @@
 package sg.edu.np.mad_assignment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Categories extends AppCompatActivity {
 
     private Button foodButton, wellnessButton, healthButton;
-    final String TAG = "Dashboard";
+    private ImageButton backButton;
+    final String TAG = "Categories";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,7 @@ public class Categories extends AppCompatActivity {
         foodButton = findViewById(R.id.category_food);
         wellnessButton = findViewById(R.id.category_wellness);
         healthButton = findViewById(R.id.category_health);
+        backButton = findViewById(R.id.daashboardBackButton);
 
         foodButton.setBackgroundResource(R.drawable.food);
         wellnessButton.setBackgroundResource(R.drawable.wellness);
@@ -49,6 +53,14 @@ public class Categories extends AppCompatActivity {
                 healthPage();
             }
         });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent back = new Intent(Categories.this, Dashboard.class);
+                //startActivity(back);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -66,17 +78,17 @@ public class Categories extends AppCompatActivity {
 
 
     private void foodPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, foodFeed.class);
-        //startActivity(advancedPage);
+        Intent advancePage = new Intent(Categories.this, foodFeed.class);
+        startActivity(advancePage);
     }
 
     private void wellnessPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, wellnessFeed.class);
-        //startActivity(advancedPage);
+        Intent advancePage = new Intent(Categories.this, wellnessFeed.class);
+        startActivity(advancePage);
     }
 
     private void healthPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, healthFeed.class);
-        //startActivity(advancedPage);
+        Intent advancePage = new Intent(Categories.this, healthFeed.class);
+        startActivity(advancePage);
     }
 }

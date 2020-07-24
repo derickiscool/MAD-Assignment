@@ -1,9 +1,9 @@
 package sg.edu.np.mad_assignment;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -39,11 +39,11 @@ public class EditProfile extends AppCompatActivity {
     String myUsername, name, bio;
     final String TAG = "Profile Edit Page";
 
-    private static final int PICK_IMAGE_REQUEST = 1; // identification for image request
 
     private ImageView profilePicture;
     private TextView changePFP;
     private Uri imgURI;
+    private Bitmap bitmap;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -64,11 +64,11 @@ public class EditProfile extends AppCompatActivity {
         newBio = findViewById(R.id.updateBio);
         updateButton = findViewById(R.id.updateButton);
         profileButton = findViewById(R.id.profileButton);
-        profilePicture = findViewById(R.id.profileImage);
+        profilePicture = findViewById(R.id.pfpimageView);
         changePFP = findViewById(R.id.PFPTextView);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("Member").child(String.valueOf(myUsername)); // save it in a folder under Member with username
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Member").child(String.valueOf(myUsername));
+        mStorageRef = FirebaseStorage.getInstance().getReference("Member");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Member/" + String.valueOf(myUsername));
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,9 +78,12 @@ public class EditProfile extends AppCompatActivity {
                 }
                 else
                 {
-                    String currentURI = dataSnapshot.child("profile picture").getValue(String.class);
-                    Uri tempURI = Uri.parse(currentURI);
-                    profilePicture.setImageURI(tempURI);
+                    String currentURL = dataSnapshot.child("profile picture").getValue(String.class);
+                    Picasso.get()
+                            .load(currentURL)
+                            .fit()
+                            .centerCrop()
+                            .into(profilePicture);
                 }
             }
 
@@ -169,49 +172,46 @@ public class EditProfile extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
     }
 
-    private void UploadImage()
-    {
-        if (imgURI != null){
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
-
-            fileReference.putFile(imgURI)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @SuppressLint("ShowToast")
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            Toast.makeText(EditProfile.this, "Upload Successful!", Toast.LENGTH_SHORT);
-                            mDatabaseRef.child("profile picture").setValue(taskSnapshot.getMetadata().getReference().getDownloadUrl().toString()); // store url link in database
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("ShowToast")
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Upload Unsuccessful!", Toast.LENGTH_SHORT);
-                        }
-                    });
-        }
-    }
-
-
     private void ChooseFile()
     {
         Intent intent = new Intent();
-        intent.setType("image/*"); // see only images in file chooser
+        intent.setType("image/*"); // see only image in file chooser
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData()!= null)
+        if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData()!= null)
         {
             imgURI = data.getData();
-
-            profilePicture.setImageURI(imgURI);
+            Picasso.get()
+                    .load(imgURI)
+                    .fit()
+                    .centerCrop()
+                    .into(profilePicture);
         }
     }
 
+    private void UploadImage()
+    {
+        if(imgURI != null){
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
+
+            fileReference.putFile(imgURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    final String downloadUrl = uri.toString();
+                                    mDatabaseRef.child("profile picture").setValue(downloadUrl);
+                                }
+                            });
+                        }
+                    });
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package sg.edu.np.mad_assignment;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,13 +12,22 @@ import java.util.ArrayList;
 
 public class AchievementPage extends AppCompatActivity {
     RecyclerView recyclerView;
+    ImageButton backButton;
     AchievementAdaptor achievementAdaptor;
-    ArrayList<Achievement> achievementArrayList;
+    //ArrayList<Achievement> achievementArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement_page);
+
+        backButton = findViewById(R.id.achievementbackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewAchievement);
         GridLayoutManager glm = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(glm);
@@ -29,7 +40,7 @@ public class AchievementPage extends AppCompatActivity {
 
 
     }
-
+/* //Unused
     private void createListData(){
         //Add achievement images here
         Achievement ac1 = new Achievement(R.drawable.badge_readabook, "");
@@ -80,9 +91,6 @@ public class AchievementPage extends AppCompatActivity {
         achievementArrayList.add(ac23);
         Achievement ac24 = new Achievement(R.drawable.badge_encouragefriend,"");
         achievementArrayList.add(ac24);
-
-
     }
-
-
+*/
 }

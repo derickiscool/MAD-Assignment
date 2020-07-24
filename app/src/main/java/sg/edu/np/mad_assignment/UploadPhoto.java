@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class UploadPhoto extends AppCompatActivity {
     Button cfb, upimg, gotoup;
+    ImageButton backButton;
     ImageView upimgview;
     StorageReference mStorageRef;
     private StorageTask uploadtask;
@@ -41,6 +43,7 @@ public class UploadPhoto extends AppCompatActivity {
         cfb = (Button)findViewById(R.id.choosefilebtn); //button for choose file
         upimg = (Button)findViewById(R.id.uploadimgbtn);//button for upload image
         upimgview = (ImageView)findViewById(R.id.uploadimgview);//image view for upload image
+        backButton = (ImageButton) findViewById(R.id.uploadBackButton); //button back to the tasks
         cfb.setOnClickListener(new View.OnClickListener() { //set button for choose file popup
             @Override
             public void onClick(View v) {
@@ -60,44 +63,12 @@ public class UploadPhoto extends AppCompatActivity {
                 }
             }
         });
-    }
-    //private string to get the extension for the storage to upload
-    private String getExtension(Uri uri)
-    {
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-    //method to upload file
-    public void Fileuploader()
-    {
-        StorageReference Ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imguri)); //give the file a name so it will be easier to retrieve
-
-        uploadtask = Ref.putFile(imguri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
-
-                        int position = getIntent().getIntExtra("position",-1);
-                        Intent intent = new Intent();
-                        intent.putExtra("position", position);
-                        setResult(RESULT_OK, intent);
-
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                        Toast.makeText(UploadPhoto.this,"Image failed to upload, please try again.", Toast.LENGTH_LONG).show();
-                    }
-                });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     //search from the gallery to select image
@@ -119,6 +90,52 @@ public class UploadPhoto extends AppCompatActivity {
             upimgview.setImageURI(imguri);
             Log.v(TAG, "Successfully Run");
         }
+    }
+    //private string to get the extension for the storage to upload
+    private String getExtension(Uri uri)
+    {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    //method to upload file
+    public void Fileuploader()
+    {
+        if (imguri != null)
+        {
+            StorageReference Ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imguri)); //give the file a name so it will be easier to retrieve
+
+            uploadtask = Ref.putFile(imguri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // Get a URL to the uploaded content
+                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
+
+                            int position = getIntent().getIntExtra("position",-1);
+                            Intent intent = new Intent();
+                            intent.putExtra("position", position);
+                            setResult(RESULT_OK, intent);
+
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                            // ...
+                            Toast.makeText(UploadPhoto.this,"Image failed to upload, please try again.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+        else
+        {
+            Toast.makeText(UploadPhoto.this, "No file selected!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }
