@@ -1,6 +1,5 @@
 package sg.edu.np.mad_assignment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,7 +14,7 @@ public class AchievementPage extends AppCompatActivity {
     RecyclerView recyclerView;
     ImageButton backButton;
     AchievementAdaptor achievementAdaptor;
-    ArrayList<Achievement> achievementArrayList;
+    //ArrayList<Achievement> achievementArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +25,9 @@ public class AchievementPage extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(AchievementPage.this, Dashboard.class);
-                startActivity(back);
+                //Intent back = new Intent(AchievementPage.this, Dashboard.class);
+                //startActivity(back);
+                finish();
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewAchievement);
@@ -42,7 +42,7 @@ public class AchievementPage extends AppCompatActivity {
 
 
     }
-
+/* //Unused
     private void createListData(){
         //Add achievement images here
         Achievement ac1 = new Achievement(R.drawable.badge_readabook, "");
@@ -93,9 +93,6 @@ public class AchievementPage extends AppCompatActivity {
         achievementArrayList.add(ac23);
         Achievement ac24 = new Achievement(R.drawable.badge_encouragefriend,"");
         achievementArrayList.add(ac24);
-
-
     }
-
-
+*/
 }

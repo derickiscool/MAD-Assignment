@@ -82,6 +82,7 @@ public class UploadPhoto extends AppCompatActivity {
                         //Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
 
+                        //On successful upload, send result back to TaskPage
                         int position = getIntent().getIntExtra("position",-1);
                         Intent intent = new Intent();
                         intent.putExtra("position", position);

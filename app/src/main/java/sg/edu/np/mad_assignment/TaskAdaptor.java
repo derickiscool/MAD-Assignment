@@ -36,7 +36,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskViewHolder> {
             });
         }
         else {
-            //Task is invisible, does not take up space.
+            //If task is completed, task is invisible and does not take up space.
             holder.txtTask.setVisibility(View.GONE);
             holder.gotoup.setVisibility(View.GONE);
         }

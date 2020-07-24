@@ -56,8 +56,9 @@ public class Categories extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(Categories.this, Dashboard.class);
-                startActivity(back);
+                //Intent back = new Intent(Categories.this, Dashboard.class);
+                //startActivity(back);
+                finish();
             }
         });
     }
