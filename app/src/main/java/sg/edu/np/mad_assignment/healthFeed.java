@@ -76,8 +76,7 @@ public class healthFeed extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(healthFeed.this, Categories.class);
-                startActivity(back);
+                finish();
             }
         });
         healthUpload.setOnClickListener(new View.OnClickListener() {

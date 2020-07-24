@@ -35,8 +35,6 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent back = new Intent(TaskPage.this, Dashboard.class);
-                //startActivity(back);
                 finish();
             }
         });

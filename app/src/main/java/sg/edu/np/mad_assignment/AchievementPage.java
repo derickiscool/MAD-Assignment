@@ -25,8 +25,6 @@ public class AchievementPage extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent back = new Intent(AchievementPage.this, Dashboard.class);
-                //startActivity(back);
                 finish();
             }
         });

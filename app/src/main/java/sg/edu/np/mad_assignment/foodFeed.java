@@ -75,8 +75,7 @@ public class foodFeed extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(foodFeed.this, Categories.class);
-                startActivity(back);
+                finish();
             }
         });
         foodUpload.setOnClickListener(new View.OnClickListener() {

@@ -94,8 +94,7 @@ public class wellnessUpload extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(wellnessUpload.this, wellnessFeed.class);
-                startActivity(back);
+                finish();
             }
         });
     }

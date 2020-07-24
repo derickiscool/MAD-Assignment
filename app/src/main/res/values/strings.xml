@@ -53,4 +53,5 @@
     <string name="password">Password</string>
     <string name="phone_number_username_or_email">Phone number, username or email</string>
     <string name="change_profile_picture">change profile picture</string>
+    <string name="upload_image">Upload Image</string>
 </resources>

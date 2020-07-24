@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class UploadPhoto extends AppCompatActivity {
     Button cfb, upimg, gotoup;
+    ImageButton backButton;
     ImageView upimgview;
     StorageReference mStorageRef;
     private StorageTask uploadtask;
@@ -41,6 +43,7 @@ public class UploadPhoto extends AppCompatActivity {
         cfb = (Button)findViewById(R.id.choosefilebtn); //button for choose file
         upimg = (Button)findViewById(R.id.uploadimgbtn);//button for upload image
         upimgview = (ImageView)findViewById(R.id.uploadimgview);//image view for upload image
+        backButton = (ImageButton) findViewById(R.id.uploadBackButton); //button back to the tasks
         cfb.setOnClickListener(new View.OnClickListener() { //set button for choose file popup
             @Override
             public void onClick(View v) {
@@ -58,6 +61,12 @@ public class UploadPhoto extends AppCompatActivity {
                 else {
                     Fileuploader();
                 }
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
