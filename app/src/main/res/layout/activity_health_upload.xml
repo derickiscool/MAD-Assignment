@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".healthUpload">
+
+    <Button
+        android:id="@+id/healthUploadPost"
+        android:layout_width="146dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/healthChooseFile"
+        android:layout_width="148dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="157dp"
+        android:text="@string/choose_file"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/healthImageView"
+        android:layout_width="351dp"
+        android:layout_height="354dp"
+        android:layout_marginTop="152dp"
+        android:contentDescription="@string/picturepost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.583"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@android:color/background_dark" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar10"
+        android:layout_width="422dp"
+        android:layout_height="61dp"
+        android:background="@android:color/holo_purple"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backButtonHealth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/abc_vector_test" />
+
+    <EditText
+        android:id="@+id/healthCaption"
+        android:layout_width="328dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="48dp"
+        android:ems="10"
+        android:hint="@string/write_a_caption"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:labelFor="@id/foodImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar10" />
+
+    <ProgressBar
+        android:id="@+id/healthProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="345dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/healthUploadPost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

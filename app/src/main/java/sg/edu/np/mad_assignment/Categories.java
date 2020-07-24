@@ -82,12 +82,12 @@ public class Categories extends AppCompatActivity {
     }
 
     private void wellnessPage(){
-        Intent advancedPage = new Intent(Categories.this, wellnessFeed.class);
-        startActivity(advancedPage);
+        Intent advancePage = new Intent(Categories.this, wellnessFeed.class);
+        startActivity(advancePage);
     }
 
     private void healthPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, healthFeed.class);
-        //startActivity(advancedPage);
+        Intent advancePage = new Intent(Categories.this, healthFeed.class);
+        startActivity(advancePage);
     }
 }
