@@ -61,44 +61,6 @@ public class UploadPhoto extends AppCompatActivity {
             }
         });
     }
-    //private string to get the extension for the storage to upload
-    private String getExtension(Uri uri)
-    {
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-    //method to upload file
-    public void Fileuploader()
-    {
-        StorageReference Ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imguri)); //give the file a name so it will be easier to retrieve
-
-        uploadtask = Ref.putFile(imguri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
-
-                        int position = getIntent().getIntExtra("position",-1);
-                        Intent intent = new Intent();
-                        intent.putExtra("position", position);
-                        setResult(RESULT_OK, intent);
-
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                        Toast.makeText(UploadPhoto.this,"Image failed to upload, please try again.", Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
 
     //search from the gallery to select image
     private void Filechooser() //
@@ -119,6 +81,52 @@ public class UploadPhoto extends AppCompatActivity {
             upimgview.setImageURI(imguri);
             Log.v(TAG, "Successfully Run");
         }
+    }
+    //private string to get the extension for the storage to upload
+    private String getExtension(Uri uri)
+    {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    //method to upload file
+    public void Fileuploader()
+    {
+        if (imguri != null)
+        {
+            StorageReference Ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imguri)); //give the file a name so it will be easier to retrieve
+
+            uploadtask = Ref.putFile(imguri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // Get a URL to the uploaded content
+                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
+
+                            int position = getIntent().getIntExtra("position",-1);
+                            Intent intent = new Intent();
+                            intent.putExtra("position", position);
+                            setResult(RESULT_OK, intent);
+
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                            // ...
+                            Toast.makeText(UploadPhoto.this,"Image failed to upload, please try again.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+        else
+        {
+            Toast.makeText(UploadPhoto.this, "No file selected!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }
