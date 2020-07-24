@@ -19,10 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 
 public class LoginPage extends AppCompatActivity{
     private static final String TAG = "LoginPage";
-    TextView signUp;
+    TextView signUp, forgotPassword;
     Button loginButton;
     EditText userId, userPassword;
 
@@ -38,6 +40,8 @@ public class LoginPage extends AppCompatActivity{
         setContentView(R.layout.activity_login_page);
         signUp = (TextView) findViewById(R.id.signUpText2);
         loginButton = (Button) findViewById(R.id.loginButton);
+        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +64,15 @@ public class LoginPage extends AppCompatActivity{
 
 
 
+            }
+        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"Forgot Password Button Clicked!");
+                Log.d(TAG,"Redirecting to forgot password page");
+                Intent ForgotPassword = new Intent(LoginPage.this, ForgetPassword.class);
+                startActivity(ForgotPassword);
             }
         });
 
@@ -87,7 +100,7 @@ public class LoginPage extends AppCompatActivity{
         }
       else UserCheck(id, password);
 
-        //need to check if credentials are inside database!!!
+
 
     }
     private void UserCheck(final String id, final String password)
