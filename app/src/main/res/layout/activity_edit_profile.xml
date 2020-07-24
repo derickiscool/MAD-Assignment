@@ -112,7 +112,7 @@
         android:layout_marginStart="121dp"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="122dp"
-        android:text="@string/chang_profile_picture"
+        android:text="Change Profile Picture"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
