@@ -43,4 +43,15 @@
     <string name="write_a_caption">Write a caption</string>
     <string name="upload">Upload</string>
     <string name="choose_file">Choose File</string>
+    <string name="backbutton">backButton</string>
+    <string name="wellness">Wellness</string>
+    <string name="health">Health</string>
+    <string name="achievements">Achievements</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="log_in">Log In</string>
+    <string name="logo">logo</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="password">Password</string>
+    <string name="phone_number_username_or_email">Phone number, username or email</string>
 </resources>

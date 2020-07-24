@@ -11,7 +11,6 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,16 +28,16 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-public class foodUpload extends AppCompatActivity {
+public class wellnessUpload extends AppCompatActivity {
 
-    final String TAG = "Food/ Upload post";
+    final String TAG = "Wellness/ Upload post";
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private Button ButtonChooseImage, ButtonUpload;
     private ImageButton backButton;
     private EditText EditTextCaption;
-    private ImageView ImageView;
+    private android.widget.ImageView ImageView;
     private ProgressBar progressBar;
     String myUsername;
 
@@ -56,20 +55,20 @@ public class foodUpload extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_upload);
+        setContentView(R.layout.activity_wellness_upload);
 
         sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
         myUsername= sharedPreferences.getString(MY_USERNAME, "");
 
-        ButtonChooseImage = findViewById(R.id.foodChooseFile);
-        ButtonUpload = findViewById(R.id.foodUploadPost);
-        backButton = findViewById(R.id.foodbackButton2);
-        EditTextCaption = findViewById(R.id.foodCaption);
-        ImageView = findViewById(R.id.foodImageView);
-        progressBar = findViewById(R.id.foodProgressBar);
+        ButtonChooseImage = findViewById(R.id.wellnessChooseFile);
+        ButtonUpload = findViewById(R.id.wellnessUploadPost);
+        backButton = findViewById(R.id.backButtonWellness);
+        EditTextCaption = findViewById(R.id.wellnessCaption);
+        ImageView = findViewById(R.id.wellnessImageView);
+        progressBar = findViewById(R.id.wellnessProgressBar);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Posts");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Food");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Wellness");
 
         ButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +82,7 @@ public class foodUpload extends AppCompatActivity {
             public void onClick(View v) {
                 if (mUploadTask != null && mUploadTask.isInProgress()) // upload task in progress, do not want multiple upload of the same image
                 {
-                    Toast.makeText(foodUpload.this, "Upload in progress!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(wellnessUpload.this, "Upload in progress!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -95,11 +94,10 @@ public class foodUpload extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(foodUpload.this, foodFeed.class);
+                Intent back = new Intent(wellnessUpload.this, wellnessFeed.class);
                 startActivity(back);
             }
         });
-
     }
 
     private void openFileChooser()
@@ -157,13 +155,13 @@ public class foodUpload extends AppCompatActivity {
                                 }
                             }, 500);
 
-                            Toast.makeText(foodUpload.this, "Upload successful!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(wellnessUpload.this, "Upload successful!", Toast.LENGTH_LONG).show();
                         }
                     })
                     . addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(foodUpload.this, "Upload not successful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(wellnessUpload.this, "Upload not successful!", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {  // upload progress

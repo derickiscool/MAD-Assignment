@@ -1,6 +1,9 @@
 package sg.edu.np.mad_assignment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 
 public class AchievementPage extends AppCompatActivity {
     RecyclerView recyclerView;
+    ImageButton backButton;
     AchievementAdaptor achievementAdaptor;
     ArrayList<Achievement> achievementArrayList;
 
@@ -17,6 +21,15 @@ public class AchievementPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement_page);
+
+        backButton = findViewById(R.id.achievementbackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back = new Intent(AchievementPage.this, Dashboard.class);
+                startActivity(back);
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewAchievement);
         GridLayoutManager glm = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(glm);

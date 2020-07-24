@@ -3,6 +3,8 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 
 public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInterface {
     RecyclerView recyclerView;
+    ImageButton backButton;
     TaskAdaptor taskAdaptor;
     ArrayList<Task> taskArrayList;
 
@@ -27,12 +30,21 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_page);
 
+        backButton = findViewById(R.id.taskbackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back = new Intent(TaskPage.this, Dashboard.class);
+                startActivity(back);
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //taskArrayList = new ArrayList<>();
         taskArrayList = Dashboard.taskArrayList;
         taskAdaptor = new TaskAdaptor(this,taskArrayList);
         recyclerView.setAdapter(taskAdaptor);
+
 
         //createListData();
     }

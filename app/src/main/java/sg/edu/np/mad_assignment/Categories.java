@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Categories extends AppCompatActivity {
 
     private Button foodButton, wellnessButton, healthButton;
+    private ImageButton backButton;
     final String TAG = "Categories";
 
     @Override
@@ -21,6 +23,7 @@ public class Categories extends AppCompatActivity {
         foodButton = findViewById(R.id.category_food);
         wellnessButton = findViewById(R.id.category_wellness);
         healthButton = findViewById(R.id.category_health);
+        backButton = findViewById(R.id.daashboardBackButton);
 
         foodButton.setBackgroundResource(R.drawable.food);
         wellnessButton.setBackgroundResource(R.drawable.wellness);
@@ -50,6 +53,13 @@ public class Categories extends AppCompatActivity {
                 healthPage();
             }
         });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back = new Intent(Categories.this, Dashboard.class);
+                startActivity(back);
+            }
+        });
     }
 
     @Override
@@ -72,8 +82,8 @@ public class Categories extends AppCompatActivity {
     }
 
     private void wellnessPage(){
-        //Intent advancedPage = new Intent(Dashboard.this, wellnessFeed.class);
-        //startActivity(advancedPage);
+        Intent advancedPage = new Intent(Categories.this, wellnessFeed.class);
+        startActivity(advancedPage);
     }
 
     private void healthPage(){
