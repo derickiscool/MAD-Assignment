@@ -86,5 +86,4 @@ public class foodFeed extends AppCompatActivity {
             }
         });
     }
-
 }
