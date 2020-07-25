@@ -73,7 +73,8 @@ public class ProfilePage extends AppCompatActivity {
         dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backDashboard();
+                //backDashboard();
+                finish();
             }
         });
 
@@ -92,10 +93,10 @@ public class ProfilePage extends AppCompatActivity {
         finish();
     }
 
-    private void backDashboard(){
+    /*private void backDashboard(){
         Intent dashboardPage = new Intent(ProfilePage.this, Dashboard.class);
         startActivity(dashboardPage);
-    }
+    }*/
 
 
     private void EditProfilePage(){
