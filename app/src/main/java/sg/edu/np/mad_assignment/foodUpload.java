@@ -88,6 +88,7 @@ public class foodUpload extends AppCompatActivity {
                 else
                 {
                     uploadFile();
+                    finish();
                 }
             }
         });

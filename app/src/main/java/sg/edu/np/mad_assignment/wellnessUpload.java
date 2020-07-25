@@ -87,6 +87,7 @@ public class wellnessUpload extends AppCompatActivity {
                 else
                 {
                     uploadFile();
+                    finish();
                 }
             }
         });

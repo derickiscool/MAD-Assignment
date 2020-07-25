@@ -88,6 +88,7 @@ public class healthUpload extends AppCompatActivity {
                 else
                 {
                     uploadFile();
+                    finish();
                 }
             }
         });
