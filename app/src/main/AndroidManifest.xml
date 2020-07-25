@@ -15,8 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".foodFeed"></activity>
+        <activity android:name=".foodUpload"></activity>
         <activity android:name=".healthFeed"></activity>
+        <activity android:name=".healthUpload"></activity>
         <activity android:name=".wellnessFeed"></activity>
+        <activity android:name=".wellnessUpload"></activity>
         <activity android:name=".ForgetPassword"></activity>
         <activity android:name=".EditProfile" />
         <activity android:name=".Sidebar" />
