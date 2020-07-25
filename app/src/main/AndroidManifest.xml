@@ -14,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".foodFeed"></activity>
+        <activity android:name=".healthFeed"></activity>
+        <activity android:name=".wellnessFeed"></activity>
         <activity android:name=".ForgetPassword"></activity>
         <activity android:name=".EditProfile" />
         <activity android:name=".Sidebar" />
