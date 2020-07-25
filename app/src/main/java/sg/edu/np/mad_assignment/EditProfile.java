@@ -33,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -190,7 +191,7 @@ public class EditProfile extends AppCompatActivity {
                 Toast.makeText(EditProfile.this, "Upload in progress", Toast.LENGTH_SHORT).show();
             }
             else{
-                UploadImage();
+                Picasso.get().load(imgURI).fit().centerCrop().into(profilePicture);
             }
         }
     }

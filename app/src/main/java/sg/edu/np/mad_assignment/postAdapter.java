@@ -34,7 +34,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ImageViewHolde
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Post postCurrent = postList.get(position);
-        holder.textViewCaption.setText(postCurrent.getCaption());
+        holder.textViewCaption.setText("Caption: " + postCurrent.getCaption());
         holder.textViewUsername.setText("@" + postCurrent.getUsername());
         Picasso.get()
                 .load(postCurrent.getImageUrl())

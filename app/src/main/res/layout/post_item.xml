@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/postImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:textSize="30sp" />
+        tools:textSize="58sp" />
 
     <TextView
         android:id="@+id/captionView"
@@ -39,5 +39,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:textSize="24sp" />
+        tools:textSize="48sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
