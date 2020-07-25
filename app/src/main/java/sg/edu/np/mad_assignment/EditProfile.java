@@ -19,11 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,8 +31,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -85,7 +80,7 @@ public class EditProfile extends AppCompatActivity {
                 }
                 else
                 {
-                    Glide.with(EditProfile.this).load(currentURL).into(profilePicture);
+                    Picasso.get().load(currentURL).fit().centerCrop().into(profilePicture);
                 }
             }
 
@@ -95,31 +90,28 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-
-        Log.v(TAG,"Update Page" + String.valueOf(myUsername));
-
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 name = newName.getText().toString();
                 bio = newBio.getText().toString();
                 updateProfile(name, bio);
-                UploadImage();
+                if (uploadTask != null && uploadTask.isInProgress()) // upload task in progress, do not want multiple upload of the same image
+                {
+                    Toast.makeText(EditProfile.this, "Upload in progress!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    UploadImage();
+                }
                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
-                Intent profilePage = new Intent(EditProfile.this, ProfilePage.class);
-                startActivity(profilePage);
+                finish();
             }
         });
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent profilePage = new Intent(EditProfile.this, ProfilePage.class);
-                startActivity(profilePage);
+                finish();
             }
         });
         changePFP.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +120,10 @@ public class EditProfile extends AppCompatActivity {
                 ChooseFile();
             }
         });
+
+
+        Log.v(TAG,"Update Page" + String.valueOf(myUsername));
+
     }
 
     @Override
@@ -186,13 +182,8 @@ public class EditProfile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData()!= null)
         {
-            if(uploadTask != null && uploadTask.isInProgress())
-            {
-                Toast.makeText(EditProfile.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Picasso.get().load(imgURI).fit().centerCrop().into(profilePicture);
-            }
+            imgURI = data.getData();
+            Picasso.get().load(imgURI).fit().centerCrop().into(profilePicture);
         }
     }
 
@@ -201,39 +192,26 @@ public class EditProfile extends AppCompatActivity {
         if(imgURI != null){
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
 
-            uploadTask = fileReference.getFile(imgURI);
-            uploadTask.continueWith(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task task) throws Exception {
-                    if (!task.isSuccessful())
-                    {
-                        throw task.getException();
-                    }
-                    return fileReference.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful())
-                    {
-                        Uri downloadUri = task.getResult();
-                        String mUri = downloadUri.toString();
+            uploadTask = fileReference.putFile(imgURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    final String downloadUrl = uri.toString();
+                                    mDatabaseRef.child("profilePicture").setValue(imgURI);
 
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("profilePicture", mUri);
-                        mDatabaseRef.updateChildren(map);
-                    }
-                    else
-                    {
-                        Toast.makeText(EditProfile.this,"Failed!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(EditProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                                }
+                            });
+                        }
+                    })
+                    . addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditProfile.this, "Upload not successful!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 }
