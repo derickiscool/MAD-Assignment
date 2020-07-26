@@ -39,6 +39,7 @@ public class EditProfile extends AppCompatActivity {
     private ImageButton profileButton;
     String myUsername, name, bio;
     final String TAG = "Profile Edit Page";
+    private static final int PICK_IMAGE = 1;
 
 
     private ImageView profilePicture;
@@ -125,7 +126,6 @@ public class EditProfile extends AppCompatActivity {
         Log.v(TAG,"Update Page" + String.valueOf(myUsername));
 
     }
-
     @Override
     protected void onPause(){
         super.onPause();
@@ -136,7 +136,7 @@ public class EditProfile extends AppCompatActivity {
     protected void onStop(){
         super.onStop();
         Log.v(TAG, "Stopped Edit Profile Page!");
-        finish();
+
     }
 
     private void updateProfile(final String updateName, final String updateBio) {
@@ -175,6 +175,7 @@ public class EditProfile extends AppCompatActivity {
         intent.setType("image/*"); // see only image in file chooser
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
+
     }
 
     @Override
@@ -182,6 +183,7 @@ public class EditProfile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData()!= null)
         {
+
             imgURI = data.getData();
             Picasso.get().load(imgURI).fit().centerCrop().into(profilePicture);
         }

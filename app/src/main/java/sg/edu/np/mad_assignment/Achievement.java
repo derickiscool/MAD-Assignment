@@ -21,13 +21,6 @@ public class Achievement {
         this.imageID = imageID;
     }
 
-    public String getTextAchieved() {
-        return textAchieved;
-    }
-
-    public void setTextAchieved(String textAchieved) {
-        this.textAchieved = textAchieved;
-    }
 
     public Boolean getIsAchieved() {
         return isAchieved;
@@ -37,9 +30,8 @@ public class Achievement {
         this.isAchieved = isAchieved;
     }
 
-    public Achievement(int imageID, String textAchieved){
+    public Achievement(int imageID){
         this.imageID = imageID;
-        this.textAchieved = textAchieved;
         this.isAchieved = false;
     }
 }
