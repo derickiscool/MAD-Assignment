@@ -53,4 +53,5 @@
     <string name="please_enter_the_otp_sent_to_your_phone">Please enter the OTP sent to your phone!</string>
     <string name="logo">logo</string>
     <string name="backbutton">backButton</string>
+    <string name="logout">Logout</string>
 </resources>

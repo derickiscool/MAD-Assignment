@@ -40,6 +40,7 @@ public class AchievementPage extends AppCompatActivity {
 
 
     }
+
 /* //Unused
     private void createListData(){
         //Add achievement images here

@@ -38,27 +38,29 @@ public class Categories extends AppCompatActivity {
         foodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foodPage();
+                Log.d(TAG, "Proceeding onto Food Feed!");
+                foodPage(); // moves to food feed
             }
         });
         wellnessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wellnessPage();
+                Log.d(TAG, "Proceeding onto Wellness Feed!");
+                wellnessPage(); // moves to wellness feed
             }
         });
         healthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                healthPage();
+                Log.d(TAG, "Proceeding onto Health Feed!");
+                healthPage(); // moves to health feed
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent back = new Intent(Categories.this, Dashboard.class);
-                //startActivity(back);
-                finish();
+                Log.d(TAG, "Proceeding back to Dashboard!");
+                finish(); // moves back to dashboard
             }
         });
     }
@@ -66,13 +68,13 @@ public class Categories extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        Log.v(TAG, "Paused Dashboard!");
+        Log.d(TAG, "Paused Application!");
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        Log.v(TAG, "Stopped Dashboard!");
+        Log.d(TAG, "Stopped Application!");
         finish();
     }
 

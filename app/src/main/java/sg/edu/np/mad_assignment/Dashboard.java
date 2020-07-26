@@ -1,13 +1,17 @@
 package sg.edu.np.mad_assignment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -26,15 +30,21 @@ public class Dashboard extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceTasks, mReferenceAchievements;
 
+    public String GLOBAL_PREFS = "MyPrefs";
+    SharedPreferences sharedPreferences;
+
     private static final String TAG = "Dashboard";
     private ImageButton profile, categories, task, achievements;
     private String tempUsername;
+    private Button logout;
     public static ArrayList<Task> taskArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -48,6 +58,7 @@ public class Dashboard extends AppCompatActivity {
         categories = (ImageButton) findViewById(R.id.categoriesButton);
         task = (ImageButton) findViewById(R.id.taskButton);
         achievements = (ImageButton) findViewById(R.id.achievementButton);
+        logout = (Button) findViewById(R.id.logoutButton);
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +91,34 @@ public class Dashboard extends AppCompatActivity {
                 Log.d(TAG, "Moving to achievements page");
                 Intent intent = new Intent(Dashboard.this, AchievementPage.class);
                 startActivity(intent);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(Dashboard.this);
+                alert.setTitle("Logout");
+                alert.setMessage("Are you sure you want to logout?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences.Editor e = sharedPreferences.edit();
+                        e.clear();
+
+                        Intent logout = new Intent(Dashboard.this, MainActivity.class);
+                        startActivity(logout);
+                        Dashboard.this.finish();
+                        Log.d(TAG, "Logging Out!");
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        Log.d(TAG, "Logging Out Declined!");
+                    }
+                });
+                alert.show();
             }
         });
 
@@ -120,11 +159,6 @@ public class Dashboard extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
         Task t1 = new Task("Read a book");
         Achievement ac1 = new Achievement(R.drawable.badge_readabook);
         t1.setAchievement(ac1);

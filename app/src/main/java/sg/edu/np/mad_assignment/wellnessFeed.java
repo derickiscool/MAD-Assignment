@@ -2,6 +2,7 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -61,6 +62,8 @@ public class wellnessFeed extends AppCompatActivity {
                 mAdapter = new postAdapter(wellnessFeed.this, mPosts);
 
                 mRecyclerView.setAdapter(mAdapter);
+
+                Log.d(TAG, "Wellness Feed!");
             }
 
             @Override
@@ -78,6 +81,7 @@ public class wellnessFeed extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                Log.d(TAG, "Back to dashboard!");
             }
         });
         wellnessUpload.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +89,18 @@ public class wellnessFeed extends AppCompatActivity {
             public void onClick(View v) {
                 Intent upload = new Intent(wellnessFeed.this, wellnessUpload.class);
                 startActivity(upload);
+                Log.d(TAG, "Proceeding to wellness upload page!");
             }
         });
+    }
+
+    protected void onStop(){
+        Log.d(TAG,"Stopping application!");
+        super.onStop();
+
+    }
+    protected void onPause(){
+        Log.d(TAG,"Pausing Application!");
+        super.onPause();
     }
 }

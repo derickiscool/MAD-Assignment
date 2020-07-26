@@ -2,6 +2,7 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -62,10 +63,13 @@ public class healthFeed extends AppCompatActivity {
                 mAdapter = new postAdapter(healthFeed.this, mPosts);
 
                 mRecyclerView.setAdapter(mAdapter);
+
+                Log.d(TAG,"Health Feed!");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG,"Error:" + databaseError.getMessage());
                 Toast.makeText(healthFeed.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -78,14 +82,26 @@ public class healthFeed extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                Log.d(TAG,"Proceeding to dashboard!");
             }
         });
         healthUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Proceeding to health upload page!");
                 Intent upload = new Intent(healthFeed.this, healthUpload.class);
                 startActivity(upload);
             }
         });
+    }
+
+    protected void onStop(){
+        Log.d(TAG,"Stopping application!");
+        super.onStop();
+
+    }
+    protected void onPause(){
+        Log.d(TAG,"Pausing Application!");
+        super.onPause();
     }
 }

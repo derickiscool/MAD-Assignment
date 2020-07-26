@@ -2,6 +2,7 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -48,10 +49,10 @@ public class foodFeed extends AppCompatActivity {
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Food");
 
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {  // listening for changes in the database
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mPosts.clear(); // clear existing data
+                mPosts.clear(); // clear existing data so that data does not appear twice
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
                     Post post = postSnapshot.getValue(Post.class);
@@ -61,10 +62,13 @@ public class foodFeed extends AppCompatActivity {
                 mAdapter = new postAdapter(foodFeed.this, mPosts);
 
                 mRecyclerView.setAdapter(mAdapter);
+
+                Log.d(TAG,"Food feed!");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "Error: " + databaseError.getMessage());
                 Toast.makeText(foodFeed.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -76,15 +80,27 @@ public class foodFeed extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Proceeding to Dashboard!");
                 finish();
             }
         });
         foodUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Proceeding to food upload page!");
                 Intent upload = new Intent(foodFeed.this, foodUpload.class);
                 startActivity(upload);
             }
         });
+    }
+
+    protected void onStop(){
+        Log.d(TAG,"Stopping application!");
+        super.onStop();
+
+    }
+    protected void onPause(){
+        Log.d(TAG,"Pausing Application!");
+        super.onPause();
     }
 }

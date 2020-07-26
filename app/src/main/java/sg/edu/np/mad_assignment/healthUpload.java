@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -74,6 +75,7 @@ public class healthUpload extends AppCompatActivity {
         ButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Selecting file...");
                 openFileChooser();
             }
         });
@@ -84,11 +86,13 @@ public class healthUpload extends AppCompatActivity {
                 if (mUploadTask != null && mUploadTask.isInProgress()) // upload task in progress, do not want multiple upload of the same image
                 {
                     Toast.makeText(healthUpload.this, "Upload in progress!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"Upload in progress");
                 }
                 else
                 {
                     uploadFile();
                     finish();
+                    Log.d(TAG,"Back to health feed!");
                 }
             }
         });
@@ -97,14 +101,25 @@ public class healthUpload extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                Log.d(TAG,"Back to health feed!");
             }
         });
     }
 
-    private void openFileChooser()
+    protected void onStop(){
+        Log.d(TAG,"Stopping application!");
+        super.onStop();
+
+    }
+    protected void onPause(){
+        Log.d(TAG,"Pausing Application!");
+        super.onPause();
+    }
+
+    private void openFileChooser() // select file
     {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/*"); // select from image file location
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
@@ -113,14 +128,15 @@ public class healthUpload extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) // image is selected successfully
         {
             imageUri = data.getData();
             ImageView.setImageURI(imageUri);
+            Log.d(TAG,"Image selected!");
         }
     }
 
-    private String getFileExtension(Uri uri)
+    private String getFileExtension(Uri uri) // identify extension for file selected
     {
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -135,7 +151,7 @@ public class healthUpload extends AppCompatActivity {
             mUploadTask = fileReference.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) { // image is placed into firebase storage is successfully
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -143,8 +159,9 @@ public class healthUpload extends AppCompatActivity {
                                     Post post = new Post(EditTextCaption.getText().toString().trim(),
                                             downloadUrl, String.valueOf(myUsername));
 
-                                    String postId =  mDatabaseRef.push().getKey();
+                                    String postId =  mDatabaseRef.push().getKey(); // unique key for post
                                     mDatabaseRef.child(postId).setValue(post);
+                                    Log.d(TAG,"File uploaded successfully");
 
                                 }
                             });
@@ -161,20 +178,22 @@ public class healthUpload extends AppCompatActivity {
                     })
                     . addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@NonNull Exception e) { // image is not placed into firebase storage is successfully
+                            Log.d(TAG,"File not uploaded!");
                             Toast.makeText(healthUpload.this, "Upload not successful!", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {  // upload progress
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount()); // upload progress
                             progressBar.setProgress((int) progress);
                         }
                     });
         }
         else
         {
+            Log.d(TAG,"No file selected!");
             Toast.makeText(this, "No file selected!", Toast.LENGTH_SHORT).show();
         }
     }

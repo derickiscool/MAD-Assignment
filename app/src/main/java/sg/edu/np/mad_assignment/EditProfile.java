@@ -74,12 +74,12 @@ public class EditProfile extends AppCompatActivity {
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { // listening to change in the database
                 String currentURL = dataSnapshot.child("profilePicture").getValue(String.class);
-                if(currentURL.equals("")){
+                if(currentURL.equals("")){ // no existing pfp in the database
                     profilePicture.setImageResource(R.drawable.profile_icon);
                 }
-                else
+                else // existing pfp in the database
                 {
                     Picasso.get().load(currentURL).fit().centerCrop().into(profilePicture);
                 }
@@ -87,7 +87,7 @@ public class EditProfile extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.v(TAG, "Reading from database failed: " + databaseError.getCode());
+                Log.d(TAG, "Reading from database failed: " + databaseError.getCode());
             }
         });
 
@@ -99,6 +99,7 @@ public class EditProfile extends AppCompatActivity {
                 updateProfile(name, bio);
                 if (uploadTask != null && uploadTask.isInProgress()) // upload task in progress, do not want multiple upload of the same image
                 {
+                    Log.d(TAG, "Upload in progress!");
                     Toast.makeText(EditProfile.this, "Upload in progress!", Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -112,44 +113,46 @@ public class EditProfile extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Back to Dashboard!");
                 finish();
             }
         });
         changePFP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Selecting file!");
                 ChooseFile();
             }
         });
 
 
-        Log.v(TAG,"Update Page" + String.valueOf(myUsername));
+        Log.d(TAG,"Update Page" + String.valueOf(myUsername));
 
     }
     @Override
     protected void onPause(){
         super.onPause();
-        Log.v(TAG, "Paused Edit Profile Page!");
+        Log.d(TAG, "Paused Application!");
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        Log.v(TAG, "Stopped Edit Profile Page!");
+        Log.d(TAG, "Stopped Application!");
 
     }
 
     private void updateProfile(final String updateName, final String updateBio) {
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { // listening to change in the database
                 String name = updateName;
                 String bio = updateBio;
-                if(updateName.isEmpty()){
-                    name = dataSnapshot.child("name").getValue(String.class);
+                if(updateName.isEmpty()){ // edit text for name is empty
+                    name = dataSnapshot.child("name").getValue(String.class); // take existing name from firebase
                 }
-                if(updateBio.isEmpty()){
-                    bio = dataSnapshot.child("bio").getValue(String.class);
+                if(updateBio.isEmpty()){ // edit text for bio is empty
+                    bio = dataSnapshot.child("bio").getValue(String.class); // take existing bio from firebase
                 }
                 mDatabaseRef.child("name").setValue(name);
                 mDatabaseRef.child("bio").setValue(bio);
@@ -162,7 +165,7 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    private String getExtension(Uri uri)
+    private String getExtension(Uri uri) // identify file extension
     {
         ContentResolver cr = getContentResolver(); // provide access to your content providers
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
@@ -175,42 +178,43 @@ public class EditProfile extends AppCompatActivity {
         intent.setType("image/*"); // see only image in file chooser
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData()!= null)
+        if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData()!= null) // image is selected
         {
-
             imgURI = data.getData();
-            Picasso.get().load(imgURI).fit().centerCrop().into(profilePicture);
+            Picasso.get().load(imgURI).fit().centerCrop().into(profilePicture); // place image into pfp image view
+            Log.d(TAG,"Image selected!");
         }
     }
 
     private void UploadImage()
     {
-        if(imgURI != null){
-            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI));
+        if(imgURI != null){ //if there is an image selected
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imgURI)); // unique identifier for image
 
-            uploadTask = fileReference.putFile(imgURI)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            uploadTask = fileReference.putFile(imgURI) // place image in firebase storage
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { // upload successful
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() { // get image url
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    final String downloadUrl = uri.toString();
-                                    mDatabaseRef.child("profilePicture").setValue(imgURI);
 
+                                    final String downloadUrl = uri.toString();
+                                    mDatabaseRef.child("profilePicture").setValue(downloadUrl); // place image url into firebase database
+                                    Log.d(TAG, "Uploading image to database!");
                                 }
                             });
                         }
                     })
                     . addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@NonNull Exception e) { // upload not successful
+                            Log.d(TAG, "Uploading of image failed");
                             Toast.makeText(EditProfile.this, "Upload not successful!", Toast.LENGTH_SHORT).show();
                         }
                     });

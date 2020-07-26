@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -74,6 +75,7 @@ public class foodUpload extends AppCompatActivity {
         ButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Selecting file...");
                 openFileChooser();
             }
         });
@@ -89,6 +91,7 @@ public class foodUpload extends AppCompatActivity {
                 {
                     uploadFile();
                     finish();
+                    Log.d(TAG,"Upload completed!");
                 }
             }
         });
@@ -96,16 +99,27 @@ public class foodUpload extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Back to food feed!");
                 finish();
             }
         });
 
     }
 
-    private void openFileChooser()
+    protected void onStop(){
+        Log.d(TAG,"Stopping application!");
+        super.onStop();
+
+    }
+    protected void onPause(){
+        Log.d(TAG,"Pausing Application!");
+        super.onPause();
+    }
+
+    private void openFileChooser() // select image function
     {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/*"); // access images file location
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
@@ -114,14 +128,15 @@ public class foodUpload extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) // image selected from images
         {
             imageUri = data.getData();
             ImageView.setImageURI(imageUri);
+            Log.d(TAG,"Image selected!");
         }
     }
 
-    private String getFileExtension(Uri uri)
+    private String getFileExtension(Uri uri) // identify file extension
     {
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -134,17 +149,17 @@ public class foodUpload extends AppCompatActivity {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
 
             mUploadTask = fileReference.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {  // listens if image is successfully placed into firebase storage
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
-                                public void onSuccess(Uri uri) {
+                                public void onSuccess(Uri uri) { // get url for image
                                     final String downloadUrl = uri.toString();
                                     Post post = new Post(EditTextCaption.getText().toString().trim(),
                                             downloadUrl, String.valueOf(myUsername));
 
-                                    String postId =  mDatabaseRef.push().getKey();
+                                    String postId =  mDatabaseRef.push().getKey(); // unique key for post
                                     mDatabaseRef.child(postId).setValue(post);
 
                                 }
@@ -156,26 +171,28 @@ public class foodUpload extends AppCompatActivity {
                                     progressBar.setProgress(0); // delays the reset of the progress bar
                                 }
                             }, 500);
-
+                            Log.d(TAG,"Upload successful!");
                             Toast.makeText(foodUpload.this, "Upload successful!", Toast.LENGTH_LONG).show();
                         }
                     })
                     . addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@NonNull Exception e) { // image not successfully placed into firebase storage
+                            Log.d(TAG,"Upload not successful!");
                             Toast.makeText(foodUpload.this, "Upload not successful!", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {  // upload progress
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount()); // progress of image being uploaded
                             progressBar.setProgress((int) progress);
                         }
                     });
         }
         else
         {
+            Log.d(TAG,"No file selected!");
             Toast.makeText(this, "No file selected!", Toast.LENGTH_SHORT).show();
         }
     }

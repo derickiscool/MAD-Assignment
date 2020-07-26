@@ -52,7 +52,7 @@ public class ProfilePage extends AppCompatActivity {
 
 
 
-        // Retrieve from data base and set OnCreate
+        // Retrieve from database and set OnCreate
         username.setText(String.valueOf("@" + myUsername));
         setProfile(String.valueOf(myUsername));
 
@@ -73,7 +73,6 @@ public class ProfilePage extends AppCompatActivity {
         dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //backDashboard();
                 finish();
             }
         });
@@ -83,32 +82,28 @@ public class ProfilePage extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        Log.v(TAG, "Paused Profile Page!");
+        Log.d(TAG, "Paused Profile Page!");
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        Log.v(TAG, "Stopped Profile Page!");
+        Log.d(TAG, "Stopped Profile Page!");
         finish();
     }
-
-    /*private void backDashboard(){
-        Intent dashboardPage = new Intent(ProfilePage.this, Dashboard.class);
-        startActivity(dashboardPage);
-    }*/
 
 
     private void EditProfilePage(){
         Intent editPage = new Intent(ProfilePage.this, EditProfile.class);
         startActivity(editPage);
+        Log.d(TAG, "Proceeding to edit page!");
     }
 
     private void setProfile(final String id) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Member");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { // listen for change in database
                 String nameFromDB = dataSnapshot.child(id).child("name").getValue(String.class);
                 String bioFromDB = dataSnapshot.child(id).child("bio").getValue(String.class);
                 String currentURL = dataSnapshot.child(id).child("profilePicture").getValue(String.class);
