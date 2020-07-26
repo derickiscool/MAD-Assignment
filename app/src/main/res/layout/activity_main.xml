@@ -26,7 +26,7 @@
         android:layout_height="33dp"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="make the changes, start now"
+        android:text="make the changes, start now today."
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
