@@ -65,7 +65,7 @@ public class EditProfile extends AppCompatActivity {
         newName = findViewById(R.id.updateName);
         newBio = findViewById(R.id.updateBio);
         updateButton = findViewById(R.id.updateButton);
-        profileButton = findViewById(R.id.profileButton);
+        profileButton = findViewById(R.id.backProfileButton);
         profilePicture = findViewById(R.id.pfpimageView);
         changePFP = findViewById(R.id.PFPTextView);
 

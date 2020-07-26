@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_Profile"
-             android:title="Profile">
-        </item>
-        <item android:id="@+id/nav_Tasks"
-            android:title="Tasks">
-        </item>
-        <item android:id="@+id/nav_Achievements"
-            android:title="Achievements">
-        </item>
-        <item android:id="@+id/nav_Categories"
-            android:title="Categories">
-        </item>
-        <item android:id="@+id/nav_Settings"
-            android:title="Settings">
-        </item>
-        <item android:id="@+id/nav_Logout"
-            android:title="Logout">
-        </item>
+        <item
+            android:id="@+id/nav_Profile"
+            android:icon="@drawable/ic_profile"
+            android:title="Profile"></item>
+        <item
+            android:id="@+id/nav_Tasks"
+            android:icon="@drawable/ic_tasks"
+            android:title="Tasks"></item>
+        <item
+            android:id="@+id/nav_Achievements"
+            android:icon="@drawable/ic_achievement"
+            android:title="Achievements"></item>
+        <item
+            android:id="@+id/nav_Categories"
+            android:icon="@drawable/ic_categories"
+            android:title="Categories"></item>
+        <item
+            android:id="@+id/nav_Logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout"></item>
     </group>
+
 
 </menu>
