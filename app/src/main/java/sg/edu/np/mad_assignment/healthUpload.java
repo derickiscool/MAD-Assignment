@@ -1,6 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -88,11 +90,31 @@ public class healthUpload extends AppCompatActivity {
                     Toast.makeText(healthUpload.this, "Upload in progress!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG,"Upload in progress");
                 }
+                else if (imageUri == null)
+                {
+                    Toast.makeText(healthUpload.this, "No file selected!", Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
-                    uploadFile();
-                    finish();
-                    Log.d(TAG,"Back to health feed!");
+                    AlertDialog.Builder alert = new AlertDialog.Builder(healthUpload.this);
+                    alert.setTitle("Upload Post");
+                    alert.setMessage("Are you sure you want to post? You will not be able to delete your post!");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            uploadFile();
+                            finish();
+                            Log.d(TAG,"Upload Completed!");
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            Log.d(TAG, "Upload Declined!");
+                        }
+                    });
+                    alert.show();
                 }
             }
         });
@@ -190,11 +212,6 @@ public class healthUpload extends AppCompatActivity {
                             progressBar.setProgress((int) progress);
                         }
                     });
-        }
-        else
-        {
-            Log.d(TAG,"No file selected!");
-            Toast.makeText(this, "No file selected!", Toast.LENGTH_SHORT).show();
         }
     }
 }

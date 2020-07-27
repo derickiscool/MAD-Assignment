@@ -61,4 +61,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="log_in">Log In</string>
     <string name="email">Email</string>
+    <string name="back_button">Back button</string>
+    <string name="fitness">Fitness</string>
 </resources>
