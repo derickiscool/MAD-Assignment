@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfilePage">
+    tools:context=".ProfilePage"
+    android:background="@drawable/app_background_2">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,6 +24,8 @@
         android:layout_height="212dp"
         android:layout_marginTop="84dp"
         android:adjustViewBounds="true"
+        android:background="#FFFFFF"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +88,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/abc_vector_test"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/backbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

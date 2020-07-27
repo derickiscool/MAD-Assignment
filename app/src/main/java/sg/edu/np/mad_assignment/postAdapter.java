@@ -2,7 +2,6 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +44,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Post postCurrent = postList.get(position);
         holder.textViewCaption.setText("Caption: " + postCurrent.getCaption());
-        holder.textViewUsername.setText(Html.fromHtml("@ " + postCurrent.getUsername()));
+        holder.textViewUsername.setText("@ " + postCurrent.getUsername());
         Picasso.get()
                 .load(postCurrent.getImageUrl())
                 .fit()

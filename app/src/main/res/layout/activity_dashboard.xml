@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Dashboard"
-    android:id="@+id/drawer_layout">
+    android:id="@+id/drawer_layout"
+    android:background="@drawable/app_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,14 +31,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
-                android:fontFamily="sans-serif-medium"
+                android:background="#FFFFFF"
+                android:fontFamily="@font/courgette"
                 android:text="@string/dashboard"
                 android:textSize="40sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:fontFamily="sans-serif-smallcaps" />
+                tools:background="#FFFFFF" />
 
             <ImageButton
                 android:id="@+id/achievementButton"
@@ -98,6 +100,7 @@
                 android:layout_marginStart="145dp"
                 android:layout_marginTop="29dp"
                 android:layout_marginEnd="146dp"
+                android:background="#E8DDEA"
                 android:text="@string/logout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

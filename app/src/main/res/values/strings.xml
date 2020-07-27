@@ -42,8 +42,6 @@
     <string name="choose_file">Choose File</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
     <string name="forget_password">Forget password?</string>
     <string name="login">Login</string>
     <string name="tasks">Tasks</string>
@@ -54,4 +52,13 @@
     <string name="logo">logo</string>
     <string name="backbutton">backButton</string>
     <string name="logout">Logout</string>
+    <string name="make_the_changes_start_now_today">make the changes, start now today.</string>
+    <string name="click_here_to_begin">click here to begin</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in">Log In</string>
+    <string name="email">Email</string>
 </resources>

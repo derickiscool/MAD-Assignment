@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OtherUserProfilePage">
+    tools:context=".OtherUserProfilePage"
+    android:background="@drawable/app_background_2">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar12"
@@ -24,6 +25,8 @@
         android:layout_marginTop="84dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/profile_picture"
+        android:background="#FFFFFF"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

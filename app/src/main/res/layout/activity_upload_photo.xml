@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background_2">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar11"
@@ -33,13 +34,13 @@
         android:layout_width="351dp"
         android:layout_height="354dp"
         android:layout_marginBottom="24dp"
+        android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@+id/choosefilebtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:srcCompat="@android:color/background_dark"
-        android:contentDescription="@string/todo" />
+        app:layout_constraintVertical_bias="0.81"
+        tools:srcCompat="@android:color/background_dark" />
 
     <Button
         android:id="@+id/choosefilebtn"

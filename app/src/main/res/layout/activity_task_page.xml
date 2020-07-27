@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskPage">
+    tools:context=".TaskPage"
+    android:background="@drawable/app_background_3">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar7"
@@ -31,21 +32,20 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="408dp"
-        android:layout_height="365dp"
+        android:layout_width="321dp"
+        android:layout_height="498dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTasks"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewTasks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/courgette"
         android:text="@string/tasks"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"

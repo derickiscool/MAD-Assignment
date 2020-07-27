@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/alert_otp_root"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright"
-    android:padding="9dp"
-    android:id="@+id/alert_otp_root">
+    android:background="@android:color/holo_purple"
+    android:orientation="vertical"
+    android:padding="9dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,6 +18,7 @@
             android:layout_margin="8dp"
             android:contentDescription="@string/logo"
             android:src="@drawable/logo" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,8 +44,8 @@
         android:id="@+id/otp_submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
-        android:onClick="verify"/>
+        android:onClick="verify"
+        android:text="@string/submit" />
 
 
 </LinearLayout>

@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AchievementPage">
+    tools:context=".AchievementPage"
+    android:background="@drawable/app_background_3">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar8"
         android:layout_width="422dp"
         android:layout_height="61dp"
+        android:layout_marginBottom="41dp"
         android:background="@android:color/holo_purple"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textViewAchievements"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/achievementbackButton"
@@ -35,19 +35,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="128dp"
         android:layout_marginTop="88dp"
+        android:layout_marginBottom="7dp"
+        android:fontFamily="@font/courgette"
         android:text="@string/achievements"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewAchievement"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAchievement"
-        android:layout_width="389dp"
-        android:layout_height="439dp"
+        android:layout_width="322dp"
+        android:layout_height="499dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAchievements"
-        app:layout_constraintVertical_bias="0.151" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Categories">
+    tools:context=".Categories"
+    android:background="@drawable/app_background_3">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/dashboardToolbar"
