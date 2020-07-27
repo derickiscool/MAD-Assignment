@@ -7,37 +7,42 @@
 
     <ImageView
         android:id="@+id/postImageView"
-        android:layout_width="408dp"
-        android:layout_height="288dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="18dp"
+        android:layout_width="395dp"
+        android:layout_height="278dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/picturepost"
         app:layout_constraintBottom_toTopOf="@+id/captionView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.176"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
         android:id="@+id/usernameView"
-        android:layout_width="143dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="7dp"
+        android:layout_width="145dp"
+        android:layout_height="23dp"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="256dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/postImageView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:textSize="58sp" />
 
     <TextView
         android:id="@+id/captionView"
-        android:layout_width="383dp"
-        android:layout_height="37dp"
+        android:layout_width="396dp"
+        android:layout_height="88dp"
         android:layout_marginStart="11dp"
         android:layout_marginEnd="17dp"
+        android:layout_marginBottom="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
         app:layout_constraintStart_toStartOf="parent"
         tools:textSize="48sp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

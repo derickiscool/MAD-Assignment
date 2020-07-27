@@ -1,11 +1,8 @@
 package sg.edu.np.mad_assignment;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,63 +17,41 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ProfilePage extends AppCompatActivity {
+public class OtherUserProfilePage extends AppCompatActivity {
 
     private TextView username, name, bio;
-    private Button editProfile;
-    private ImageButton dashboard;
+    private ImageButton backButton;
     private ImageView profilePic;
-    String myUsername;
-    final String TAG = "Profile Page";
-
-    public String GLOBAL_PREFS = "MyPrefs";
-    public String MY_USERNAME= "MyUsername";
-    SharedPreferences sharedPreferences;
-
+    String mUsername;
+    final String TAG = "Other Profile Page";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_page);
+        setContentView(R.layout.activity_other_user_profile_page);
 
-        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
-        myUsername= sharedPreferences.getString(MY_USERNAME, "");
-
-
-        username = findViewById(R.id.username);
-        name = findViewById(R.id.name);
-        bio = findViewById(R.id.bio);
-        profilePic = findViewById(R.id.profileImage);
-        editProfile = findViewById(R.id.editProfile);
-        dashboard = findViewById(R.id.backButton);
+        mUsername = getIntent().getStringExtra("Username");
 
 
+        username = findViewById(R.id.otherUsername);
+        name = findViewById(R.id.otherName);
+        bio = findViewById(R.id.otherBio);
+        profilePic = findViewById(R.id.otherPFPimage);
+        backButton = findViewById(R.id.otherBackButton);
 
         // Retrieve from database and set OnCreate
-        username.setText(String.valueOf("@" + myUsername));
-        setProfile(String.valueOf(myUsername));
+        username.setText(String.valueOf("@" + mUsername));
+        setProfile(String.valueOf(mUsername));
 
 
         Log.v(TAG, "Finished Profile Pre-Initialisation!");
 
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditProfilePage();
-            }
-        });
-        dashboard.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
     }
 
     @Override
@@ -90,13 +65,6 @@ public class ProfilePage extends AppCompatActivity {
         super.onStop();
         Log.d(TAG, "Stopped Profile Page!");
         finish();
-    }
-
-
-    private void EditProfilePage(){
-        Intent editPage = new Intent(ProfilePage.this, EditProfile.class);
-        startActivity(editPage);
-        Log.d(TAG, "Proceeding to edit page!");
     }
 
     private void setProfile(final String id) {
