@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TaskPage"
-    android:background="@drawable/app_background_3">
+    android:background="@drawable/task_background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar7"
@@ -32,10 +32,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="321dp"
-        android:layout_height="498dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="68dp"
+        android:layout_width="386dp"
+        android:layout_height="586dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -50,4 +50,5 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
