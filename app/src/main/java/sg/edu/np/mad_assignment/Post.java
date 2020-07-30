@@ -4,12 +4,14 @@ public class Post {
     private String mCaption;
     private String mImageUrl;
     private String mUsername;
+    private String mName;
+    private String mProfileUrl;
 
     public Post() {
         // empty constructor needed
     }
 
-    public  Post(String caption, String imageUrl, String username)
+    public  Post(String caption, String imageUrl, String username, String name, String profileUrl)
     {
         if(caption.trim().equals("")) // if there is no caption
         {
@@ -18,6 +20,8 @@ public class Post {
         mCaption = caption;
         mImageUrl = imageUrl;
         mUsername = username;
+        mName = name;
+        mProfileUrl = profileUrl;
     }
 
     public String getCaption()
@@ -43,6 +47,22 @@ public class Post {
     public void setUsername(String username)
     {
         mUsername = username;
+    }
+    public String getName()
+    {
+        return  mName;
+    }
+    public void setName(String name)
+    {
+        mName = name;
+    }
+    public String getProfileUrl()
+    {
+        return  mProfileUrl;
+    }
+    public void setProfileUrl(String profileUrl)
+    {
+        mProfileUrl = profileUrl;
     }
 
 }
