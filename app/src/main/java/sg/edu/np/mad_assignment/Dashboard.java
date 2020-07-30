@@ -33,8 +33,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout drawer;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceTasks;
-    private StorageReference mReferenceAchievements;
-    private FirebaseStorage mStorage;
+
 
     public String GLOBAL_PREFS = "MyPrefs";
     SharedPreferences sharedPreferences;
@@ -178,16 +177,22 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     //Create task list, links each achievement to task
     private ArrayList<Task> createListData(){
-        final ArrayList<Task> taskList = new ArrayList<>();
+        taskArrayList = new ArrayList<Task>();
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceTasks = mDatabase.getReference("Tasks");
+        mReferenceTasks = mDatabase.getReference().child("Tasks");
         mReferenceTasks.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
-                    Task task = new Task(snapshot.getValue(String.class));
-                    taskList.add(task);
+                    String taskName = snapshot.child("TaskName").getValue(String.class);
+                    Task task = new Task(taskName);
+                    String achievementName = snapshot.child("Achievement").getValue(String.class);
+                    Achievement achievement = new Achievement(achievementName);
+                    task.setAchievement(achievement);
+                    taskArrayList.add(task);
+
+
 
                 }
 
@@ -198,10 +203,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
             }
         });
-        mStorage = FirebaseStorage.getInstance();
-        mReferenceAchievements = mStorage.getReference("Achievements");
-        
-        Task t1 = new Task("Read a book");
+        return taskArrayList;
+
+
+        /*Task t1 = new Task("Read a book");
         Achievement ac1 = new Achievement(R.drawable.badge_readabook);
         t1.setAchievement(ac1);
         taskList.add(t1);
@@ -241,7 +246,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         t8.setAchievement(ac8);
         taskList.add(t8);
 
-        Task t9 = new Task("Clear the mail");
+            Task t9 = new Task("Clear the mail");
         Achievement ac9 = new Achievement(R.drawable.badge_clearmail);
         t9.setAchievement(ac9);
         taskList.add(t9);
@@ -296,7 +301,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         t19.setAchievement(ac19);
         taskList.add(t19);
 
-            Task t20 = new Task("Compose a song");
+        Task t20 = new Task("Compose a song");
         Achievement ac20 = new Achievement(R.drawable.badge_composesong);
         t20.setAchievement(ac20);
         taskList.add(t20);
@@ -319,8 +324,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         Task t24 = new Task("Encourage a friend with a Gift");
         Achievement ac24 = new Achievement(R.drawable.badge_encouragefriend);
         t24.setAchievement(ac24);
-        taskList.add(t24);
+        taskList.add(t24);*/
 
-        return taskList;
+
     }
 }

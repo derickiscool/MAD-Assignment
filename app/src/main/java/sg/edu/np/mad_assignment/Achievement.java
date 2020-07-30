@@ -1,7 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 public class Achievement {
-    private int imageID;
+    private String imageUrl;
     private String textAchieved;
     private Boolean isAchieved;
 
@@ -9,16 +9,16 @@ public class Achievement {
 
     }
 
-    public void Achievement(int imageID){
-        this.imageID = imageID;
+    public void Achievement(String imageUrl){
+        this.imageUrl = imageUrl;
     }
 
-    public int getImageID() {
-        return imageID;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
+    public void setImageID(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 
@@ -30,8 +30,8 @@ public class Achievement {
         this.isAchieved = isAchieved;
     }
 
-    public Achievement(int imageID){
-        this.imageID = imageID;
+    public Achievement(String imageUrl){
+        this.imageUrl = imageUrl;
         this.isAchieved = false;
     }
 }

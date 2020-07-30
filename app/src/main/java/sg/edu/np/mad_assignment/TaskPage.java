@@ -33,7 +33,7 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_profile_page, container, false);
+        return inflater.inflate(R.layout.activity_task_page, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //taskArrayList = new ArrayList<>();
+        Log.v(TAG,"Reached");
         taskArrayList = Dashboard.taskArrayList;
         taskAdaptor = new TaskAdaptor(this,taskArrayList);
         recyclerView.setAdapter(taskAdaptor);
