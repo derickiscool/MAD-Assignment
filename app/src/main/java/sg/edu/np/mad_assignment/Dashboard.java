@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,18 +18,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mReferenceTasks, mReferenceAchievements;
+    private DatabaseReference mReferenceTasks;
+    private StorageReference mReferenceAchievements;
+    private FirebaseStorage mStorage;
 
     public String GLOBAL_PREFS = "MyPrefs";
     SharedPreferences sharedPreferences;
@@ -43,57 +49,56 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
         sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar, R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        drawer.setFocusableInTouchMode(false);
         taskArrayList = createListData();
-
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         profile = (ImageButton) findViewById(R.id.profileButton);
         categories = (ImageButton) findViewById(R.id.categoriesButton);
         task = (ImageButton) findViewById(R.id.taskButton);
         achievements = (ImageButton) findViewById(R.id.achievementButton);
-        logout = (Button) findViewById(R.id.logoutButton);
-
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Moving to profile page");
-                Intent intent = new Intent(Dashboard.this, ProfilePage.class);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfilePage()).commit();
 
             }
         });
+
         categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Moving to categories page");
-                Intent intent = new Intent(Dashboard.this , Categories.class);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Categories()).commit();
             }
         });
         task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Moving to task page");
-                Intent intent = new Intent(Dashboard.this, TaskPage.class);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TaskPage()).commit();
+
             }
         });
         achievements.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Moving to achievements page");
-                Intent intent = new Intent(Dashboard.this, AchievementPage.class);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AchievementPage()).commit();
+
             }
         });
-        logout.setOnClickListener(new View.OnClickListener() {
+
+       /* logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(Dashboard.this);
@@ -120,11 +125,12 @@ public class Dashboard extends AppCompatActivity {
                 });
                 alert.show();
             }
-        });
+        });*/
 
     }
     @Override
     public void onBackPressed(){
+        Log.v(TAG,"Drawer is open! Closing!");
         if (drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -132,6 +138,34 @@ public class Dashboard extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch(menuItem.getItemId())
+        {
+            case R.id.nav_Profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfilePage()).commit();
+                break;
+            case R.id.nav_Tasks:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TaskPage()).commit();
+                break;
+
+
+            case R.id.nav_Achievements:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AchievementPage()).commit();
+                break;
+
+            case R.id.nav_Categories:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Categories()).commit();
+                break;
+
+
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
     protected void onStop(){
         Log.d(TAG,"Stopping application!");
         super.onStop();
@@ -144,13 +178,18 @@ public class Dashboard extends AppCompatActivity {
 
     //Create task list, links each achievement to task
     private ArrayList<Task> createListData(){
-        ArrayList<Task> taskList = new ArrayList<>();
+        final ArrayList<Task> taskList = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceTasks = mDatabase.getReference("Tasks");
         mReferenceTasks.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    Task task = new Task(snapshot.getValue(String.class));
+                    taskList.add(task);
 
+                }
 
             }
 
@@ -159,6 +198,9 @@ public class Dashboard extends AppCompatActivity {
 
             }
         });
+        mStorage = FirebaseStorage.getInstance();
+        mReferenceAchievements = mStorage.getReference("Achievements");
+        
         Task t1 = new Task("Read a book");
         Achievement ac1 = new Achievement(R.drawable.badge_readabook);
         t1.setAchievement(ac1);

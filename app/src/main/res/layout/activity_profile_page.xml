@@ -7,17 +7,6 @@
     tools:context=".ProfilePage"
     android:background="@drawable/app_background_2">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="422dp"
-        android:layout_height="61dp"
-        android:background="@android:color/holo_purple"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="184dp"
@@ -77,17 +66,5 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileImage" />
-
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="52dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:clickable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/abc_vector_test"
-        android:contentDescription="@string/backbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,42 +1,44 @@
 package sg.edu.np.mad_assignment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class AchievementPage extends AppCompatActivity {
+public class AchievementPage extends Fragment {
     RecyclerView recyclerView;
     ImageButton backButton;
     AchievementAdaptor achievementAdaptor;
     //ArrayList<Achievement> achievementArrayList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_achievement_page);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_achievement_page, container, false);
+    }
 
-        backButton = findViewById(R.id.achievementbackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewAchievement);
-        GridLayoutManager glm = new GridLayoutManager(this, 3);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+        View v = getView();
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewAchievement);
+        GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(glm);
         //achievementArrayList = new ArrayList<>();
         ArrayList<Task> taskList = Dashboard.taskArrayList;
         achievementAdaptor = new AchievementAdaptor(taskList);
         recyclerView.setAdapter(achievementAdaptor);
         //createListData();
-
 
 
     }

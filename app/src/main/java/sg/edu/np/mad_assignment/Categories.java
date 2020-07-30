@@ -3,38 +3,41 @@ package sg.edu.np.mad_assignment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class Categories extends AppCompatActivity {
+public class Categories extends Fragment {
 
     private Button foodButton, wellnessButton, healthButton;
-    private ImageButton backButton;
+
     final String TAG = "Categories";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_categories, container, false);
 
-        foodButton = findViewById(R.id.category_food);
-        wellnessButton = findViewById(R.id.category_wellness);
-        healthButton = findViewById(R.id.category_health);
-        backButton = findViewById(R.id.daashboardBackButton);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        View v =getView();
+        foodButton = v.findViewById(R.id.category_food);
+        wellnessButton = v.findViewById(R.id.category_wellness);
+        healthButton = v.findViewById(R.id.category_health);
 
         foodButton.setBackgroundResource(R.drawable.food);
         wellnessButton.setBackgroundResource(R.drawable.wellness);
         healthButton.setBackgroundResource(R.drawable.health);
 
         Log.v(TAG, "Finished Dashboard Pre-Initialisation!");
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
         foodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,41 +59,21 @@ public class Categories extends AppCompatActivity {
                 healthPage(); // moves to health feed
             }
         });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Proceeding back to Dashboard!");
-                finish(); // moves back to dashboard
-            }
-        });
-    }
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d(TAG, "Paused Application!");
     }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        Log.d(TAG, "Stopped Application!");
-        finish();
-    }
-
 
     private void foodPage(){
-        Intent advancePage = new Intent(Categories.this, foodFeed.class);
+        Intent advancePage = new Intent(getActivity(), foodFeed.class);
         startActivity(advancePage);
     }
 
     private void wellnessPage(){
-        Intent advancePage = new Intent(Categories.this, wellnessFeed.class);
+        Intent advancePage = new Intent(getActivity(), wellnessFeed.class);
         startActivity(advancePage);
     }
 
     private void healthPage(){
-        Intent advancePage = new Intent(Categories.this, healthFeed.class);
+        Intent advancePage = new Intent(getActivity(), healthFeed.class);
         startActivity(advancePage);
     }
 }

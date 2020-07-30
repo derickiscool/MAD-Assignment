@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ProfilePage extends AppCompatActivity {
+import static android.content.Context.MODE_PRIVATE;
+
+public class ProfilePage extends Fragment {
 
     private TextView username, name, bio;
     private Button editProfile;
@@ -34,21 +40,25 @@ public class ProfilePage extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_page);
 
-        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_profile_page, container, false);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View v = getView();
+
+        sharedPreferences = this.getActivity().getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
         myUsername= sharedPreferences.getString(MY_USERNAME, "");
 
 
-        username = findViewById(R.id.username);
-        name = findViewById(R.id.name);
-        bio = findViewById(R.id.bio);
-        profilePic = findViewById(R.id.profileImage);
-        editProfile = findViewById(R.id.editProfile);
-        dashboard = findViewById(R.id.backButton);
+        username = v.findViewById(R.id.username);
+        name = v.findViewById(R.id.name);
+        bio = v.findViewById(R.id.bio);
+        profilePic = v.findViewById(R.id.profileImage);
+        editProfile = v.findViewById(R.id.editProfile);
 
 
 
@@ -62,7 +72,7 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    public void onStart(){
         super.onStart();
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,31 +80,25 @@ public class ProfilePage extends AppCompatActivity {
                 EditProfilePage();
             }
         });
-        dashboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
     }
 
     @Override
-    protected void onPause(){
+    public void onPause(){
         super.onPause();
         Log.d(TAG, "Paused Profile Page!");
     }
 
     @Override
-    protected void onStop(){
+    public void onStop(){
         super.onStop();
         Log.d(TAG, "Stopped Profile Page!");
-        finish();
+
     }
 
 
     private void EditProfilePage(){
-        Intent editPage = new Intent(ProfilePage.this, EditProfile.class);
+        Intent editPage = new Intent(getActivity(), EditProfile.class);
         startActivity(editPage);
         Log.d(TAG, "Proceeding to edit page!");
     }

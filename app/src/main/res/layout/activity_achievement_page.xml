@@ -7,50 +7,27 @@
     tools:context=".AchievementPage"
     android:background="@drawable/app_background_3">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar8"
-        android:layout_width="422dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="41dp"
-        android:background="@android:color/holo_purple"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAchievements"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/achievementbackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/todo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/abc_vector_test" />
-
     <TextView
         android:id="@+id/textViewAchievements"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="7dp"
         android:fontFamily="@font/courgette"
         android:text="@string/achievements"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewAchievement"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAchievement"
         android:layout_width="346dp"
         android:layout_height="485dp"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="112dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

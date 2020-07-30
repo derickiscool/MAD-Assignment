@@ -4,10 +4,13 @@ package sg.edu.np.mad_assignment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +18,9 @@ import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInterface {
+import static android.app.Activity.RESULT_OK;
+
+public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
     RecyclerView recyclerView;
     ImageButton backButton;
     TaskAdaptor taskAdaptor;
@@ -27,19 +32,16 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_page);
+    public View onCreateView(LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_profile_page, container, false);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View v = getView();
 
-        backButton = findViewById(R.id.taskbackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //taskArrayList = new ArrayList<>();
         taskArrayList = Dashboard.taskArrayList;
         taskAdaptor = new TaskAdaptor(this,taskArrayList);
@@ -104,14 +106,14 @@ public class TaskPage extends AppCompatActivity implements TaskAdaptor.UploadInt
     @Override
     public void onUploadSuccessful(Task task, int position) {
         //starts UploadPhoto
-        Intent intent = new Intent(this, UploadPhoto.class);
+        Intent intent = new Intent(getActivity(), UploadPhoto.class);
         intent.putExtra("position", position);
         startActivityForResult(intent,1001);
         Log.v(TAG,"Starting UploadPhoto for result");
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==UPLOAD_IMAGE && resultCode==RESULT_OK && data != null)
         {
