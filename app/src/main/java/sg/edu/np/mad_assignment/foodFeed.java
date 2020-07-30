@@ -30,7 +30,7 @@ public class foodFeed extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private postAdapter mAdapter;
 
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef, pDatabaseRef;
     private List<Post> mPosts;
     final String TAG = "Food Feed";
 
@@ -49,6 +49,7 @@ public class foodFeed extends AppCompatActivity {
         mPosts = new ArrayList<>();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Food");
+        pDatabaseRef = FirebaseDatabase.getInstance().getReference("Member");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {  // listening for changes in the database
             @Override
@@ -60,6 +61,28 @@ public class foodFeed extends AppCompatActivity {
                     mPosts.add(post);
                 }
                 Collections.reverse(mPosts); // get latest post fist
+
+                for (final Post p : mPosts)
+                {
+                    pDatabaseRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String tempUsername = p.getUsername();
+                            if(dataSnapshot.child(tempUsername).child("name").getValue(String.class) != p.getName())
+                            {
+                                p.setName(dataSnapshot.child(tempUsername).child("name").getValue(String.class));
+                            }
+                            if(dataSnapshot.child(tempUsername).child("profilePicture").getValue(String.class) != p.getProfileUrl())
+                            {
+                                p.setProfileUrl(dataSnapshot.child(tempUsername).child("profilePicture").getValue(String.class));
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.d(TAG,"Unable to retrieve from database: " + databaseError.getMessage());
+                        }
+                    });
+                }
 
                 mAdapter = new postAdapter(foodFeed.this, mPosts);
 

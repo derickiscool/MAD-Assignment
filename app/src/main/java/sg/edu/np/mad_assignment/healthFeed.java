@@ -30,7 +30,7 @@ public class healthFeed extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private postAdapter mAdapter;
 
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef, pDatabaseRef;
     private List<Post> mPosts;
     final String TAG = "Health Feed";
 
@@ -50,6 +50,7 @@ public class healthFeed extends AppCompatActivity {
         mPosts = new ArrayList<>();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Health");
+        pDatabaseRef = FirebaseDatabase.getInstance().getReference("Member");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,6 +62,28 @@ public class healthFeed extends AppCompatActivity {
                     mPosts.add(post);
                 }
                 Collections.reverse(mPosts); // get latest post fist
+
+                for (final Post p : mPosts)
+                {
+                    pDatabaseRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String tempUsername = p.getUsername();
+                            if(dataSnapshot.child(tempUsername).child("name").getValue(String.class) != p.getName())
+                            {
+                                p.setName(dataSnapshot.child(tempUsername).child("name").getValue(String.class));
+                            }
+                            if(dataSnapshot.child(tempUsername).child("profilePicture").getValue(String.class) != p.getProfileUrl())
+                            {
+                                p.setProfileUrl(dataSnapshot.child(tempUsername).child("profilePicture").getValue(String.class));
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.d(TAG,"Unable to retrieve from database: " + databaseError.getMessage());
+                        }
+                    });
+                }
 
                 mAdapter = new postAdapter(healthFeed.this, mPosts);
 

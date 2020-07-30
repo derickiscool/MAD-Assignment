@@ -2,7 +2,6 @@ package sg.edu.np.mad_assignment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
 
@@ -45,11 +37,24 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
         final Post postCurrent = postList.get(position);
         holder.textViewCaption.setText("Caption: " + postCurrent.getCaption());
         holder.textViewUsername.setText("@ " + postCurrent.getUsername());
+        holder.textViewName.setText(postCurrent.getName());
         Picasso.get()
                 .load(postCurrent.getImageUrl())
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
+        if (postCurrent.getProfileUrl() == null || postCurrent.getProfileUrl().equals(""))
+        {
+            holder.pfpView.setImageResource(R.drawable.profile_icon);
+        }
+        else
+        {
+            Picasso.get()
+                    .load(postCurrent.getProfileUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(holder.pfpView);
+        }
         holder.textViewUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +71,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewCaption, textViewUsername;
+        public TextView textViewCaption, textViewUsername, textViewName;
         public ImageView imageView, pfpView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -75,24 +80,8 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
             textViewCaption = itemView.findViewById(R.id.captionView);
             textViewUsername = itemView.findViewById(R.id.usernameView);
             imageView = itemView.findViewById(R.id.postImageView);
+            textViewName = itemView.findViewById(R.id.nameView);
+            pfpView = itemView.findViewById(R.id.pfpView);
         }
-    }
-
-    public String getPFP(final String id)
-    {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Member");
-        final String[] currentURL = {""};
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { // listen for change in database
-                currentURL[0] = dataSnapshot.child(id).child("profilePicture").getValue(String.class);
-                Log.d(TAG, "PFP URL: " + currentURL[0]);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "Reading from database failed: " + databaseError.getCode());
-            }
-        });
-        return currentURL[0];
     }
 }

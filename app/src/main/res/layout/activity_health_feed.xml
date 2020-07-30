@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="176dp"
         android:layout_marginTop="16dp"
-        android:text="@string/health"
+        android:text="@string/fitness"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="24sp"
         android:fontFamily="@font/courgette"
