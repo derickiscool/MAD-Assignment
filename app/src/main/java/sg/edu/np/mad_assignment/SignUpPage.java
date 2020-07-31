@@ -55,16 +55,14 @@ public class SignUpPage extends AppCompatActivity {
                 userMail = etUserMail.getText().toString();
                 userPassword = etUserPassword.getText().toString();
                 userPhone = etUserPhone.getText().toString();
-                ArrayList<String>Tasks = new ArrayList<String>();
-                ArrayList<String>Achievements = new ArrayList<String>();
-                Tasks.add("TBA");
-                Achievements.add("TBA");
+                ArrayList<Task>Tasks = new ArrayList<Task>();
+                ArrayList<Achievement>Achievements = new ArrayList<Achievement>();
+                Tasks = MainActivity.taskArrayList;
                 Log.d(TAG,"Validating user input");
                 boolean check = checkUserInput(userName,userMail,userPassword,userPhone);
                 if (check){
                     member = new Member();
                     reference = FirebaseDatabase.getInstance().getReference().child("Member");
-
                     member.setEmail(userMail);
                     member.setUsername(userName);
                     member.setPassword(userPassword);

@@ -25,6 +25,7 @@ public class LoginPage extends AppCompatActivity{
     TextView signUp, forgotPassword;
     Button loginButton;
     EditText userId, userPassword;
+    private String userName;
 
     public String GLOBAL_PREFS = "MyPrefs";
     public String MY_USERNAME= "MyUsername";
@@ -57,7 +58,8 @@ public class LoginPage extends AppCompatActivity{
                 userId = (EditText) findViewById(R.id.userLoginID); //Receiving user input
                 userPassword = (EditText) findViewById(R.id.userPassword);
                 Log.d(TAG,"Checking for valid input!");
-                checkUserInput(userId.getText().toString(),userPassword.getText().toString());
+                userName = userId.getText().toString();
+                checkUserInput(userName,userPassword.getText().toString());
 
 
 
@@ -122,6 +124,7 @@ public class LoginPage extends AppCompatActivity{
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(MY_USERNAME, id.toString());
                         editor.apply();
+
                         Intent Dashboard = new Intent(LoginPage.this, Dashboard.class);
                         startActivity(Dashboard);
 
@@ -142,6 +145,9 @@ public class LoginPage extends AppCompatActivity{
             }
         });
 
+    }
+    public String getMyUsername(){
+        return userName;
     }
 
 

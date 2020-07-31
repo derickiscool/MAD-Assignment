@@ -52,7 +52,7 @@ public class ProfilePage extends Fragment {
 
         sharedPreferences = this.getActivity().getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
         myUsername= sharedPreferences.getString(MY_USERNAME, "");
-
+        Log.d(TAG,myUsername);
 
         username = v.findViewById(R.id.username);
         name = v.findViewById(R.id.name);

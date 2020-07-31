@@ -10,8 +10,8 @@ public class Member {
     private String Bio;
     private String Name;
     private String ProfilePicture;
-    private ArrayList<String> Tasks;
-    private ArrayList<String> Achievements;
+    private ArrayList<Task> Tasks;
+    private ArrayList<Achievement> Achievements;
 
     public Member(String name, String bio) {
         this.Name = name;
@@ -76,19 +76,19 @@ public class Member {
         ProfilePicture = profilePicture;
     }
 
-    public ArrayList<String> getAchievements() {
+    public ArrayList<Achievement> getAchievements() {
         return Achievements;
     }
 
-    public void setAchievements(ArrayList<String> achievements) {
+    public void setAchievements(ArrayList<Achievement> achievements) {
         Achievements = achievements;
     }
 
-    public ArrayList<String> getTasks() {
+    public ArrayList<Task> getTasks() {
         return Tasks;
     }
 
-    public void setTasks(ArrayList<String> tasks) {
+    public void setTasks(ArrayList<Task> tasks) {
         Tasks = tasks;
     }
 }

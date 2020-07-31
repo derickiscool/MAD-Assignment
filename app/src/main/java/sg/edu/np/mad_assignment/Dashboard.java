@@ -31,8 +31,7 @@ import java.util.ArrayList;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReferenceTasks;
+
 
 
     public String GLOBAL_PREFS = "MyPrefs";
@@ -42,7 +41,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private ImageButton profile, categories, task, achievements;
     private String tempUsername;
     private Button logout;
-    public static ArrayList<Task> taskArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         drawer.setFocusableInTouchMode(false);
-        taskArrayList = createListData();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -176,34 +174,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     //Create task list, links each achievement to task
-    private ArrayList<Task> createListData(){
-        taskArrayList = new ArrayList<Task>();
-        mDatabase = FirebaseDatabase.getInstance();
-        mReferenceTasks = mDatabase.getReference().child("Tasks");
-        mReferenceTasks.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren())
-                {
-                    String taskName = snapshot.child("TaskName").getValue(String.class);
-                    Task task = new Task(taskName);
-                    String achievementName = snapshot.child("Achievement").getValue(String.class);
-                    Achievement achievement = new Achievement(achievementName);
-                    task.setAchievement(achievement);
-                    taskArrayList.add(task);
 
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return taskArrayList;
 
 
         /*Task t1 = new Task("Read a book");
@@ -328,4 +299,4 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
 
     }
-}
+

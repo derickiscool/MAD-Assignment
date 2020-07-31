@@ -35,7 +35,7 @@ public class AchievementPage extends Fragment {
         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(glm);
         //achievementArrayList = new ArrayList<>();
-        ArrayList<Task> taskList = Dashboard.taskArrayList;
+        ArrayList<Task> taskList = MainActivity.taskArrayList;
         achievementAdaptor = new AchievementAdaptor(taskList);
         recyclerView.setAdapter(achievementAdaptor);
         //createListData();
