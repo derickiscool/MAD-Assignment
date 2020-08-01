@@ -36,10 +36,18 @@ public class SignUpPage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_page);
+
         Log.d(TAG, "Creating Sign Up Page!");
         registerButton = (Button) findViewById(R.id.registerButton);
         logIn = (TextView) findViewById(R.id.registerText2);
+
+        etUserName = (EditText) findViewById(R.id.registerUserName);
+        etUserMail = (EditText) findViewById(R.id.registerEmail);
+        etUserPassword = (EditText) findViewById(R.id.registerPassword);
+        etUserPhone = (EditText) findViewById(R.id.registerPhoneNumber);
+
         reference = FirebaseDatabase.getInstance().getReference("Member");
+
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,16 +62,12 @@ public class SignUpPage extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "Register Button Clicked!");
                 Log.d(TAG, "Retrieving user input!");
-                etUserName = (EditText) findViewById(R.id.registerUserName);
-                etUserMail = (EditText) findViewById(R.id.registerEmail);
-                etUserPassword = (EditText) findViewById(R.id.registerPassword);
-                etUserPhone = (EditText) findViewById(R.id.registerPhoneNumber);
                 userName = etUserName.getText().toString().trim();
                 userMail = etUserMail.getText().toString().trim();
                 userPassword = etUserPassword.getText().toString().trim();
                 userPhone = etUserPhone.getText().toString().trim();
-                ArrayList<Task> Tasks = new ArrayList<Task>();
-                ArrayList<Achievement> Achievements = new ArrayList<Achievement>();
+                ArrayList<Task> Tasks = new ArrayList<>();
+                ArrayList<Achievement> Achievements = new ArrayList<>();
                 Tasks = MainActivity.taskArrayList;
                 Log.d(TAG, "Validating user input");
                 boolean check = checkUserInput(userName, userMail, userPassword, userPhone);
@@ -85,8 +89,6 @@ public class SignUpPage extends AppCompatActivity {
                     Intent LogIn = new Intent(SignUpPage.this, LoginPage.class);
                     startActivity(LogIn);
                 }
-
-
             }
         });
 
@@ -105,24 +107,28 @@ public class SignUpPage extends AppCompatActivity {
     }
 
     private boolean checkUserInput(String Id, String Email, String Password, String Num) {
-        return (!validatePhone(Num) | !validateName(Id) | !validateEmail(Email) | !validatePassword(Password));
+        return (validatePhone(Num) && validateName(Id) && validateEmail(Email) && validatePassword(Password));
         //need to check if credentials are inside database!!!
 
     }
 
     private Boolean validateName(String id) {
-        if (id.isEmpty()) {
+        Boolean usernameExist = checkUsername(id);
+        Log.d(TAG, "Function return: " + usernameExist);
+        if (usernameExist) { // check if username exist in the database
+            etUserName.setError("Username has already been taken");
+            Log.d(TAG, "User Exists!");
+            return false;
+
+        } else if (id.length() > 15) {
+            etUserName.setError("Username must be less than 15 characters");
+            return false;
+
+        } else if(id.isEmpty()) {
             etUserName.setError("Field cannot be empty");
             return false;
-        } else if (id.length() > 15) {
-            etUserName.setError("Username too long");
-            return false;
 
-        } else if(checkUsername(id).equals(true)) {  // check if username exist in the database
-            etUserName.setError("Username is already taken!");
-            return false;
-
-        }else {
+        } else {
             etUserName.setError(null);
             return true;
         }
@@ -164,15 +170,16 @@ public class SignUpPage extends AppCompatActivity {
         }
     }
 
-    private Boolean checkUsername(final String id) {
+    private Boolean checkUsername(String id) {
         final Boolean[] usernameExist = {false};
         reference.child(id);
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren() != null)
+                if(dataSnapshot.exists())
                 {
                     usernameExist[0] = true;
+                    Log.d(TAG, "User exists in the database!");
                 }
             }
             @Override
@@ -180,6 +187,7 @@ public class SignUpPage extends AppCompatActivity {
                 Log.d(TAG,"Failed to read from database: " + databaseError.getMessage());
             }
         });
+        Log.d(TAG, "Type : " + usernameExist[0].getClass().getName());
         return usernameExist[0];
     }
 }
