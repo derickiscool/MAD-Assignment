@@ -23,11 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -50,7 +47,7 @@ public class wellnessUpload extends AppCompatActivity {
     private Uri imageUri;
 
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef, tDatabaseRef;
+    private DatabaseReference mDatabaseRef;
 
     private StorageTask mUploadTask;
 
@@ -75,7 +72,6 @@ public class wellnessUpload extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Posts");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Wellness");
-        tDatabaseRef = FirebaseDatabase.getInstance().getReference("Member");
 
         ButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,10 +167,8 @@ public class wellnessUpload extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     final String downloadUrl = uri.toString();
-                                    final String currentName = getCurrentName();
-                                    final String currentPFP = getCurrentPFP();
                                     Post post = new Post(EditTextCaption.getText().toString().trim(),
-                                            downloadUrl, String.valueOf(myUsername), currentName, currentPFP);
+                                            downloadUrl, String.valueOf(myUsername), "", "");
 
                                     String postId =  mDatabaseRef.push().getKey();
                                     mDatabaseRef.child(postId).setValue(post);
@@ -210,43 +204,6 @@ public class wellnessUpload extends AppCompatActivity {
                     });
         }
     }
-
-    private String getCurrentName()
-    {
-        final String[] tempName = {""};
-        tDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tempName[0] = dataSnapshot.child(myUsername).child("name").getValue(String.class);
-                Log.d(TAG,"Name: " + tempName[0]);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG,"Unable to retrieve from database: " + databaseError.getMessage());
-            }
-        });
-        return tempName[0];
-    }
-
-    private String getCurrentPFP()
-    {
-        final String[] tempPFP = {""};
-        tDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tempPFP[0] = dataSnapshot.child(myUsername).child("profilePicture").getValue(String.class);
-                Log.d(TAG,"PFP: " + tempPFP[0]);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG,"Unable to retrieve from database: " + databaseError.getMessage());
-            }
-        });
-        return tempPFP[0];
-    }
-
     protected void onStop(){
         Log.d(TAG,"Stopping application!");
         super.onStop();

@@ -1,8 +1,5 @@
 package sg.edu.np.mad_assignment;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,30 +9,15 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-
-
-
-    public String GLOBAL_PREFS = "MyPrefs";
-    SharedPreferences sharedPreferences;
 
     private static final String TAG = "Dashboard";
     private ImageButton profile, categories, task, achievements;
@@ -46,7 +28,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,35 +76,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         });
 
-       /* logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(Dashboard.this);
-                alert.setTitle("Logout");
-                alert.setMessage("Are you sure you want to logout?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences.Editor e = sharedPreferences.edit();
-                        e.clear();
-
-                        Intent logout = new Intent(Dashboard.this, MainActivity.class);
-                        startActivity(logout);
-                        Dashboard.this.finish();
-                        Log.d(TAG, "Logging Out!");
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        Log.d(TAG, "Logging Out Declined!");
-                    }
-                });
-                alert.show();
-            }
-        });*/
-
     }
     @Override
     public void onBackPressed(){
@@ -147,13 +99,16 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TaskPage()).commit();
                 break;
 
-
             case R.id.nav_Achievements:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AchievementPage()).commit();
                 break;
 
             case R.id.nav_Categories:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Categories()).commit();
+                break;
+
+            case R.id.nav_Logout:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Logout()).commit();
                 break;
 
 
