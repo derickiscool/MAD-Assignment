@@ -139,7 +139,7 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
                 String temp = String.valueOf(position);
 
                 reference = FirebaseDatabase.getInstance().getReference("Member").child(myUsername).child("tasks").child(temp);
-                reference.child("achievement").child("isAchieved").setValue("true");
+                reference.child("achievement").child("isAchieved").setValue(true);
                 //Gets task and sets isAchieved to true, achievement is gained
                 Log.v(TAG,"Task removed, achievement achieved.");
 
