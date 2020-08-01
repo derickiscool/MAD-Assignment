@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 public class Categories extends Fragment {
@@ -28,7 +26,7 @@ public class Categories extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        View v =getView();
+        View v = getView();
         foodButton = v.findViewById(R.id.category_food);
         wellnessButton = v.findViewById(R.id.category_wellness);
         healthButton = v.findViewById(R.id.category_health);

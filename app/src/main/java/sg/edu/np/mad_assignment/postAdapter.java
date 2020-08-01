@@ -33,7 +33,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final Post postCurrent = postList.get(position);
         holder.textViewCaption.setText("Caption: " + postCurrent.getCaption());
         holder.textViewUsername.setText("@ " + postCurrent.getUsername());
@@ -55,7 +55,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
                     .centerCrop()
                     .into(holder.pfpView);
         }
-        holder.textViewUsername.setOnClickListener(new View.OnClickListener() {
+        holder.pfpView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), OtherUserProfilePage.class);
@@ -72,7 +72,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewCaption, textViewUsername, textViewName;
-        public ImageView imageView, pfpView;
+        public ImageView imageView, pfpView, delete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +82,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.postImageView);
             textViewName = itemView.findViewById(R.id.nameView);
             pfpView = itemView.findViewById(R.id.pfpView);
+
         }
     }
 }
