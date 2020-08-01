@@ -146,9 +146,7 @@ public class LoginPage extends AppCompatActivity{
         });
 
     }
-    public String getMyUsername(){
-        return userName;
-    }
+
 
 
 

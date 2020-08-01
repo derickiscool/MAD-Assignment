@@ -1,25 +1,42 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class AchievementPage extends Fragment {
     RecyclerView recyclerView;
     ImageButton backButton;
     AchievementAdaptor achievementAdaptor;
     //ArrayList<Achievement> achievementArrayList;
+    private ArrayList<Task> taskList = new ArrayList<Task>();;
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String MY_USERNAME= "MyUsername";
+    SharedPreferences sharedPreferences;
+    String myUsername;
+    private static final String TAG = "AchievementPage";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -35,11 +52,46 @@ public class AchievementPage extends Fragment {
         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(glm);
         //achievementArrayList = new ArrayList<>();
-        ArrayList<Task> taskList = MainActivity.taskArrayList;
         achievementAdaptor = new AchievementAdaptor(taskList);
         recyclerView.setAdapter(achievementAdaptor);
-        //createListData();
+        taskList = createListData();
 
+
+    }
+    public ArrayList<Task> createListData()
+    {
+        sharedPreferences = this.getActivity().getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+        myUsername= sharedPreferences.getString(MY_USERNAME, "");
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference ref = db.getReference("Member").child(myUsername).child("tasks");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for( DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    Boolean isAchieved = (Boolean) snapshot.child("achievement").child("isAchieved").getValue();
+
+                    if (isAchieved)
+                    {
+                        String taskName = snapshot.child("text").getValue(String.class);
+                        Task task = new Task(taskName);
+                        String achievementName = snapshot.child("achievement").child("imageUrl").getValue(String.class);
+                        Achievement achievement2 = new Achievement(achievementName);
+                        task.setAchievement(achievement2);
+                        taskList.add(task);
+                        achievementAdaptor.notifyDataSetChanged();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        achievementAdaptor.notifyDataSetChanged();
+        return taskList;
 
     }
 
