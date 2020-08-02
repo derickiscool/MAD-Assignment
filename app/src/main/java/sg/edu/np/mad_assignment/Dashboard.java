@@ -75,6 +75,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
             }
         });
+        
 
     }
     @Override
@@ -92,6 +93,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId())
         {
+            case R.id.nav_Calendar:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new Calendar()).commit();
+                break;
+
             case R.id.nav_Profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfilePage()).commit();
                 break;
@@ -106,6 +111,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             case R.id.nav_Categories:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Categories()).commit();
                 break;
+
 
             case R.id.nav_Logout:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Logout()).commit();
