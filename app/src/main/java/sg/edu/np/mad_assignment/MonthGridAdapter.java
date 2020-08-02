@@ -54,7 +54,7 @@ public class MonthGridAdapter extends ArrayAdapter {
         }
         if (displayMonth == currentMonth)
         {
-            view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+            view.setBackgroundColor(Color.parseColor("#f7dff6"));
         }
         else{
             view.setBackgroundColor(Color.parseColor("#cccccc"));

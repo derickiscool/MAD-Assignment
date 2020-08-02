@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/date_background"
     >
 
     <EditText
@@ -16,7 +16,7 @@
         android:background="@android:color/white"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:hint="What goals do you want to achieve?"
+        android:hint="@string/what_goals_do_you_want_to_achieve"
         android:inputType="textShortMessage">
 
     </EditText>
@@ -29,9 +29,9 @@
         >
         <Button
             android:id="@+id/addEventButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Add Event"
+            android:text="@string/add_event"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:textColor="@android:color/black"
@@ -42,7 +42,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notify Me"
+            android:text="@string/notify_me"
             android:layout_margin="10dp"
             android:id="@+id/notifyMe">
 
