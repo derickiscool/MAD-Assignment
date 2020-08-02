@@ -1,6 +1,9 @@
 package sg.edu.np.mad_assignment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,30 +16,50 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class wellnessFeed extends AppCompatActivity {
+public class wellnessFeed extends AppCompatActivity implements postAdapter.OnItemClickListener {
+
+    /*
+     * This page contains code for the wellness feed, posts are retrieve from the database
+     * and displayed in the recycler view. If a user updates their profile picture/name
+     * it will be updated through the updateList function. User is also able to delete their own post
+     * from the recycler view through the database. On clicking the profile picture you are able to check the
+     * other user profile page.
+     */
 
     private ImageButton backButton;
     private Button wellnessUpload;
     private RecyclerView mRecyclerView;
     private postAdapter mAdapter;
 
+    private FirebaseStorage mStorage; // get references of image in our firebase storage
     private DatabaseReference mDatabaseRef, pDatabaseRef;
     private ArrayList<Post> mPosts = new ArrayList<>();
     final String TAG = "Wellness Feed";
+
+    String myUsername;
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String MY_USERNAME = "MyUsername";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wellness_feed);
+
+        sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+        myUsername = sharedPreferences.getString(MY_USERNAME, "");
 
         backButton = findViewById(R.id.wellnessbackButton);
         wellnessUpload = findViewById(R.id.wellnessUploadbutton);
@@ -45,6 +68,13 @@ public class wellnessFeed extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        mAdapter = new postAdapter(wellnessFeed.this, mPosts);
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(wellnessFeed.this);
+
+        mStorage = FirebaseStorage.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Wellness");
         pDatabaseRef = FirebaseDatabase.getInstance().getReference("Member");
 
@@ -55,15 +85,11 @@ public class wellnessFeed extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
                     Post post = postSnapshot.getValue(Post.class);
+                    post.setKey(postSnapshot.getKey());
                     mPosts.add(post);
                 }
                 Collections.reverse(mPosts); // get latest post fist
-
                 updateList(mPosts); // see if users update name or pfp
-
-                mAdapter = new postAdapter(wellnessFeed.this, mPosts);
-
-                mRecyclerView.setAdapter(mAdapter);
 
                 Log.d(TAG, "Wellness Feed!");
             }
@@ -75,6 +101,43 @@ public class wellnessFeed extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onItemClickListener(int position) {
+        final Post selectedItem = mPosts.get(position);
+        final String selectedKey = selectedItem.getKey();
+
+        if (myUsername.equals(selectedItem.getUsername())) { // post belongs to user
+            AlertDialog.Builder alert = new AlertDialog.Builder(wellnessFeed.this);
+            alert.setTitle("Delete Post");
+            alert.setMessage("Are you sure you want to delete this post?");
+            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    StorageReference imageRef = mStorage.getReferenceFromUrl(selectedItem.getImageUrl());
+                    imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() { // able to delete picture from firebase storage
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            mDatabaseRef.child(selectedKey).removeValue();
+                            Toast.makeText(wellnessFeed.this, "Item deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Log.d(TAG, "Item Deleted!");
+                }
+            });
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    Log.d(TAG, "Request Declined!");
+                }
+            });
+            alert.show();
+        }
+        else{
+            Toast.makeText(wellnessFeed.this, "You are not allowed to delete this post!", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     @Override
     protected void onStart(){

@@ -24,6 +24,14 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private String tempUsername;
     private Button logout;
 
+    /*
+    * This is the main code area for dashboard
+    * stored here are the buttons for the dashboard which is the task, achievements,
+    * categories, profile and logout respectively
+    * OnBack stores the fragment so that when the button is clicked it will call
+    * upon the fragment for each page respectively
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,131 +141,5 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         Log.d(TAG,"Pausing Application!");
         super.onPause();
     }
-
-    //Create task list, links each achievement to task
-
-
-
-        /*Task t1 = new Task("Read a book");
-        Achievement ac1 = new Achievement(R.drawable.badge_readabook);
-        t1.setAchievement(ac1);
-        taskList.add(t1);
-
-        Task t2 = new Task("Listen to a podcast");
-        Achievement ac2 = new Achievement(R.drawable.badge_podcast);
-        t2.setAchievement(ac2);
-        taskList.add(t2);
-
-        Task t3 = new Task("Watch the news");
-        Achievement ac3 = new Achievement(R.drawable.badge_news);
-        t3.setAchievement(ac3);
-        taskList.add(t3);
-
-        Task t4 = new Task("Clean your room");
-        Achievement ac4 = new Achievement(R.drawable.badge_cleanroom);
-        t4.setAchievement(ac4);
-        taskList.add(t4);
-
-        Task t5 = new Task("Tidy your bed");
-        Achievement ac5 = new Achievement(R.drawable.badge_cleanbed);
-        t5.setAchievement(ac5);
-        taskList.add(t5);
-
-        Task t6 = new Task("Wash your clothes");
-        Achievement ac6 = new Achievement(R.drawable.badge_washclothes);
-        t6.setAchievement(ac6);
-        taskList.add(t6);
-
-        Task t7 = new Task("Fold clothing");
-        Achievement ac7 = new Achievement(R.drawable.badge_foldclothes);
-        t7.setAchievement(ac7);
-        taskList.add(t7);
-
-        Task t8 = new Task("Organize your belongings");
-        Achievement ac8 = new Achievement(R.drawable.badge_organizethings);
-        t8.setAchievement(ac8);
-        taskList.add(t8);
-
-            Task t9 = new Task("Clear the mail");
-        Achievement ac9 = new Achievement(R.drawable.badge_clearmail);
-        t9.setAchievement(ac9);
-        taskList.add(t9);
-
-        Task t10 = new Task("Create a meal plan");
-        Achievement ac10 = new Achievement(R.drawable.badge_mealplan);
-        t10.setAchievement(ac10);
-        taskList.add(t10);
-
-        Task t11 = new Task("Exercise");
-        Achievement ac11 = new Achievement(R.drawable.badge_exercise);
-        t11.setAchievement(ac11);
-        taskList.add(t11);
-
-        Task t12 = new Task("Meditate");
-        Achievement ac12 = new Achievement(R.drawable.badge_meditate);
-        t12.setAchievement(ac12);
-        taskList.add(t12);
-
-        Task t13 = new Task("Pick up a new skill");
-        Achievement ac13 = new Achievement(R.drawable.badge_newskill);
-        t13.setAchievement(ac13);
-        taskList.add(t13);
-
-        Task t14 = new Task("Learn to cook something new");
-        Achievement ac14 = new Achievement(R.drawable.badge_cookanewdish);
-        t14.setAchievement(ac14);
-        taskList.add(t14);
-
-        Task t15 = new Task("Learn a new language");
-        Achievement ac15 = new Achievement(R.drawable.badge_newlanguage);
-        t15.setAchievement(ac15);
-        taskList.add(t15);
-
-        Task t16 = new Task("Learn to play a new musical instrument");
-        Achievement ac16 = new Achievement(R.drawable.badge_newinstrument);
-        t16.setAchievement(ac16);
-        taskList.add(t16);
-
-        Task t17 = new Task("Learn to draw");
-        Achievement ac17 = new Achievement(R.drawable.badge_learntodraw);
-        t17.setAchievement(ac17);
-        taskList.add(t17);
-
-        Task t18 = new Task("Learn to paint");
-        Achievement ac18 = new Achievement(R.drawable.badge_learntopaint);
-        t18.setAchievement(ac18);
-        taskList.add(t18);
-
-        Task t19 = new Task("Wash the dishes");
-        Achievement ac19 = new Achievement(R.drawable.badge_washdishes);
-        t19.setAchievement(ac19);
-        taskList.add(t19);
-
-        Task t20 = new Task("Compose a song");
-        Achievement ac20 = new Achievement(R.drawable.badge_composesong);
-        t20.setAchievement(ac20);
-        taskList.add(t20);
-
-        Task t21 = new Task("Call a friend");
-        Achievement ac21 = new Achievement(R.drawable.badge_callfriend);
-        t21.setAchievement(ac21);
-        taskList.add(t21);
-
-        Task t22 = new Task("Do a reflection on a piece of paper");
-        Achievement ac22 = new Achievement(R.drawable.badge_reflection);
-        t22.setAchievement(ac22);
-        taskList.add(t22);
-
-        Task t23 = new Task("Buy food for the family or yourself");
-        Achievement ac23 = new Achievement(R.drawable.badge_buyfood);
-        t23.setAchievement(ac23);
-        taskList.add(t23);
-
-        Task t24 = new Task("Encourage a friend with a Gift");
-        Achievement ac24 = new Achievement(R.drawable.badge_encouragefriend);
-        t24.setAchievement(ac24);
-        taskList.add(t24);*/
-
-
-    }
+}
 

@@ -34,6 +34,12 @@ import com.google.firebase.storage.UploadTask;
 
 public class foodUpload extends AppCompatActivity {
 
+    /*
+     * This page contains code for the food upload, where user can upload
+     * their post containing their caption and image.The post will be uploaded into
+     * the database under posts/food
+     */
+
     final String TAG = "Food/ Upload post";
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -97,7 +103,7 @@ public class foodUpload extends AppCompatActivity {
                 {
                     AlertDialog.Builder alert = new AlertDialog.Builder(foodUpload.this);
                     alert.setTitle("Upload Post");
-                    alert.setMessage("Are you sure you want to post? You will not be able to delete your post!");
+                    alert.setMessage("Are you sure you want to upload this post?");
                     alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

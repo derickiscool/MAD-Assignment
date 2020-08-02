@@ -23,6 +23,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+/*
+* This page contains the code for the upload feature for the task in the tasks page
+* upon pressing the upload button on a single task, it will load this page along with the code
+* once they press choose photo, it will direct them to either their gallery or drive
+* upon choosing and uploading the image, it will successfully upload into the database
+* and the task will be cleared while the achievement will show "obtained!"
+*/
+
 public class UploadPhoto extends AppCompatActivity {
     Button cfb, upimg, gotoup;
     ImageButton backButton;

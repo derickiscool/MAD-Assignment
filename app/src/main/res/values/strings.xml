@@ -64,7 +64,7 @@
     <string name="back_button">Back button</string>
     <string name="fitness">Fitness</string>
     <string name="delete">delete</string>
-    
+    <string name="menu">menu</string>
     <string-array name="months">
         <item>January</item>
         <item>February</item>
@@ -80,4 +80,5 @@
         <item>December</item>
 
     </string-array>
+
 </resources>

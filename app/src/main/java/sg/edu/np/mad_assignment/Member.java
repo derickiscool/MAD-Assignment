@@ -13,9 +13,17 @@ public class Member {
     private ArrayList<Task> Tasks;
     private ArrayList<Achievement> Achievements;
 
-    public Member(String name, String bio) {
+    public Member(String name, String bio, String num, String username, String email, String password, String pfp, ArrayList<Task> tList, ArrayList<Achievement> aList)
+    {
+        this.PhoneNumber = num;
+        this.Username = username;
+        this.Email = email;
+        this.Password = password;
         this.Name = name;
         this.Bio = bio;
+        this.ProfilePicture = pfp;
+        this.Tasks = tList;
+        this.Achievements = aList;
     }
 
     public Member(){ }

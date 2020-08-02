@@ -19,6 +19,11 @@ import com.squareup.picasso.Picasso;
 
 public class OtherUserProfilePage extends AppCompatActivity {
 
+    /*
+     * This page contains code for viewing other peoples' profile when user clicked
+     * on the pfp from the feeds.
+     */
+
     private TextView username, name, bio;
     private ImageButton backButton;
     private ImageView profilePic;

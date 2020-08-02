@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,9 +26,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ProfilePage extends Fragment {
 
+    /*
+     * This page contains code for the profile page,the user is able to view their
+     * profile picture, name and bio.This info is retrieved from the database.
+     * They can edit this by clicking on the edit profile button.
+     */
+
     private TextView username, name, bio;
     private Button editProfile;
-    private ImageButton dashboard;
     private ImageView profilePic;
     String myUsername;
     final String TAG = "Profile Page";
