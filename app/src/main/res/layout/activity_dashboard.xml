@@ -45,27 +45,27 @@
                 android:id="@+id/achievementButton"
                 android:layout_width="190dp"
                 android:layout_height="170dp"
-                android:layout_marginStart="11dp"
-                android:layout_marginTop="168dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="152dp"
+                android:background="@null"
                 android:contentDescription="@string/achievements"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/achievements_icon"
-                android:background="@null"/>
+                app:srcCompat="@drawable/achievements_icon" />
 
             <ImageButton
                 android:id="@+id/categoriesButton"
                 android:layout_width="190dp"
                 android:layout_height="170dp"
-                android:layout_marginTop="54dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="11dp"
+                android:background="@null"
                 android:contentDescription="@string/categories"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.583"
                 app:layout_constraintStart_toEndOf="@+id/achievementButton"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
-                app:srcCompat="@drawable/discover_icon"
-                android:background="@null" />
+                app:srcCompat="@drawable/discover_icon" />
 
             <ImageButton
                 android:id="@+id/profileButton"
@@ -81,17 +81,31 @@
 
             <ImageButton
                 android:id="@+id/taskButton"
-                android:layout_width="190dp"
-                android:layout_height="170dp"
+                android:layout_width="192dp"
+                android:layout_height="168dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="11dp"
+                android:background="@null"
                 android:contentDescription="@string/task"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/profileButton"
                 app:layout_constraintTop_toBottomOf="@+id/categoriesButton"
-                app:srcCompat="@drawable/task_icon"
-                android:background="@null"/>
+                app:srcCompat="@drawable/task_icon" />
+
+            <ImageButton
+                android:id="@+id/calenderButton"
+                android:layout_width="147dp"
+                android:layout_height="167dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="492dp"
+                android:layout_marginEnd="8dp"
+                android:background="@null"
+                android:contentDescription="@string/calender"
+                app:layout_constraintEnd_toStartOf="@+id/taskButton"
+                app:layout_constraintStart_toEndOf="@+id/profileButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/calender_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

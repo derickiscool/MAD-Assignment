@@ -20,7 +20,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout drawer;
 
     private static final String TAG = "Dashboard";
-    private ImageButton profile, categories, task, achievements;
+    private ImageButton profile, categories, task, achievements, calender;
     private String tempUsername;
     private Button logout;
 
@@ -52,6 +52,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         categories = (ImageButton) findViewById(R.id.categoriesButton);
         task = (ImageButton) findViewById(R.id.taskButton);
         achievements = (ImageButton) findViewById(R.id.achievementButton);
+        calender = (ImageButton) findViewById(R.id.calenderButton);
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +82,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AchievementPage()).commit();
 
+            }
+        });
+        calender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Calendar()).commit();
             }
         });
         

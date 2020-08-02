@@ -65,6 +65,20 @@
     <string name="fitness">Fitness</string>
     <string name="delete">delete</string>
     <string name="menu">menu</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="wed">WED</string>
+    <string name="tues">TUES</string>
+    <string name="thur">THUR</string>
+    <string name="sat">SAT</string>
+    <string name="fri">FRI</string>
+    <string name="calender">calender</string>
+    <string name="date">Date</string>
+    <string name="event">Event</string>
+    <string name="_1">1</string>
+    <string name="what_goals_do_you_want_to_achieve">What goals do you want to achieve?</string>
+    <string name="add_event">Add Event</string>
+    <string name="notify_me">Notify Me</string>
     <string-array name="months">
         <item>January</item>
         <item>February</item>

@@ -3,7 +3,7 @@
     android:id="@+id/alert_otp_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple"
+    android:background="@drawable/date_background"
     android:orientation="vertical"
     android:padding="9dp">
 

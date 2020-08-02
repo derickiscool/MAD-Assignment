@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="1dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/calender_header"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -20,7 +20,7 @@
             android:id="@+id/month_Spinner"
             android:layout_width="129dp"
             android:layout_height="match_parent"
-            android:entries="@array/months"/>
+            android:entries="@array/months" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="SUN"
+            android:text="@string/sun"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="MON"
+            android:text="@string/mon"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TUES"
+            android:text="@string/tues"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="WED"
+            android:text="@string/wed"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="THUR"
+            android:text="@string/thur"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="FRI"
+            android:text="@string/fri"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="SAT"
+            android:text="@string/sat"
             android:background="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -107,14 +107,11 @@
         android:id="@+id/month_grid"
         android:numColumns="7">
     </GridView>
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
-
-
-
-
+        android:background="@drawable/calender_footer">
     </LinearLayout>
 
 </LinearLayout>
