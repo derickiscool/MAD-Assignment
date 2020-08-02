@@ -1,5 +1,6 @@
 package sg.edu.np.mad_assignment;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,12 @@ import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +53,8 @@ public class Calendar extends Fragment {
     SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.ENGLISH);
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd",Locale.ENGLISH);
     private static final String TAG = "Calendar";
+    DatabaseReference db =FirebaseDatabase.getInstance().getReference("Member");
+
 
 
 
@@ -140,6 +149,26 @@ public class Calendar extends Fragment {
             }
         });
     }
+   /* private ArrayList<CalendarTask> CollectTaskByDate (String datee)
+    {
+        ArrayList<CalendarTask> arrayList = new ArrayList<>();
+
+        DatabaseReference ref = db.child("completedTasks");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    snapshot1.child("dateComplete").getValue(String.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }*/
 
 
 

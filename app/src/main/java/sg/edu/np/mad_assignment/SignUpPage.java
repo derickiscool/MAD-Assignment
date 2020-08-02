@@ -76,7 +76,7 @@ public class SignUpPage extends AppCompatActivity {
                 userPassword = etUserPassword.getText().toString().trim();
                 userPhone = etUserPhone.getText().toString().trim();
                 ArrayList<Task> Tasks = new ArrayList<>();
-                ArrayList<Achievement> Achievements = new ArrayList<>();
+                ArrayList<CalendarTask> completedTasks = new ArrayList<>();
                 Tasks = MainActivity.taskArrayList;
                 Log.d(TAG, "Validating user input");
                 boolean check = checkUserInput(userName, userMail, userPassword, userPhone);
@@ -87,7 +87,7 @@ public class SignUpPage extends AppCompatActivity {
                     member.setPassword(userPassword);
                     member.setPhoneNumber(userPhone);
                     member.setTasks(Tasks);
-                    member.setAchievements(Achievements);
+                    member.setCompletedTasks(completedTasks);
                     member.setBio("");
                     member.setName("");
                     member.setProfilePicture("");

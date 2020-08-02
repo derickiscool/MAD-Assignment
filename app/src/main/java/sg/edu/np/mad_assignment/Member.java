@@ -11,9 +11,9 @@ public class Member {
     private String Name;
     private String ProfilePicture;
     private ArrayList<Task> Tasks;
-    private ArrayList<Achievement> Achievements;
+    private ArrayList<CalendarTask> CompletedTasks;
 
-    public Member(String name, String bio, String num, String username, String email, String password, String pfp, ArrayList<Task> tList, ArrayList<Achievement> aList)
+    public Member(String name, String bio, String num, String username, String email, String password, String pfp, ArrayList<Task> tList, ArrayList<CalendarTask> cList)
     {
         this.PhoneNumber = num;
         this.Username = username;
@@ -23,7 +23,7 @@ public class Member {
         this.Bio = bio;
         this.ProfilePicture = pfp;
         this.Tasks = tList;
-        this.Achievements = aList;
+        this.CompletedTasks = cList;
     }
 
     public Member(){ }
@@ -84,12 +84,12 @@ public class Member {
         ProfilePicture = profilePicture;
     }
 
-    public ArrayList<Achievement> getAchievements() {
-        return Achievements;
+    public ArrayList<CalendarTask> getCompletedTasks() {
+        return CompletedTasks;
     }
 
-    public void setAchievements(ArrayList<Achievement> achievements) {
-        Achievements = achievements;
+    public void setCompletedTasks(ArrayList<CalendarTask> completedTasks) {
+        CompletedTasks = completedTasks;
     }
 
     public ArrayList<Task> getTasks() {

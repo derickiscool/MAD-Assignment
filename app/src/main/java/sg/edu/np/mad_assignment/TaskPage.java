@@ -26,7 +26,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -45,6 +48,7 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
     public String GLOBAL_PREFS = "MyPrefs";
     public String MY_USERNAME= "MyUsername";
     SharedPreferences sharedPreferences;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd", Locale.ENGLISH);
 
 
     @Override
@@ -137,9 +141,27 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
             int position = data.getIntExtra(POSITION_KEY, -1);
             if(position != -1) {
                 String temp = String.valueOf(position);
-
-                reference = FirebaseDatabase.getInstance().getReference("Member").child(myUsername).child("tasks").child(temp);
+                final DatabaseReference db = FirebaseDatabase.getInstance().getReference("Member");
+                reference = db.child(myUsername).child("tasks").child(temp);
                 reference.child("achievement").child("isAchieved").setValue(true);
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String taskName = snapshot.child("text").getValue(String.class);
+                        String date = dateFormat.format(Calendar.getInstance().getTime());
+                        CalendarTask task = new CalendarTask(taskName,date);
+                        db.child(myUsername).child("completedTasks").push().setValue(task);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
                 //Gets task and sets isAchieved to true, achievement is gained
                 Log.v(TAG,"Task removed, achievement achieved.");
 
