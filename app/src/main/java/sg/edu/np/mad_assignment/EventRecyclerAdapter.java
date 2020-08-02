@@ -1,9 +1,11 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     Context context;
     ArrayList<Events> arrayList;
+    DBOpenHelper dbOpenHelper;
 
     public EventRecyclerAdapter(Context context, ArrayList<Events> arrayList) {
         this.context = context;
@@ -30,9 +33,21 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Events events = arrayList.get(position);
+        final Events events = arrayList.get(position);
         holder.Event.setText(events.getEVENT());
         holder.DateTxt.setText(events.getDATE());
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteCalendarEvent(events.getEVENT(),events.getDATE());
+                arrayList.remove(events);
+                notifyDataSetChanged();
+
+
+
+
+            }
+        });
 
     }
 
@@ -44,12 +59,23 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView DateTxt,Event;
+        Button deleteButton;
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             DateTxt = itemView.findViewById(R.id.eventDate);
             Event = itemView.findViewById(R.id.eventName);
+            deleteButton = itemView.findViewById(R.id.deleteEvent);
 
         }
+    }
+    private void deleteCalendarEvent(String event,String date)
+    {
+        dbOpenHelper = new DBOpenHelper(context);
+        SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
+        dbOpenHelper.deleteEvent(event,date,database);
+        dbOpenHelper.close();
+
+
     }
 }

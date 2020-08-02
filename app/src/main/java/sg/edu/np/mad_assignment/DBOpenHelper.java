@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 public class DBOpenHelper extends SQLiteOpenHelper {
 
     private final static String CREATE_EVENTS_TABLE = "create table " + DBStructure.EVENT_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            +DBStructure.EVENT + " TEXT, " +DBStructure.TIME + " TEXT, " +DBStructure.DATE+ " TEXT, " +DBStructure.MONTH + " TEXT)";
+            +DBStructure.EVENT + " TEXT, "  +DBStructure.DATE+ " TEXT, " +DBStructure.MONTH + " TEXT)";
     private final static String DROP_EVENTS_TABLE= "DROP TABLE IF EXISTS "+DBStructure.EVENT_TABLE_NAME;
 
     public DBOpenHelper(@Nullable Context context) {
@@ -40,17 +40,22 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
     public Cursor ReadEvents(String date, SQLiteDatabase database){
-        String [] Projections = {DBStructure.EVENT,DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH};
+        String [] Projections = {DBStructure.EVENT,DBStructure.DATE,DBStructure.MONTH};
         String Selection = DBStructure.DATE +"=?";
         String [] SelectionArgs = {date};
 
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
     }
     public Cursor ReadEventsperMonth(String month,SQLiteDatabase database){
-        String [] Projections = {DBStructure.EVENT,DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,};
+        String [] Projections = {DBStructure.EVENT,DBStructure.DATE,DBStructure.MONTH,};
         String Selection = DBStructure.MONTH +"=?";
         String [] SelectionArgs = {month};
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
+    }
+    public void deleteEvent(String event,String date,SQLiteDatabase database){
+        String selection = DBStructure.EVENT+"=? and "+DBStructure.DATE+"=?";
+        String[] selectionArg = {event,date};
+        database.delete(DBStructure.EVENT_TABLE_NAME,selection,selectionArg);
     }
 
 }

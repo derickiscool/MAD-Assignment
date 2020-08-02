@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -127,6 +128,12 @@ public class Calendar extends Fragment {
                builder.setView(view1);
                alertDialog = builder.create();
                alertDialog.show();
+               alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                   @Override
+                   public void onCancel(DialogInterface dialog) {
+                       SetUpCalendar();
+                   }
+               });
 
                return true;
 
@@ -142,16 +149,13 @@ public class Calendar extends Fragment {
         dbOpenHelper = new DBOpenHelper(getActivity());
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor =dbOpenHelper.ReadEvents(datee,database);
-        Log.d(TAG,"FIRST");
         while (cursor.moveToNext())
         {
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
-            String time = cursor.getString(cursor.getColumnIndex(DBStructure.TIME));
             String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
             String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
-            Events events = new Events(event,time,date,month);
+            Events events = new Events(event,date,month);
             arrayList.add(events);
-            Log.d(TAG,"Event added!" +events.getEVENT());
 
 
         }
@@ -192,10 +196,9 @@ public class Calendar extends Fragment {
         Cursor cursor = dbOpenHelper.ReadEventsperMonth(cursorMonth,database);
         while (cursor.moveToNext()){
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
-            String time = cursor.getString(cursor.getColumnIndex(DBStructure.TIME));
             String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
             String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
-            Events events = new Events(event,time,date,month);
+            Events events = new Events(event,date,month);
             eventList.add(events);
 
         }

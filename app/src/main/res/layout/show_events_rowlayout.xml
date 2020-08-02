@@ -33,6 +33,15 @@
                 android:text="Event"
                 android:textSize="40dp"
                 />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:id="@+id/deleteEvent">
+
+            </Button>
+
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -1,7 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 public class Events {
-    String EVENT,TIME,DATE,MONTH;
+    String EVENT,DATE,MONTH;
 
     public String getEVENT() {
         return EVENT;
@@ -11,13 +11,6 @@ public class Events {
         this.EVENT = EVENT;
     }
 
-    public String getTIME() {
-        return TIME;
-    }
-
-    public void setTIME(String TIME) {
-        this.TIME = TIME;
-    }
 
     public String getDATE() {
         return DATE;
@@ -36,9 +29,8 @@ public class Events {
     }
 
 
-    public Events(String EVENT, String TIME, String DATE, String MONTH) {
+    public Events(String EVENT, String DATE, String MONTH) {
         this.EVENT = EVENT;
-        this.TIME = TIME;
         this.DATE = DATE;
         this.MONTH = MONTH;
     }
