@@ -50,6 +50,7 @@ public class Calendar extends Fragment {
     private MonthGridAdapter monthGridAdapter;
     private ArrayList<Date> dates = new ArrayList<>();
     private ArrayList<Events>eventList = new ArrayList<>();
+    private ArrayList<CalendarTask>tasksList = new ArrayList<>();
     SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.ENGLISH);
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd",Locale.ENGLISH);
     private static final String TAG = "Calendar";
@@ -126,13 +127,23 @@ public class Calendar extends Fragment {
                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                builder.setCancelable(true);
                View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.show_events_tasks_layout,parent,false);
+               Log.d(TAG,"1");
                RecyclerView eventsRecycler = view1.findViewById(R.id.EventsRV);
                EventRecyclerAdapter eventRecyclerAdapter = new EventRecyclerAdapter(getActivity(),CollectEventByDate(date));
                eventsRecycler.setAdapter(eventRecyclerAdapter);
-               GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
+               GridLayoutManager glm = new GridLayoutManager(getActivity(), 1);
                eventsRecycler.setLayoutManager(glm);
                eventsRecycler.setHasFixedSize(true);
                eventRecyclerAdapter.notifyDataSetChanged();
+               RecyclerView tasksRecycler = view1.findViewById(R.id.TasksRV);
+                Log.d(TAG,"2");
+               CalendarTaskRecyclerAdapter calendarTaskRecyclerAdapter = new CalendarTaskRecyclerAdapter(getActivity(),CollectTaskByDate(date));
+                Log.d(TAG,"3");
+               tasksRecycler.setAdapter(eventRecyclerAdapter);
+               GridLayoutManager glm2 = new GridLayoutManager(getActivity(),1);
+               tasksRecycler.setLayoutManager(glm2);
+               tasksRecycler.setHasFixedSize(true);
+               calendarTaskRecyclerAdapter.notifyDataSetChanged();
 
                builder.setView(view1);
                alertDialog = builder.create();
@@ -149,16 +160,23 @@ public class Calendar extends Fragment {
             }
         });
     }
-   /* private ArrayList<CalendarTask> CollectTaskByDate (String datee)
+    private ArrayList<CalendarTask> CollectTaskByDate (String datee)
     {
-        ArrayList<CalendarTask> arrayList = new ArrayList<>();
+        final ArrayList<CalendarTask> arrayList = new ArrayList<>();
 
         DatabaseReference ref = db.child("completedTasks");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    snapshot1.child("dateComplete").getValue(String.class);
+                    String date = snapshot1.child("dateComplete").getValue(String.class);
+                    if (date == dateFormat.format(java.util.Calendar.getInstance().getTime()))
+                    {
+                        CalendarTask task = snapshot1.getValue(CalendarTask.class);
+                        Log.d(TAG, "Task Added!" + task.getTaskName());
+
+                        arrayList.add(task);
+                    }
                 }
             }
 
@@ -167,8 +185,12 @@ public class Calendar extends Fragment {
 
             }
         });
-
-    }*/
+        for (CalendarTask task : arrayList)
+        {
+            task.getTaskName();
+        }
+        return arrayList;
+    }
 
 
 
@@ -219,7 +241,6 @@ public class Calendar extends Fragment {
 
     }
     private void CollectEvents(String cursorMonth){
-        eventList.clear();
         dbOpenHelper = new DBOpenHelper(getActivity());
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.ReadEventsperMonth(cursorMonth,database);
