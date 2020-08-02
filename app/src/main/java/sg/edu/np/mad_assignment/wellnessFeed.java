@@ -30,6 +30,14 @@ import java.util.Collections;
 
 public class wellnessFeed extends AppCompatActivity implements postAdapter.OnItemClickListener {
 
+    /*
+     * This page contains code for the wellness feed, posts are retrieve from the database
+     * and displayed in the recycler view. If a user updates their profile picture/name
+     * it will be updated through the updateList function. User is also able to delete their own post
+     * from the recycler view through the database. On clicking the profile picture you are able to check the
+     * other user profile page.
+     */
+
     private ImageButton backButton;
     private Button wellnessUpload;
     private RecyclerView mRecyclerView;
@@ -77,13 +85,11 @@ public class wellnessFeed extends AppCompatActivity implements postAdapter.OnIte
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
                     Post post = postSnapshot.getValue(Post.class);
+                    post.setKey(postSnapshot.getKey());
                     mPosts.add(post);
                 }
                 Collections.reverse(mPosts); // get latest post fist
-
                 updateList(mPosts); // see if users update name or pfp
-
-
 
                 Log.d(TAG, "Wellness Feed!");
             }

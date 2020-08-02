@@ -30,6 +30,14 @@ import java.util.Collections;
 
 public class foodFeed extends AppCompatActivity implements postAdapter.OnItemClickListener {
 
+    /*
+     * This page contains code for the food feed, posts are retrieve from the database
+     * and displayed in the recycler view. If a user updates their profile picture/name
+     * it will be updated through the updateList function. User is also able to delete their own post
+     * from the recycler view through the database. On clicking the profile picture you are able to check the
+     * other user profile page.
+     */
+
     private ImageButton backButton;
     private Button foodUpload;
     private RecyclerView mRecyclerView;

@@ -34,6 +34,12 @@ import com.squareup.picasso.Picasso;
 
 public class EditProfile extends AppCompatActivity {
 
+    /*
+     * This page contains code for the user to edit their profile.
+     * User can update their profile picture, name and bio.
+     * This data will be uploaded into the database.
+     */
+
     private EditText newName, newBio;
     private Button updateButton;
     private ImageButton profileButton;

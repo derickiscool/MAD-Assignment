@@ -30,6 +30,14 @@ import java.util.Collections;
 
 public class healthFeed extends AppCompatActivity implements postAdapter.OnItemClickListener {
 
+    /*
+     * This page contains code for the health/fitness feed, posts are retrieve from the database
+     * and displayed in the recycler view. If a user updates their profile picture/name
+     * it will be updated through the updateList function. User is also able to delete their own post
+     * from the recycler view through the database. On clicking the profile picture you are able to check the
+     * other user profile page.
+     */
+
     private ImageButton backButton;
     private Button healthUpload;
     private RecyclerView mRecyclerView;
@@ -64,6 +72,7 @@ public class healthFeed extends AppCompatActivity implements postAdapter.OnItemC
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(healthFeed.this);
 
+        mStorage = FirebaseStorage.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Posts/Health");
         pDatabaseRef = FirebaseDatabase.getInstance().getReference("Member");
 
@@ -74,6 +83,7 @@ public class healthFeed extends AppCompatActivity implements postAdapter.OnItemC
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
                     Post post = postSnapshot.getValue(Post.class);
+                    post.setKey(postSnapshot.getKey());
                     mPosts.add(post);
                 }
                 Collections.reverse(mPosts); // get latest post fist

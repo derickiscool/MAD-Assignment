@@ -26,6 +26,12 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ProfilePage extends Fragment {
 
+    /*
+     * This page contains code for the profile page,the user is able to view their
+     * profile picture, name and bio.This info is retrieved from the database.
+     * They can edit this by clicking on the edit profile button.
+     */
+
     private TextView username, name, bio;
     private Button editProfile;
     private ImageView profilePic;
