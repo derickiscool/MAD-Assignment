@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -104,6 +106,53 @@ public class Calendar extends Fragment {
                 alertDialog.show();
             }
         });
+        monthGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+               String date = dateFormat.format(dates.get(position));
+               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+               builder.setCancelable(true);
+               View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.show_events_tasks_layout,null);
+               RecyclerView eventsRecycler = view1.findViewById(R.id.EventsRV);
+               RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+               eventsRecycler.setLayoutManager(layoutManager);
+               eventsRecycler.setHasFixedSize(true);
+               EventRecyclerAdapter eventRecyclerAdapter = new EventRecyclerAdapter(getActivity(),CollectEventByDate(date));
+               eventsRecycler.setAdapter(eventRecyclerAdapter);
+               eventRecyclerAdapter.notifyDataSetChanged();
+
+               builder.setView(view1);
+               alertDialog = builder.create();
+               alertDialog.show();
+
+               return true;
+
+            }
+        });
+    }
+
+
+
+
+    private ArrayList<Events> CollectEventByDate (String datee){
+        ArrayList<Events> arrayList = new ArrayList<>();
+        dbOpenHelper = new DBOpenHelper(getActivity());
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        Cursor cursor =dbOpenHelper.ReadEvents(datee,database);
+        while (cursor.moveToNext())
+        {
+            String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
+            String time = cursor.getString(cursor.getColumnIndex(DBStructure.TIME));
+            String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
+            String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
+            Events events = new Events(event,time,date,month);
+            arrayList.add(events);
+
+
+        }
+        cursor.close();
+        dbOpenHelper.close();
+        return arrayList;
     }
     public void SetUpCalendar(){
         dates.clear();
