@@ -39,11 +39,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         database.insert(DBStructure.EVENT_TABLE_NAME,null,contentValues);
 
     }
-    public Cursor ReadEvents(String month, SQLiteDatabase database){
+    public Cursor ReadEvents(String date, SQLiteDatabase database){
         String [] Projections = {DBStructure.EVENT,DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH};
+        String Selection = DBStructure.DATE +"=?";
+        String [] SelectionArgs = {date};
+
+        return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
+    }
+    public Cursor ReadEventsperMonth(String month,SQLiteDatabase database){
+        String [] Projections = {DBStructure.EVENT,DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,};
         String Selection = DBStructure.MONTH +"=?";
         String [] SelectionArgs = {month};
-
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
     }
 

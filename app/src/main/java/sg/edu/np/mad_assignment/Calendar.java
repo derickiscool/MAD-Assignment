@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class Calendar extends Fragment {
     private ArrayList<Events>eventList = new ArrayList<>();
     SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.ENGLISH);
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd",Locale.ENGLISH);
+    private static final String TAG = "Calendar";
 
 
 
@@ -112,13 +115,13 @@ public class Calendar extends Fragment {
                String date = dateFormat.format(dates.get(position));
                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                builder.setCancelable(true);
-               View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.show_events_tasks_layout,null);
+               View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.show_events_tasks_layout,parent,false);
                RecyclerView eventsRecycler = view1.findViewById(R.id.EventsRV);
-               RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-               eventsRecycler.setLayoutManager(layoutManager);
-               eventsRecycler.setHasFixedSize(true);
                EventRecyclerAdapter eventRecyclerAdapter = new EventRecyclerAdapter(getActivity(),CollectEventByDate(date));
                eventsRecycler.setAdapter(eventRecyclerAdapter);
+               GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
+               eventsRecycler.setLayoutManager(glm);
+               eventsRecycler.setHasFixedSize(true);
                eventRecyclerAdapter.notifyDataSetChanged();
 
                builder.setView(view1);
@@ -139,6 +142,7 @@ public class Calendar extends Fragment {
         dbOpenHelper = new DBOpenHelper(getActivity());
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor =dbOpenHelper.ReadEvents(datee,database);
+        Log.d(TAG,"FIRST");
         while (cursor.moveToNext())
         {
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
@@ -147,6 +151,7 @@ public class Calendar extends Fragment {
             String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
             Events events = new Events(event,time,date,month);
             arrayList.add(events);
+            Log.d(TAG,"Event added!" +events.getEVENT());
 
 
         }
@@ -184,7 +189,7 @@ public class Calendar extends Fragment {
         eventList.clear();
         dbOpenHelper = new DBOpenHelper(getActivity());
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = dbOpenHelper.ReadEvents(cursorMonth,database);
+        Cursor cursor = dbOpenHelper.ReadEventsperMonth(cursorMonth,database);
         while (cursor.moveToNext()){
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
             String time = cursor.getString(cursor.getColumnIndex(DBStructure.TIME));
