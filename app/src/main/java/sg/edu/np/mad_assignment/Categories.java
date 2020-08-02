@@ -17,6 +17,13 @@ public class Categories extends Fragment {
 
     final String TAG = "Categories";
 
+    /*
+    * This page contains code for the different categories such as food, wellness
+    * and health. Upon clicking any of the buttons, it will lead to one of the
+    * category pages and the different codes will be loaded on the other respective
+    * categories.
+    */
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_categories, container, false);
