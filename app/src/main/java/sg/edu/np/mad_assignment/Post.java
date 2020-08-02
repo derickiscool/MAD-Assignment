@@ -1,11 +1,14 @@
 package sg.edu.np.mad_assignment;
 
+import com.google.firebase.database.Exclude;
+
 public class Post {
     private String mCaption;
     private String mImageUrl;
     private String mUsername;
     private String mName;
     private String mProfileUrl;
+    private String mKey;
 
     public Post() {
         // empty constructor needed
@@ -63,6 +66,16 @@ public class Post {
     public void setProfileUrl(String profileUrl)
     {
         mProfileUrl = profileUrl;
+    }
+    @Exclude // not needed in firebase
+    public String getKey()
+    {
+        return mKey;
+    }
+    @Exclude
+    public void setKey(String key)
+    {
+        mKey = key;
     }
 
 }

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +28,6 @@ public class ProfilePage extends Fragment {
 
     private TextView username, name, bio;
     private Button editProfile;
-    private ImageButton dashboard;
     private ImageView profilePic;
     String myUsername;
     final String TAG = "Profile Page";

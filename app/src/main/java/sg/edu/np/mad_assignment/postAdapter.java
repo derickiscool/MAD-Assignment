@@ -19,12 +19,13 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Post> postList;
+    private OnItemClickListener mListener;
 
-    public postAdapter(Context context, List<Post> posts)
-    {
+    public postAdapter(Context context, List<Post> posts) {
         mContext = context;
         postList = posts;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,12 +44,9 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
-        if (postCurrent.getProfileUrl() == null || postCurrent.getProfileUrl().equals(""))
-        {
+        if (postCurrent.getProfileUrl() == null || postCurrent.getProfileUrl().equals("")) {
             holder.pfpView.setImageResource(R.drawable.profile_icon);
-        }
-        else
-        {
+        } else {
             Picasso.get()
                     .load(postCurrent.getProfileUrl())
                     .fit()
@@ -70,7 +68,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
         return postList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textViewCaption, textViewUsername, textViewName;
         public ImageView imageView, pfpView, delete;
 
@@ -82,7 +80,29 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.postImageView);
             textViewName = itemView.findViewById(R.id.nameView);
             pfpView = itemView.findViewById(R.id.pfpView);
+            delete = itemView.findViewById(R.id.postDelete);
+
+            delete.setOnClickListener(this);
 
         }
+
+        @Override
+        public void onClick(View v) { // handle click events on menu, pass back position
+            if (mListener != null) { // not guarantee we may set an on item click listener
+                int position = getAdapterPosition(); // get position of clicked item
+                if (position != RecyclerView.NO_POSITION) { // check if click position is still valid
+                    mListener.onItemClickListener(position);
+                }
+            }
+        }
+
+    }
+    public interface OnItemClickListener {
+        void onItemClickListener(int position); // passed to activity
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) // set listener for interface above
+    {
+        mListener = listener;
     }
 }
