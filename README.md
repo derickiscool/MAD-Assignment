@@ -38,16 +38,23 @@ in task will be uploaded to the database however it does not remove task yet. (F
 
 Features that will be implemented in phase 2:
 
-1. Task will be removed from task recycler view once image is uploaded successfully
+1. Task will be removed from task recycler view once image is uploaded successfully (Sandra)
 
-2. Task will be linked to achievements in the database
+2. Task will be linked to achievements in the database (Derick)
 
-3. Achievement for specific task will be shown as being achieved so that when a task is done the user will know
-that they have obtained the achievement
+3. Achievement for specific task will be shown as being achieved so that when a task is done the user will know that they have obtained the achievement (Sandra)
 
-4. Update profile feature with more elements and update photo as well
+4. Update profile photo (Amanda)
 
-5. Linking the side navigation bar to all pages
+5. Upload image to feed + feed display (Amanda)
+
+6. Linking the side navigation bar to all pages (Derick)
+
+7. Persistent memory (firebase) to link our task, achievements and accounts together (Everyone)
+
+Additional feature after phase 2 was complete:
+
+1.Calendar to show tasks completed on which day, along with adding events (Derick, Amanda)
 
 Additional Contributions:
 1. Design of badges, logo and icons (Jeremiah)
