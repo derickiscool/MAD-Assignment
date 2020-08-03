@@ -47,6 +47,7 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
     public static final String POSITION_KEY = "position";
     public String GLOBAL_PREFS = "MyPrefs";
     public String MY_USERNAME= "MyUsername";
+    public String imgUrl = "imgUrl";
     SharedPreferences sharedPreferences;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd", Locale.ENGLISH);
 
@@ -136,6 +137,8 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        sharedPreferences = this.getActivity().getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+        final String url = sharedPreferences.getString(imgUrl, "");
         if(requestCode==UPLOAD_IMAGE && resultCode==RESULT_OK && data != null)
         {
             int position = data.getIntExtra(POSITION_KEY, -1);
@@ -149,8 +152,9 @@ public class TaskPage extends Fragment implements TaskAdaptor.UploadInterface {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String taskName = snapshot.child("text").getValue(String.class);
                         String date = dateFormat.format(Calendar.getInstance().getTime());
-                        CalendarTask task = new CalendarTask(taskName,date);
+                        CalendarTask task = new CalendarTask(taskName,date,url);
                         db.child(myUsername).child("completedTasks").push().setValue(task);
+
 
                     }
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -40,6 +41,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class Calendar extends Fragment {
     private AlertDialog alertDialog;
     private Spinner monthSpinner;
@@ -55,6 +58,12 @@ public class Calendar extends Fragment {
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd",Locale.ENGLISH);
     private static final String TAG = "Calendar";
     DatabaseReference db =FirebaseDatabase.getInstance().getReference("Member");
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String MY_USERNAME= "MyUsername";
+    SharedPreferences sharedPreferences;
+
+    String myUsername;
+    private CalendarTaskRecyclerAdapter calendarTaskRecyclerAdapter;
 
 
 
@@ -73,7 +82,7 @@ public class Calendar extends Fragment {
         SetUpCalendar();
         int indexOfMonth = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
         monthSpinner.setSelection(indexOfMonth);
-        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Onclick of spinner Month
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -95,7 +104,7 @@ public class Calendar extends Fragment {
         });
         monthGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) { //On click of specific Date
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setCancelable(true);
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_new_event,null);
@@ -122,12 +131,11 @@ public class Calendar extends Fragment {
         });
         monthGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) { //On Long click of date, will show events needed to complete as well as tasks complete with image
                String date = dateFormat.format(dates.get(position));
                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                builder.setCancelable(true);
                View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.show_events_tasks_layout,parent,false);
-               Log.d(TAG,"1");
                RecyclerView eventsRecycler = view1.findViewById(R.id.EventsRV);
                EventRecyclerAdapter eventRecyclerAdapter = new EventRecyclerAdapter(getActivity(),CollectEventByDate(date));
                eventsRecycler.setAdapter(eventRecyclerAdapter);
@@ -136,10 +144,8 @@ public class Calendar extends Fragment {
                eventsRecycler.setHasFixedSize(true);
                eventRecyclerAdapter.notifyDataSetChanged();
                RecyclerView tasksRecycler = view1.findViewById(R.id.TasksRV);
-                Log.d(TAG,"2");
-               CalendarTaskRecyclerAdapter calendarTaskRecyclerAdapter = new CalendarTaskRecyclerAdapter(getActivity(),CollectTaskByDate(date));
-                Log.d(TAG,"3");
-               tasksRecycler.setAdapter(eventRecyclerAdapter);
+               calendarTaskRecyclerAdapter = new CalendarTaskRecyclerAdapter(getActivity(),CollectTaskByDate(date));
+               tasksRecycler.setAdapter(calendarTaskRecyclerAdapter);
                GridLayoutManager glm2 = new GridLayoutManager(getActivity(),1);
                tasksRecycler.setLayoutManager(glm2);
                tasksRecycler.setHasFixedSize(true);
@@ -160,22 +166,29 @@ public class Calendar extends Fragment {
             }
         });
     }
-    private ArrayList<CalendarTask> CollectTaskByDate (String datee)
+    private ArrayList<CalendarTask> CollectTaskByDate (final String datee) //Collect tasks by that specific date
     {
         final ArrayList<CalendarTask> arrayList = new ArrayList<>();
-
-        DatabaseReference ref = db.child("completedTasks");
+        sharedPreferences = this.getActivity().getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE); //Only accessible to calling application.
+        myUsername= sharedPreferences.getString(MY_USERNAME, "");
+        DatabaseReference ref = db.child(myUsername).child("completedTasks");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Log.d(TAG,"Checking through data");
                     String date = snapshot1.child("dateComplete").getValue(String.class);
-                    if (date == dateFormat.format(java.util.Calendar.getInstance().getTime()))
+                    if (date.equals(datee))
                     {
-                        CalendarTask task = snapshot1.getValue(CalendarTask.class);
-                        Log.d(TAG, "Task Added!" + task.getTaskName());
-
+                        String dateComplete = snapshot1.child("dateComplete").getValue(String.class);
+                        String taskName = snapshot1.child("taskName").getValue(String.class);
+                        String ur = snapshot1.child("imgUrl").getValue(String.class);
+                        CalendarTask task = new CalendarTask(taskName,dateComplete,ur);
                         arrayList.add(task);
+                        calendarTaskRecyclerAdapter.notifyDataSetChanged();
+
+
+
                     }
                 }
             }
@@ -185,10 +198,7 @@ public class Calendar extends Fragment {
 
             }
         });
-        for (CalendarTask task : arrayList)
-        {
-            task.getTaskName();
-        }
+
         return arrayList;
     }
 
@@ -240,7 +250,7 @@ public class Calendar extends Fragment {
 
 
     }
-    private void CollectEvents(String cursorMonth){
+    private void CollectEvents(String cursorMonth){ //For Setting up calender
         dbOpenHelper = new DBOpenHelper(getActivity());
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.ReadEventsperMonth(cursorMonth,database);

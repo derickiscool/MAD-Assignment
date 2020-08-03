@@ -1,6 +1,7 @@
 package sg.edu.np.mad_assignment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class CalendarTaskRecyclerAdapter extends RecyclerView.Adapter<CalendarTaskRecyclerAdapter.MyViewHolder>  {
     Context context;
     ArrayList<CalendarTask> arrayList;
+
+
 
     public CalendarTaskRecyclerAdapter(Context context, ArrayList<CalendarTask> arrayList) {
         this.context = context;
@@ -34,7 +39,8 @@ public class CalendarTaskRecyclerAdapter extends RecyclerView.Adapter<CalendarTa
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final CalendarTask task = arrayList.get(position);
         holder.Task.setText(task.getTaskName());
-        holder.DateTxt.setText(task.getDateComplete());
+        holder.DateTxt.setText(task.getDateComplete() + " Task Completed!");
+        Picasso.get().load(task.getImgUrl()).into(holder.img);
 
 
 

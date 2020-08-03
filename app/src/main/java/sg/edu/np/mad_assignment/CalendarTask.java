@@ -3,6 +3,15 @@ package sg.edu.np.mad_assignment;
 public class CalendarTask {
     private String taskName;
     private String dateComplete;
+    private String imgUrl;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public String getTaskName() {
         return taskName;
@@ -20,8 +29,9 @@ public class CalendarTask {
         this.dateComplete = dateComplete;
     }
 
-    public CalendarTask(String taskName, String dateComplete) {
+    public CalendarTask(String taskName, String dateComplete, String imgUrl) {
         this.taskName = taskName;
         this.dateComplete = dateComplete;
+        this.imgUrl = imgUrl;
     }
 }

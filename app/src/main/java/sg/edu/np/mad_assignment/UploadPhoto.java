@@ -2,6 +2,7 @@ package sg.edu.np.mad_assignment;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,9 @@ public class UploadPhoto extends AppCompatActivity {
     private StorageTask uploadtask;
     public Uri imguri;
     final String TAG = "upload photo page";
+    public String GLOBAL_PREFS = "MyPrefs";
+    public String imgUrl= "imgUrl";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,11 @@ public class UploadPhoto extends AppCompatActivity {
                             Intent intent = new Intent();
                             intent.putExtra("position", position);
                             setResult(RESULT_OK, intent);
+                            sharedPreferences = getSharedPreferences(GLOBAL_PREFS, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(imgUrl, taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                            editor.apply();
+
 
                             finish();
                         }
